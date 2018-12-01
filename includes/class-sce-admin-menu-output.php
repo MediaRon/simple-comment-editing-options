@@ -39,10 +39,24 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="sce-show-timer"><?php esc_html_e('Show Timer', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Show Timer', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[show_timer]" />
 								<input id="sce-show-timer" type="checkbox" value="true" name="options[show_timer]" <?php checked( true, $options['show_timer'] ); ?> /> <label for="sce-show-timer"><?php esc_html_e( 'Show Timer (Recommended if you set the comment timer expiration high)', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="sce-button-theme"><?php esc_html_e( 'Button Theme', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<select name="options[theme]">
+									<option value="default" <?php selected( 'default', $options['button_theme'] );?>><?php esc_html_e( 'None', 'simple-comment-editing-options' ); ?></option>
+									<option value="regular" <?php selected( 'regular', $options['button_theme'] );?>><?php esc_html_e( 'Regular', 'simple-comment-editing-options' ); ?></option>
+									<option value="regular_icons" <?php selected( 'regular_icons', $options['button_theme'] );?>><?php esc_html_e( 'Regular With Icons', 'simple-comment-editing-options' ); ?></option>
+									<option value="dark" <?php selected( 'dark', $options['button_theme'] );?>><?php esc_html_e( 'Dark', 'simple-comment-editing-options' ); ?></option>
+									<option value="dark_icons" <?php selected( 'dark_icons', $options['button_theme'] );?>><?php esc_html_e( 'Dark With Icons', 'simple-comment-editing-options' ); ?></option>
+									<option value="light" <?php selected( 'light', $options['button_theme'] );?>><?php esc_html_e( 'Light', 'simple-comment-editing-options' ); ?></option>
+									<option value="light_icons" <?php selected( 'light_icons', $options['button_theme'] );?>><?php esc_html_e( 'Light With Icons', 'simple-comment-editing-options' ); ?></option>
+								</select>
 							</td>
 						</tr>
 					</tbody>
@@ -78,6 +92,7 @@ class SCE_Admin_Menu_Output {
 			'confirm_delete'            => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
 			'comment_deleted'           => __( 'Your comment has been removed.', 'simple-comment-editing' ),
 			'comment_deleted_error'     => __( 'Your comment could not be deleted', 'simple-comment-editing' ),
+			'comment_empty_error'       => Simple_Comment_Editing::get_instance()->errors->get_error_message( 'comment_empty' ),
 			'require_comment_length'    => false,
 			'min_comment_length'        => 50,
 			'allow_comment_logging'     => false
