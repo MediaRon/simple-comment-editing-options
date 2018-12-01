@@ -125,7 +125,7 @@ gulp.task('pot', function () {
 
 /* ==Translations=== */
 gulp.task('move_mo_files', function () {
-	return gulp.src('**/*.mo', '!dist/**/*.mo')
+	return gulp.src(['**/*.mo', '!dist/**/*.mo'])
 	.pipe(plumber(reportError))
 	.pipe(sort())
 	.pipe(gulp.dest('dist/'));
@@ -133,7 +133,7 @@ gulp.task('move_mo_files', function () {
 
 /* ==Translations=== */
 gulp.task('move_po_files', function () {
-	return gulp.src('**/*.po', '!dist/**/*.po')
+	return gulp.src(['**/*.po', '!dist/**/*.po'])
 	.pipe(plumber(reportError))
 	.pipe(sort())
 	.pipe(gulp.dest('dist/'));
