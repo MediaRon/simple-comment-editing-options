@@ -53,6 +53,13 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><label for="sce-allow-deletion-confirmation"><?php esc_html_e( 'Allow Comment Deletion Confirmation', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input type="hidden" value="false" name="options[allow_delete_confirmation]" />
+								<input id="sce-allow-deletion-confirmation" type="checkbox" value="true" name="options[allow_delete_confirmation]" <?php checked( true, $options['allow_delete_confirmation'] ); ?> /> <label for="sce-allow-deletion"><?php esc_html_e( 'Allow the modal warning for comment deletion.', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><label for="sce-button-theme"><?php esc_html_e( 'Button Theme', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<select name="options[theme]">
