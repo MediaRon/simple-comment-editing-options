@@ -11,8 +11,11 @@ Contributors: ronalfy
 Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
-define('SCE_OPTIONS_VERSION', '1.0.0');
-define('SCE_OPTIONS_TABLE_VERSION', '1.0.0');
+if (!defined('ABSPATH')) die('No direct access.');
+define( 'SCE_OPTIONS_VERSION', '1.0.0' );
+define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
+define( 'SCE_OPTIONS_SLUG', plugin_basename(__FILE__) );
+
 
 class SCE_Options {
 	private static $instance = null;
@@ -173,6 +176,8 @@ class SCE_Options {
 			}
 			return;
 		}
+		include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
+		new SCE_Admin();
 	}
 
 	/**
