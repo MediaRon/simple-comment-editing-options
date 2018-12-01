@@ -67,6 +67,18 @@ class SCE_Admin {
 	}
 
 	/**
+	 * Output admin menu
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @see register_sub_menu
+	 */
+	public function sce_admin_page() {
+		include SCE_Options::get_instance()::get_plugin_dir('/includes/class-sce-admin-menu-output.php');
+		new SCE_Admin_Menu_Output();
+	}
+
+	/**
 	 * Adds plugin settings page link to plugin links in WordPress Dashboard Plugins Page
 	 *
 	 * @since 1.0.0
