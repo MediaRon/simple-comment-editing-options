@@ -14,9 +14,6 @@ var argv = require('yargs').argv;
 var gulpUtil = require('gulp-util');
 var del = require('del');
 var path = require('path');
-var webpack = require('webpack');
-var webpackStream = require('webpack-stream');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var uglify = require('gulp-uglify');
 var fs = require("fs");
 var log = require('fancy-log');
@@ -33,19 +30,10 @@ var babelify = require("babelify");
 var browserify = require("browserify");
 
 // Webpack paths
-var CSS_SOURCE_DIR = path.resolve(__dirname, 'src/css');
+var CSS_SOURCE_DIR = path.resolve(__dirname, 'css');
 var CSS_BUILD_DIR = path.resolve(__dirname, 'dist/css');
-var JS_SOURCE_DIR = path.resolve(__dirname, 'src/js');
+var JS_SOURCE_DIR = path.resolve(__dirname, 'js');
 var JS_BUILD_DIR = path.resolve(__dirname, 'dist/js');
-
-var webpackJSPaths = [
-	'src/js/**/*.js'
-];
-
-var webpackCSSPaths = [
-	'src/css/**/*.css',
-	'src/css/**/*.scss'
-];
 
 var languagePaths = [
 	'src/**/*.mo',
@@ -56,45 +44,54 @@ var languagePaths = [
 // set clean paths
 var cleanPaths = [
 	'dist/*',
-	'simple-comment-editing.zip'
+	'simple-comment-editing-options.zip'
 ];
 
 var phpPaths = [
-	'src/**/*.php'
+	'**/*.php',
+	'!dist/**/*.php'
 ];
 
 var jsPaths = [
-	'src/js/*.js',
-	'!src/js/*.js'
+	'/js/*.js',
+	'!dist/js/*.js'
 ];
 
 var imgPaths = [
-	'src/**/*.png',
-	'src/**/*.gif',
-	'src/**/*.jpg',
-	'src/**/*.svg',
+	'**/*.png',
+	'**/*.gif',
+	'**/*.jpg',
+	'**/*.svg',
+	'!dist/**/*.png',
+	'!dist/**/*.gif',
+	'!dist/**/*.jpg',
+	'!dist/**/*.svg',
 ];
 
 var scssPaths = [
-	'src/css/**/*.scss',
+	'/css/**/*.scss',
+	'!/dist/css/**/*.scss'
 ];
 
 var cssPaths = [
-	'src/css/*.css'
+	'css/*.css',
+	'!dist/css/*.css'
 ];
 
 var htmlPaths = [
-	'src/**/*.html'
+	'**/*.html',
+	'!dist/**/*.html'
 ];
 
 var miscPaths = [
-	'src/**/*.txt',
-	'src/**/*.md',
-	'src/.babelrc'
+	'**/*.txt',
+	'**/*.md',
+	'.babelrc'
 ];
 
 var babelPaths = [
-    'src/js/*.js'
+	'js/*.js',
+	'!dist/js/*.js'
 ];
 
 //build type
@@ -111,7 +108,7 @@ gulp.copy = function (src, dest) {
 
 /* ==Translations=== */
 gulp.task('pot', function () {
-	return gulp.src(['src/**/*.php', 'src/**/*.js'])
+	return gulp.src(['**/*.php', '**/*.js', '!dist/**/*.php', '!dist/**/*.js'])
 	.pipe(plumber(reportError))
 	.pipe(sort())
 	.pipe(wpPot({
@@ -122,13 +119,13 @@ gulp.task('pot', function () {
 		lastTranslator: 'Ronald Huerca <ronald@mediaron.com>',
 		team: 'Ronald Huereca <ronald@mediaron.com'
 	}))
-	.pipe(gulp.dest('src/languages'))
+	.pipe(gulp.dest('languages'))
 	.pipe(gulp.dest('dist/languages'));
 });
 
 /* ==Translations=== */
 gulp.task('move_mo_files', function () {
-	return gulp.src('src/**/*.mo')
+	return gulp.src('**/*.mo', '!dist/**/*.mo')
 	.pipe(plumber(reportError))
 	.pipe(sort())
 	.pipe(gulp.dest('dist/'));
@@ -136,7 +133,7 @@ gulp.task('move_mo_files', function () {
 
 /* ==Translations=== */
 gulp.task('move_po_files', function () {
-	return gulp.src('src/**/*.po')
+	return gulp.src('**/*.po', '!dist/**/*.po')
 	.pipe(plumber(reportError))
 	.pipe(sort())
 	.pipe(gulp.dest('dist/'));
@@ -214,13 +211,6 @@ gulp.task('php_move', function () {
 		.pipe(gulp.dest('dist'));
 });
 
-/* ====Moving Vendor======= */
-gulp.task('vendor', function(){
-	return gulp.src('vendor/**')
-	.pipe(plumber(reportError))
-	.pipe(gulp.dest('dist/vendor/'));
-});
-
 
 /* ===========Babel============== */
 
@@ -243,10 +233,10 @@ gulp.task('babel_min', function(){
 
 
 gulp.task('check_upgrade_notice', function() {
-    gulp.src('src/readme.txt')
+    gulp.src('readme.txt')
       .pipe(gulpFn(function(file) {
 			// Read the readme
-			var text = fs.readFileSync('src/readme.txt', "utf8");
+			var text = fs.readFileSync('readme.txt', "utf8");
 
 			// Grab the stable version number
 			var stableTagRegex = /Stable tag: ([0-9.]*)/;
@@ -294,14 +284,14 @@ gulp.task('copy_for_zip', function () {
 });
 
 gulp.task('build_zip', function () {
-	return gulp.src('simple-comment-editing/**/*', { base: "." })
+	return gulp.src('simple-comment-editing-options/**/*', { base: "." })
 		.pipe(plumber(reportError))
-		.pipe(zip('simple-comment-editing.zip'))
+		.pipe(zip('simple-comment-editing-options.zip'))
 		.pipe(gulp.dest('.'));
 });
 
 gulp.task('clean_zip', function () {
-	return gulp.src('metronget-tag-manager', { read: false }).pipe(clean())
+	return gulp.src('simple-comment-editing-options', { read: false }).pipe(clean())
 		.pipe(plumber(reportError));
 });
 
@@ -349,10 +339,10 @@ gulp.task('zip', function(done) {
 
 /*== Watch ==*/
 gulp.task('watch', function () {
-	gulp.watch(phpPaths, { interval: 500 }, function (event) { file_watcher(event, 'src') });
-	gulp.watch(jsPaths, { interval: 500 }, function (event) { file_watcher(event, 'src') });
-	gulp.watch(cssPaths, { interval: 500 }, function (event) { file_watcher(event, 'src') });
-	gulp.watch(htmlPaths, { interval: 500 }, function (event) { file_watcher(event, 'src') });
+	gulp.watch(phpPaths, { interval: 500 }, function (event) { file_watcher(event, '') });
+	gulp.watch(jsPaths, { interval: 500 }, function (event) { file_watcher(event, '') });
+	gulp.watch(cssPaths, { interval: 500 }, function (event) { file_watcher(event, '') });
+	gulp.watch(htmlPaths, { interval: 500 }, function (event) { file_watcher(event, '') });
 	gulp.watch(scssPaths, ['scss_compile']);
 	gulp.watch(babelPaths, ['babel', 'babel_min']);
 	gulp.watch(languagePaths, ['move_po_files', 'move_mo_files']);
