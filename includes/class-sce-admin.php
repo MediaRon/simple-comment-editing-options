@@ -9,7 +9,7 @@ class SCE_Admin {
 	 * @static
 	 * @var string $slug
 	 */
-	private static $slug = 'simple-comment-editing-options';
+	private static $slug = 'sce';
 
 	/**
 	 * Holds the URL to the admin panel page
@@ -32,9 +32,38 @@ class SCE_Admin {
 	 * @see __construct
 	 */
 	public function init() {
+
+		// Add settings link
 		$prefix = is_multisite() ? 'network_admin_' : '';
 		add_action( $prefix . 'plugin_action_links_' . SCE_OPTIONS_SLUG, array( $this, 'plugin_settings_link' ) );
 		add_action( $prefix . 'plugin_action_links_' . SCE_SLUG, array( $this, 'plugin_settings_link' ) );
+
+		// Init admin menu
+		if (is_multisite()) {
+			add_action( 'network_admin_menu', array( $this, 'register_sub_menu' ) );
+		} else {
+			add_action( 'admin_menu', array( $this, 'register_sub_menu') );
+		}
+	}
+
+	/**
+	 * Initializes admin menus
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @see init
+	 */
+	public function register_sub_menu() {
+		$hook = '';
+		if( is_multisite() ) {
+			$hook = add_submenu_page( 
+				'settings.php', __( 'Simple Comment Editing', 'simple-comment-editing-options' ), __( 'Simple Comment Editing', 'simple-comment-editing-options' ), 'manage_network', 'sce', array( $this, 'sce_admin_page' )
+			);
+		} else {
+			$hook = add_submenu_page( 
+				'options-general.php', __( 'Simple Comment Editing', 'simple-comment-editing-options' ), __( 'Simple Comment Editing', 'simple-comment-editing-options' ), 'manage_options', 'sce', array( $this, 'sce_admin_page' )
+			);
+		}
 	}
 
 	/**

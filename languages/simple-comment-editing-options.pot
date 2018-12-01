@@ -17,6 +17,10 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: includes/class-sce-admin.php:60, includes/class-sce-admin.php:60, includes/class-sce-admin.php:64, includes/class-sce-admin.php:64
+msgid "Simple Comment Editing"
+msgstr ""
+
 #: simple-comment-editing-options.php:83
 msgid "Higher PHP version required"
 msgstr ""
