@@ -10,4 +10,6 @@ Author URI: https://mediaron.com
 Contributors: ronalfy
 Text Domain: simple-comment-editing-options
 Domain Path: /languages
-*/ 
+*/
+define('SCE_OPTIONS_VERSION', '1.0.0');
+define('SCE_OPTIONS_TABLE_VERSION', '1.0.0');

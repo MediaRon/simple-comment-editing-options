@@ -350,9 +350,7 @@ gulp.task('watch', function () {
 
 // THis is an enhanced watch log to accuratly show which file has been changed
 function file_watcher(event, version) {
-    var path_parts = event.path.split(version);
-    var path = path_parts[1] || event.path;
-    console.log('File ' + colorize.cyan(path) + ' was ' + colorize.magenta(event.type) + ' and ' + colorize.gray('moved') + ' to ' + colorize.gray('dist'));
+    console.log('File ' + colorize.cyan(event.path) + ' was ' + colorize.magenta(event.type) + ' and ' + colorize.gray('moved') + ' to ' + colorize.gray('dist'));
     return gulp.src(event.path, { base: version })
         .pipe(plumber(reportError))
         .pipe(gulp.dest('dist'));
