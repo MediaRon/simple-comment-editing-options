@@ -28,7 +28,7 @@ class SCE_Admin_Menu_Output {
 		<div class="wrap">
 			<form action="" method="POST">
 				<?php wp_nonce_field('save_sce_options'); ?>
-				<h2><?php esc_html_e( 'Simple Comment Editing', 'simple-comment-editing-options' ); ?> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="green"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/><path d="M0 0h24v24H0z" fill="none"/></svg></h2>
+				<h2><?php esc_html_e( 'Simple Comment Editing', 'simple-comment-editing-options' ); ?></h2>
 				<p><?php esc_html_e( 'Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction', 'simple-comment-editing-options' ); ?></p>
 				<table class="form-table">
 					<tbody>
@@ -42,7 +42,7 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Show Timer', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[show_timer]" />
-								<input id="sce-show-timer" type="checkbox" value="true" name="options[show_timer]" <?php checked( true, $options['show_timer'] ); ?> /> <label for="sce-show-timer"><?php esc_html_e( 'Show Timer (Recommended if you set the comment timer expiration high)', 'simple-comment-editing-options' ); ?></label>
+								<input id="sce-show-timer" type="checkbox" value="true" name="options[show_timer]" <?php checked( true, $options['show_timer'] ); ?> /> <label for="sce-show-timer"><?php esc_html_e( 'Show Timer (We recommend hiding the timer if you have a high timer)', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 						<tr>
