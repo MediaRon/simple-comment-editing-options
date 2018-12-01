@@ -74,7 +74,7 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php esc_html_e( 'Button Text', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><?php esc_html_e( 'Button Text', 'simple-comment-editing-options' ); ?></th>
 							<td>
 							<label for="sce-save-text"><?php esc_html_e( 'Save Button Text', 'simple-comment-editing-options' ); ?></label><br />
 								<input id="sce-save-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['save_text'] ); ?>" name="options[save_text]" />
@@ -84,6 +84,47 @@ class SCE_Admin_Menu_Output {
 							<br /><br />
 							<label for="sce-delete-text"><?php esc_html_e( 'Delete Button Text', 'simple-comment-editing-options' ); ?></label><br />
 								<input id="sce-delete-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['delete_text'] ); ?>" name="options[delete_text]" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="sce-loading-img"><?php esc_html_e( 'Loading Image', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+							<label for="sce-loading-img"><?php esc_html_e( 'Loading Image', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-loading-img" class="regular-text" type="text" value="<?php echo esc_attr( $options['loading_image'] ); ?>" name="options[loading_image]" /><br />
+								<img src="<?php echo esc_attr( $options['loading_image'] ); ?>" width="25" height="25" alt="Loading" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Messages', 'simple-comment-editing-options' ); ?></th>
+							<td>
+							<label for="sce-confirm-delete"><?php esc_html_e( 'Comment Deletion Text', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-confirm-delete" class="regular-text" type="text" value="<?php echo esc_attr( $options['confirm_delete'] ); ?>" name="options[confirm_delete]" />
+							<br /><br />
+							<label for="sce-comment-deleted"><?php esc_html_e( 'Comment Deleted Text', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-comment-deleted" class="regular-text" type="text" value="<?php echo esc_attr( $options['comment_deleted'] ); ?>" name="options[comment_deleted]" />
+							<br /><br />
+							<label for="sce-comment-deleted-error"><?php esc_html_e( 'Comment Deleted Error', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-comment-deleted-error" class="regular-text" type="text" value="<?php echo esc_attr( $options['comment_deleted_error'] ); ?>" name="options[comment_deleted_error]" />
+							<br /><br />
+							<label for="sce-comment-empty-error"><?php esc_html_e( 'Comment Empty Error', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-comment-empty-error" class="regular-text" type="text" value="<?php echo esc_attr( $options['comment_empty_error'] ); ?>" name="options[comment_empty_error]" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Comment Length', 'simple-comment-editing-options' ); ?></th>
+							<td>
+							<input type="hidden" value="false" name="options[require_comment_length]" />
+								<input id="sce-allow-comment-lengthn" type="checkbox" value="true" name="options[require_comment_length]" <?php checked( true, $options['require_comment_length'] ); ?> /> <label for="sce-allow-comment-lengthn"><?php esc_html_e( 'Ensure an edited comment has a minimum length in characters.', 'simple-comment-editing-options' ); ?></label>
+								<br /><br />
+								<label for="sce-comment-length"><?php esc_html_e( 'Minimum Comment Length', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-comment-length" class="regular-text" type="number" value="<?php echo esc_attr( $options['min_comment_length'] ); ?>" name="options[min_comment_length]" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Allow Comment Logging and Stats', 'simple-comment-editing-options' ); ?></th>
+							<td>
+							<input type="hidden" value="false" name="options[allow_comment_logging]" />
+								<input id="sce-allow-comment-logging" type="checkbox" value="true" name="options[allow_comment_logging]" <?php checked( true, $options['allow_comment_logging'] ); ?> /> <label for="sce-alllow-comment-logging"><?php esc_html_e( 'Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area.', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 					</tbody>
