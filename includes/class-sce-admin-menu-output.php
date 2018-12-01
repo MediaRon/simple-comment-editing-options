@@ -35,7 +35,7 @@ class SCE_Admin_Menu_Output {
 						<tr>
 							<th scope="row"><label for="sce-timer"><?php esc_html_e('Edit Timer in Minutes', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
-								<input id="sce-timer" type="number" value="<?php echo esc_attr( absint( $options['timer'] ) ); ?>" name="options[timer]" />
+								<input id="sce-timer" class="regular-text" type="number" value="<?php echo esc_attr( absint( $options['timer'] ) ); ?>" name="options[timer]" />
 							</td>
 						</tr>
 						<tr>
@@ -43,6 +43,13 @@ class SCE_Admin_Menu_Output {
 							<td>
 								<input type="hidden" value="false" name="options[show_timer]" />
 								<input id="sce-show-timer" type="checkbox" value="true" name="options[show_timer]" <?php checked( true, $options['show_timer'] ); ?> /> <label for="sce-show-timer"><?php esc_html_e( 'Show Timer (Recommended if you set the comment timer expiration high)', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="sce-allow-deletion"><?php esc_html_e( 'Allow Comment Deletion', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input type="hidden" value="false" name="options[allow_delete]" />
+								<input id="sce-allow-deletion" type="checkbox" value="true" name="options[allow_delete]" <?php checked( true, $options['allow_delete'] ); ?> /> <label for="sce-allow-deletion"><?php esc_html_e( 'Allow users to delete their comments.', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 						<tr>
@@ -57,6 +64,19 @@ class SCE_Admin_Menu_Output {
 									<option value="light" <?php selected( 'light', $options['button_theme'] );?>><?php esc_html_e( 'Light', 'simple-comment-editing-options' ); ?></option>
 									<option value="light_icons" <?php selected( 'light_icons', $options['button_theme'] );?>><?php esc_html_e( 'Light With Icons', 'simple-comment-editing-options' ); ?></option>
 								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Button Text', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+							<label for="sce-save-text"><?php esc_html_e( 'Save Button Text', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-save-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['save_text'] ); ?>" name="options[save_text]" />
+							<br /><br />
+							<label for="sce-cancel-text"><?php esc_html_e( 'Cancel Button Text', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-cancel-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['cancel_text'] ); ?>" name="options[cancel_text]" />
+							<br /><br />
+							<label for="sce-delete-text"><?php esc_html_e( 'Delete Button Text', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-delete-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['delete_text'] ); ?>" name="options[delete_text]" />
 							</td>
 						</tr>
 					</tbody>
