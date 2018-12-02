@@ -176,8 +176,10 @@ class SCE_Options {
 			}
 			return;
 		}
-		include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
-		new SCE_Admin();
+		if( is_admin() ) {
+			include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
+			new SCE_Admin();
+		}
 	}
 
 	/**
