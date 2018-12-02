@@ -180,6 +180,8 @@ class SCE_Options {
 			include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
 			new SCE_Admin();
 		}
+		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
+		new SCE_Output();
 	}
 
 	/**

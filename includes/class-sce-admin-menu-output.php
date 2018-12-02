@@ -102,6 +102,9 @@ class SCE_Admin_Menu_Output {
 						<tr>
 							<th scope="row"><?php esc_html_e( 'Messages', 'simple-comment-editing-options' ); ?></th>
 							<td>
+							<label for="sce-edit-text"><?php esc_html_e( 'Edit Text', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-edit-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['click_to_edit_text'] ); ?>" name="options[click_to_edit_text]" />
+							<br /><br />
 							<label for="sce-confirm-delete"><?php esc_html_e( 'Comment Deletion Text', 'simple-comment-editing-options' ); ?></label><br />
 								<input id="sce-confirm-delete" class="regular-text" type="text" value="<?php echo esc_attr( $options['confirm_delete'] ); ?>" name="options[confirm_delete]" />
 							<br /><br />
@@ -116,10 +119,27 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><?php esc_html_e( 'Email Notifications', 'simple-comment-editing-options' ); ?></th>
+							<td>
+								<p><?php esc_html_e( 'Receive an email notification each time a user edits their comment', 'simple-comment-editing-options' ); ?></p>
+								<input type="hidden" value="false" name="options[allow_edit_notification]" />
+								<input id="sce-allow-email-notifications" type="checkbox" value="true" name="options[allow_edit_notification]" <?php checked( true, $options['allow_edit_notification'] ); ?> /> <label for="sce-allow-email-notifications"><?php esc_html_e( 'Allow email notifications.', 'simple-comment-editing-options' ); ?></label>
+								<br /><br />
+								<label for="sce-email-notifications_to"><?php esc_html_e( 'To Email Address', 'simple-comment-editing-options' ); ?></label><br />
+									<input id="sce-email-notifications_to" class="regular-text" type="text" value="<?php echo esc_attr( $options['edit_notification_to'] ); ?>" name="options[edit_notification_to]" />
+								<br /><br />
+								<label for="sce-email-notifications-from"><?php esc_html_e( 'From Email Address', 'simple-comment-editing-options' ); ?></label><br />
+									<input id="sce-email-notifications-from" class="regular-text" type="text" value="<?php echo esc_attr( $options['edit_notification_from'] ); ?>" name="options[edit_notification_from]" />
+								<br /><br />
+								<label for="sce-email-notifications-subject"><?php esc_html_e( 'Email Subject', 'simple-comment-editing-options' ); ?></label><br />
+									<input id="sce-email-notifications-subject" class="regular-text" type="text" value="<?php echo esc_attr( $options['edit_notification_subject'] ); ?>" name="options[edit_notification_subject]" />
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><?php esc_html_e( 'Comment Length', 'simple-comment-editing-options' ); ?></th>
 							<td>
 							<input type="hidden" value="false" name="options[require_comment_length]" />
-								<input id="sce-allow-comment-lengthn" type="checkbox" value="true" name="options[require_comment_length]" <?php checked( true, $options['require_comment_length'] ); ?> /> <label for="sce-allow-comment-lengthn"><?php esc_html_e( 'Ensure an edited comment has a minimum length in characters.', 'simple-comment-editing-options' ); ?></label>
+								<input id="sce-allow-comment-length" type="checkbox" value="true" name="options[require_comment_length]" <?php checked( true, $options['require_comment_length'] ); ?> /> <label for="sce-allow-comment-length"><?php esc_html_e( 'Ensure an edited comment has a minimum length in characters.', 'simple-comment-editing-options' ); ?></label>
 								<br /><br />
 								<label for="sce-comment-length"><?php esc_html_e( 'Minimum Comment Length', 'simple-comment-editing-options' ); ?></label><br />
 								<input id="sce-comment-length" class="regular-text" type="number" value="<?php echo esc_attr( $options['min_comment_length'] ); ?>" name="options[min_comment_length]" />
@@ -168,6 +188,7 @@ class SCE_Admin_Menu_Output {
 				case 'allow_delete_confirmation':
 				case 'allow_delete':
 				case 'show_timer':
+				case 'allow_edit_notification':
 					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
 					break;
 				default:
@@ -193,13 +214,20 @@ class SCE_Admin_Menu_Output {
 			'loading_image'             => Simple_Comment_Editing::get_instance()->get_plugin_url( '/images/loading.gif' ),
 			'allow_delete'              => true,
 			'button_theme'              => 'default',
-			'click_to_eedit_text'       => __( 'Click to Edit', 'simple-comment-editing' ),
+			'click_to_edit_text'       => __( 'Click to Edit', 'simple-comment-editing' ),
 			'show_timer'                => true,
 			'save_text'                 => __( 'Save', 'simple-comment-editing' ),
 			'cancel_text'               => __( 'Cancel', 'simple-comment-editing' ),
 			'delete_text'               => __( 'Delete', 'simple-comment-editing' ),
 			'custom_class'              => '',
 			'allow_delete_confirmation' => true,
+			'allow_edit_notification'   => false,
+			'edit_notification_to'      => is_multisite() ? get_site_option( 'admin_email' ) : get_option( 
+				'admin_email' ),
+			'edit_notification_from'    => is_multisite() ? get_site_option( 'admin_email' ) : get_option( 
+				'admin_email' ),
+			'edit_notification_subject' => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), is_multisite() ? get_site_option('site_name') : get_option( 'blogname' ) ),
+			'edit_text'                 => __( 'Click to Edit', 'simple-comment-editing' ),
 			'confirm_delete'            => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
 			'comment_deleted'           => __( 'Your comment has been removed.', 'simple-comment-editing' ),
 			'comment_deleted_error'     => __( 'Your comment could not be deleted', 'simple-comment-editing' ),
