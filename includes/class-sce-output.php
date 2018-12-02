@@ -60,6 +60,59 @@ class SCE_Output {
 	private function init_actions() {
 		add_action( 'sce_load_assets', array( $this, 'output_styles' ) );
 		add_action( 'sce_save_after', array( $this, 'maybe_send_edit_email' ), 10, 4 );
+		add_action( 'sce_comment_is_deleted', array( $this, 'maybe_send_delete_email' ), 10, 2 );
+	}
+
+	/**
+	 * Email admin that a comment has been deleted.
+	 *
+	 * Email admin that a comment has been deleted.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param int $post_id
+	 * @param int $comment_id
+	 */
+	public function maybe_send_delete_email( $post_id, $comment_id ) {
+		if( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
+			$to = $this->options['edit_notification_to'];
+			$from = $this->options['edit_notification_from'];
+
+			// Check email
+			if( ! is_email( $to ) || ! is_email( $from ) ) {
+				return;
+			}
+
+			// Get site name
+			$sitename = '';
+			if (is_multisite()) {
+				$sitename = get_site_option('site_name');
+			} else {
+				$sitename = get_option('blogname');
+			}
+
+			$subject = sprintf( __( 'A user has deleted a comment from %s', 'simple-comment-editing-options' ), $sitename );
+
+			// Get comment
+			$comment = get_comment( $comment_id, ARRAY_A );
+
+			// Set headers
+			$headers = array();
+			$headers[] = sprintf( 'From: %s <%s>', esc_html( $sitename ), $from );
+
+			// Get comment message
+			$message = __( 'A user has deleted a comment on your site.', 'simple-comment-editing-options' ) . "\r\n\r\n";
+			$message .= __( 'The original comment is:', 'simple-comment-editing-options' ) . "\r\n";
+			$message .= $comment['comment_content'] . "\r\n\r\n";
+
+			// Get comment trash URL
+			$comment_trash_url = esc_url( add_query_arg( array( 'comment_status' => 'trash' ), admin_url( 'edit-comments.php' ) ) );
+			$message .= __( 'To permanently delete or restore this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_trash_url;
+
+			// Send email
+			wp_mail( $to, $subject, $message, $headers );
+		}
 	}
 
 	/**
