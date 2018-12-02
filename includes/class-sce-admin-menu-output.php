@@ -15,6 +15,11 @@ class SCE_Admin_Menu_Output {
 	 */
 	public function output_options() {
 		
+		if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
+			check_admin_referer( 'save_sce_options' );
+			$this->update_options( $_POST['options'] );
+			printf( '<div class="updated"><p><strong>%s</strong></p></div>', __( 'Your options have been saved.', 'simple-comment-editing-options' ) );
+		}
 		// Get options and defaults
 		$options = get_site_option( 'sce', false );
 		if ( false === $options ) {
@@ -56,7 +61,7 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><label for="sce-allow-deletion-confirmation"><?php esc_html_e( 'Allow Comment Deletion Confirmation', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_delete_confirmation]" />
-								<input id="sce-allow-deletion-confirmation" type="checkbox" value="true" name="options[allow_delete_confirmation]" <?php checked( true, $options['allow_delete_confirmation'] ); ?> /> <label for="sce-allow-deletion"><?php esc_html_e( 'Allow the modal warning for comment deletion.', 'simple-comment-editing-options' ); ?></label>
+								<input id="sce-allow-deletion-confirmation" type="checkbox" value="true" name="options[allow_delete_confirmation]" <?php checked( true, $options['allow_delete_confirmation'] ); ?> /> <label for="sce-allow-deletion-confirmation"><?php esc_html_e( 'Allow the modal warning for comment deletion.', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 						<tr>
@@ -129,10 +134,48 @@ class SCE_Admin_Menu_Output {
 						</tr>
 					</tbody>
 				</table>
+
 				<?php submit_button( __( 'Save Options', 'simple-comment-editing-options' ) ); ?>
 			</form>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Update options via sanitization
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @param array $options array of options to save
+	 * @return void
+	 */
+	private function update_options( $options ) {
+		foreach( $options as $key => &$option ) {
+			switch( $key ) {
+				case 'timer':
+					$timer = absint( $options[$key] );
+					if( 0 === $timer ) {
+						$timer = 5;
+					}
+					$option = $timer;
+					break;
+				case 'min_comment_length':
+					$option = absint( $options[$key] );
+					break;
+				case 'allow_comment_logging':
+				case 'require_comment_length':
+				case 'require_comment_length':
+				case 'allow_delete_confirmation':
+				case 'allow_delete':
+				case 'show_timer':
+					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
+					break;
+				default:
+					$option = sanitize_text_field( $options[$key] );
+					break;
+			}
+		}
+		update_site_option( 'sce', $options );
 	}
 
 	/**
@@ -163,7 +206,8 @@ class SCE_Admin_Menu_Output {
 			'comment_empty_error'       => Simple_Comment_Editing::get_instance()->errors->get_error_message( 'comment_empty' ),
 			'require_comment_length'    => false,
 			'min_comment_length'        => 50,
-			'allow_comment_logging'     => false
+			'allow_comment_logging'     => false,
+			'table_exists'              => false
 		);
 		return $defaults;
 	}
