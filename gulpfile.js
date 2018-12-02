@@ -69,7 +69,7 @@ var imgPaths = [
 ];
 
 var scssPaths = [
-	'/css/**/*.scss',
+	'css/**/*.scss',
 	'!/dist/css/**/*.scss'
 ];
 
@@ -147,11 +147,13 @@ gulp.task('scss_compile', function(){
 	.pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
   	.pipe(sass())
 	.pipe(plumber(reportError))
+	.pipe(gulp.dest('css'))
 	.pipe(gulp.dest('dist/css'))
 	.pipe(uglifycss({'maxLineLen': 0, 'uglyComments': true}))
 	.pipe(rename({suffix: '.min'}))
 	.pipe(sourcemaps.write('.'))
 	.pipe(plumber.stop())
+	.pipe(gulp.dest('css'))
 	.pipe(gulp.dest('dist/css'));
 });
 
@@ -159,6 +161,7 @@ gulp.task('scss_compile', function(){
 gulp.task('css_move', function () {
 	return gulp.src(cssPaths)
 		.pipe(plumber(reportError))
+		.pipe(gulp.dest('css'))
 		.pipe(gulp.dest('dist/css'));
 });
 
@@ -171,7 +174,8 @@ gulp.task('css_min', function() {
         }))
         .pipe(rename({suffix: '.min'}))
         .pipe(sourcemaps.write('.'))
-        .pipe(plumber.stop())
+		.pipe(plumber.stop())
+		.pipe(gulp.dest('css'))
         .pipe(gulp.dest('dist/css'));
 });
 

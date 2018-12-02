@@ -58,7 +58,19 @@ class SCE_Output {
 	 * @access private
 	 */
 	private function init_actions() {
+		add_action( 'sce_load_assets', array( $this, 'output_styles' ) );
+	}
 
+	/**
+	 * Output styles for SCE.
+	 *
+	 * Output styles for SCE.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function output_styles( $message ) {
+		wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url('css/themes.css'), array(), SCE_OPTIONS_VERSION, 'all' );
 	}
 
 	/**
