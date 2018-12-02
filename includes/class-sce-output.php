@@ -59,6 +59,59 @@ class SCE_Output {
 	 */
 	private function init_actions() {
 		add_action( 'sce_load_assets', array( $this, 'output_styles' ) );
+		add_action( 'sce_save_after', array( $this, 'maybe_send_edit_email' ), 10, 4 );
+	}
+
+	/**
+	 * Email admin that a comment has been edited.
+	 *
+	 * Email admin that a comment has been edited.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param array $saved_comment
+	 * @param int $post_id
+	 * @param int $comment_id
+	 * @param int $original_comment
+	 */
+	public function maybe_send_edit_email( $saved_comment, $post_id, $comment_id, $original_comment ) {
+		if( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
+			$to = $this->options['edit_notification_to'];
+			$from = $this->options['edit_notification_from'];
+			$subject = $this->options['edit_notification_subject'];
+
+			// Check email
+			if( ! is_email( $to ) || ! is_email( $from ) ) {
+				return;
+			}
+
+			// Get site name
+			$sitename = '';
+			if (is_multisite()) {
+				$sitename = get_site_option('site_name');
+			} else {
+				$sitename = get_option('blogname');
+			}
+
+			// Set headers
+			$headers = array();
+			$headers[] = sprintf( 'From: %s <%s>', esc_html( $sitename ), $from );
+
+			// Get comment message
+			$message = __( 'A user has edited a comment on your site.', 'simple-comment-editing-options' ) . "\r\n\r\n";
+			$message .= __( 'The original comment is:', 'simple-comment-editing-options' ) . "\r\n";
+			$message .= $original_comment['comment_content'] . "\r\n\r\n";
+			$message .= __( 'The edited comment is:', 'simple-comment-editing-options' ) . "\r\n";
+			$message .= $saved_comment['comment_content'] . "\r\n\r\n";
+
+			// Get comment edit URL
+			$comment_url = esc_url( add_query_arg( array( 'action' => 'editcomment', 'c' => $comment_id ), admin_url( 'comment.php' ) ) );
+			$message .= __( 'To edit or view this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_url;
+
+			// Send email
+			wp_mail( $to, $subject, $message, $headers );
+		}
 	}
 
 	/**
