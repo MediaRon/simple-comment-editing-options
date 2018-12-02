@@ -118,7 +118,7 @@ class SCE_Admin_Menu_Output {
 						<tr>
 							<th scope="row"><?php esc_html_e( 'Email Notifications', 'simple-comment-editing-options' ); ?></th>
 							<td>
-								<p><?php esc_html_e( 'Receive an email notification each time a user edits their comment', 'simple-comment-editing-options' ); ?></p>
+								<p><?php esc_html_e( 'Receive an email notification each time a user edits or deletes their comment', 'simple-comment-editing-options' ); ?></p>
 								<input type="hidden" value="false" name="options[allow_edit_notification]" />
 								<input id="sce-allow-email-notifications" type="checkbox" value="true" name="options[allow_edit_notification]" <?php checked( true, $options['allow_edit_notification'] ); ?> /> <label for="sce-allow-email-notifications"><?php esc_html_e( 'Allow email notifications.', 'simple-comment-editing-options' ); ?></label>
 								<br /><br />
