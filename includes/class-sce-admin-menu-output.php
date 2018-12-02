@@ -34,7 +34,7 @@ class SCE_Admin_Menu_Output {
 			<form action="" method="POST">
 				<?php wp_nonce_field('save_sce_options'); ?>
 				<h2><?php esc_html_e( 'Simple Comment Editing', 'simple-comment-editing-options' ); ?></h2>
-				<p><?php esc_html_e( 'Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction', 'simple-comment-editing-options' ); ?></p>
+				<p><?php esc_html_e( 'Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction.', 'simple-comment-editing-options' ); ?></p>
 				<table class="form-table">
 					<tbody>
 						<tr>
