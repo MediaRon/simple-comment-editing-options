@@ -95,7 +95,7 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><label for="sce-loading-img"><?php esc_html_e( 'Loading Image', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 							<label for="sce-loading-img"><?php esc_html_e( 'Loading Image', 'simple-comment-editing-options' ); ?></label><br />
-								<input id="sce-loading-img" class="regular-text" type="text" value="<?php echo esc_attr( $options['loading_image'] ); ?>" name="options[loading_image]" /><br />
+								<input id="sce-loading-img" class="regular-text" type="text" value="<?php echo esc_attr( esc_url( $options['loading_image'] ) ); ?>" name="options[loading_image]" /><br />
 								<img src="<?php echo esc_attr( $options['loading_image'] ); ?>" width="25" height="25" alt="Loading" />
 							</td>
 						</tr>
