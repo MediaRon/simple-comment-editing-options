@@ -149,7 +149,7 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><?php esc_html_e( 'Allow Comment Logging and Stats', 'simple-comment-editing-options' ); ?></th>
 							<td>
 							<input type="hidden" value="false" name="options[allow_comment_logging]" />
-								<input id="sce-allow-comment-logging" type="checkbox" value="true" name="options[allow_comment_logging]" <?php checked( true, $options['allow_comment_logging'] ); ?> /> <label for="sce-alllow-comment-logging"><?php esc_html_e( 'Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area.', 'simple-comment-editing-options' ); ?></label>
+								<input id="sce-allow-comment-logging" type="checkbox" value="true" name="options[allow_comment_logging]" <?php checked( true, $options['allow_comment_logging'] ); ?> /> <label for="sce-allow-comment-logging"><?php esc_html_e( 'Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area.', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 					</tbody>
@@ -182,7 +182,6 @@ class SCE_Admin_Menu_Output {
 				case 'min_comment_length':
 					$option = absint( $options[$key] );
 					break;
-				case 'allow_comment_logging':
 				case 'require_comment_length':
 				case 'require_comment_length':
 				case 'allow_delete_confirmation':
@@ -191,6 +190,18 @@ class SCE_Admin_Menu_Output {
 				case 'allow_edit_notification':
 				case 'show_icons':
 					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
+					break;
+				case 'allow_comment_logging':
+					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
+					if ( true === $option ) {
+						require_once SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-table-create.php' );
+						$table_create = new SCE_Table_Create();
+						$table_create->create_table();
+					} else {
+						require_once SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-table-create.php' );
+						$table_create = new SCE_Table_Create();
+						$table_create->drop();
+					}
 					break;
 				default:
 					$option = sanitize_text_field( $options[$key] );
@@ -237,7 +248,6 @@ class SCE_Admin_Menu_Output {
 			'require_comment_length'    => false,
 			'min_comment_length'        => 50,
 			'allow_comment_logging'     => false,
-			'table_exists'              => false
 		);
 		return $defaults;
 	}
