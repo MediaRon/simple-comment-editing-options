@@ -35,6 +35,19 @@ class SCE_Admin_Menu_Output {
 				<?php wp_nonce_field('save_sce_options'); ?>
 				<h2><?php esc_html_e( 'Simple Comment Editing', 'simple-comment-editing-options' ); ?></h2>
 				<p><?php esc_html_e( 'Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction.', 'simple-comment-editing-options' ); ?></p>
+				<?php
+				$version = get_site_option( 'sce_table_version', '0' );
+				if( $version === SCE_OPTIONS_TABLE_VERSION && true === $options['allow_comment_logging'] ) {
+					global $wpdb;
+					$tablename = $wpdb->base_prefix . 'sce_comments';
+					$blog_id = get_current_blog_id();
+
+					$edit_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $tablename WHERE blog_id = %d", $blog_id ) );
+					?>
+					<p><?php esc_html_e( 'Your users have edited their comments', 'simple-comment-editing-options' ); ?> <?php echo number_format( $edit_count ); ?> <?php echo _n( 'time', 'times', $edit_count, 'simple-comment-editing-options' ); ?>.</p>
+					<?php
+				}
+				?>
 				<table class="form-table">
 					<tbody>
 						<tr>

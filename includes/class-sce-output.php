@@ -64,6 +64,7 @@ class SCE_Output {
 	private function init_actions() {
 		add_action( 'sce_load_assets', array( $this, 'output_styles' ) );
 		add_action( 'sce_save_after', array( $this, 'maybe_send_edit_email' ), 10, 4 );
+		add_action( 'sce_save_after', array( $this, 'maybe_store_comment' ), 10, 4 );
 		add_action( 'sce_comment_is_deleted', array( $this, 'maybe_send_delete_email' ), 10, 2 );
 	}
 
@@ -177,6 +178,48 @@ class SCE_Output {
 	}
 
 	/**
+	 * Store comment history.
+	 *
+	 * Store comment history.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param array $saved_comment
+	 * @param int $post_id
+	 * @param int $comment_id
+	 * @param array $original_comment
+	 */
+	public function maybe_store_comment( $saved_comment, $post_id, $comment_id, $original_comment ) {
+		if( isset( $this->options['allow_comment_logging'] ) && true === $this->options['allow_comment_logging'] ) {
+			global $wpdb;
+			$tablename = $wpdb->base_prefix . 'sce_comments';
+			$blog_id = get_current_blog_id();
+			$time = current_time('mysql');
+			$original_comment = wp_filter_comment( $original_comment );
+			$comment = wp_unslash( $original_comment );
+			$comment['comment_content'] = apply_filters( 'comment_save_pre', $comment['comment_content'] );
+
+			// Save comment data
+			$wpdb->insert(
+				$tablename,
+				array(
+					'blog_id' => $blog_id,
+					'comment_id' => $comment_id,
+					'comment_content' => $comment['comment_content'],
+					'date' => $time
+				),
+				array(
+					'%d',
+					'%d',
+					'%s',
+					'%s'
+				)
+			);
+		}
+	}
+
+	/**
 	 * Email admin that a comment has been edited.
 	 *
 	 * Email admin that a comment has been edited.
@@ -187,7 +230,7 @@ class SCE_Output {
 	 * @param array $saved_comment
 	 * @param int $post_id
 	 * @param int $comment_id
-	 * @param int $original_comment
+	 * @param array $original_comment
 	 */
 	public function maybe_send_edit_email( $saved_comment, $post_id, $comment_id, $original_comment ) {
 		if( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
