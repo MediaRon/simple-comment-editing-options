@@ -47,6 +47,7 @@ class SCE_Output {
 		add_filter( 'sce_comment_deleted', array( $this, 'message_comment_deleted' ) );
 		add_filter( 'sce_comment_deleted_error', array( $this, 'message_comment_deleted_error' ) );
 		add_filter( 'sce_empty_comment', array( $this, 'message_empty_comment' ) );
+		add_filter( 'sce_comment_check_errors', array( $this, 'check_comment_length' ), 10, 2 );
 	}
 
 	/**
@@ -177,6 +178,36 @@ class SCE_Output {
 	 */
 	public function output_styles( $message ) {
 		wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url('css/themes.css'), array(), SCE_OPTIONS_VERSION, 'all' );
+	}
+
+	/**
+	 * Checks to see if comment meets minimum length.
+	 *
+	 * Checks to see if comment meets minimum length.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param bool $errors Any comment errors
+	 * @param array $comment Comment to save
+	 * 
+	 * @return mixed false if no errors, string if errors exist
+	 */
+	public function check_comment_length( $errors, $comment ) {
+		$allow_comment_length_check =  isset( $this->options['require_comment_length'] ) ? $this->options['require_comment_length'] : $errors;
+		if ( false === $allow_comment_length_check ) return $errors;
+
+		// Get minimum char length
+		$minimum_char_length = isset( $this->options['min_comment_length'] ) ? $this->options['min_comment_length'] : 50;
+		if( 0 === $minimum_char_length ) return $errors;
+
+		// Format comment text
+		$comment_content = trim( wp_strip_all_tags( $comment['comment_content'] ) );
+		$comment_length = strlen( $comment_content );
+		if ( $comment_length < $minimum_char_length ) {
+			return sprintf( __( 'Comment must be at least %d characters.', 'simple-comment-editing-options' ), absint( $minimum_char_length ) );
+		}
+		return $errors;
 	}
 
 	/**

@@ -21,7 +21,7 @@ class SCE_Admin_Menu_Output {
 			printf( '<div class="updated"><p><strong>%s</strong></p></div>', __( 'Your options have been saved.', 'simple-comment-editing-options' ) );
 		}
 		// Get options and defaults
-		$options = get_site_option( 'sce', false );
+		$options = get_site_option( 'sce_options', false );
 		if ( false === $options ) {
 			$options = $this->get_defaults();
 		} elseif( is_array( $options ) ) {
@@ -193,7 +193,7 @@ class SCE_Admin_Menu_Output {
 					break;
 			}
 		}
-		update_site_option( 'sce', $options );
+		update_site_option( 'sce_options', $options );
 	}
 
 	/**
