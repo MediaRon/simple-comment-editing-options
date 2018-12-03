@@ -14,7 +14,7 @@ class SCE_Output {
 	public function __construct() {
 
 		// Get SCE options
-		$options = get_site_option( 'sce', false );
+		$options = get_site_option( 'sce_options', false );
 		if( false === $options ) return;
 		if( is_array( $options ) ) {
 			$this->options = $options;
@@ -48,6 +48,9 @@ class SCE_Output {
 		add_filter( 'sce_comment_deleted_error', array( $this, 'message_comment_deleted_error' ) );
 		add_filter( 'sce_empty_comment', array( $this, 'message_empty_comment' ) );
 		add_filter( 'sce_comment_check_errors', array( $this, 'check_comment_length' ), 10, 2 );
+		add_filter( 'sce_button_extra_save', array( $this, 'maybe_add_save_icon' ) );
+		add_filter( 'sce_button_extra_cancel', array( $this, 'maybe_add_cancel_icon' ) );
+		add_filter( 'sce_button_extra_delete', array( $this, 'maybe_add_delete_icon' ) );
 	}
 
 	/**
@@ -62,6 +65,63 @@ class SCE_Output {
 		add_action( 'sce_load_assets', array( $this, 'output_styles' ) );
 		add_action( 'sce_save_after', array( $this, 'maybe_send_edit_email' ), 10, 4 );
 		add_action( 'sce_comment_is_deleted', array( $this, 'maybe_send_delete_email' ), 10, 2 );
+	}
+
+	/**
+	 * Add a delete icon.
+	 *
+	 * Add a delete icon.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param string Button text
+	 * 
+	 * @return string Button text
+	 */
+	public function maybe_add_delete_icon( $text ) {
+		if ( isset( $this->options['show_icons'] ) && true === $this->options['show_icons'] ) {
+			return '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
+		}
+		return $text;
+	}
+
+	/**
+	 * Add a cancel icon.
+	 *
+	 * Add a cancel icon.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param string Button text
+	 * 
+	 * @return string Button text
+	 */
+	public function maybe_add_cancel_icon( $text ) {
+		if ( isset( $this->options['show_icons'] ) && true === $this->options['show_icons'] ) {
+			return '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 20"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
+		}
+		return $text;
+	}
+
+	/**
+	 * Add a save icon.
+	 *
+	 * Add a save icon.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param string Button text
+	 * 
+	 * @return string Button text
+	 */
+	public function maybe_add_save_icon( $text ) {
+		if ( isset( $this->options['show_icons'] ) && true === $this->options['show_icons'] ) {
+			return '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>';
+		}
+		return $text;
 	}
 
 	/**

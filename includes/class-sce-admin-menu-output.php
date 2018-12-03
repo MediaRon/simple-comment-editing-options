@@ -73,6 +73,9 @@ class SCE_Admin_Menu_Output {
 									<option value="dark" <?php selected( 'dark', $options['button_theme'] );?> <?php selected( 'dark', $options['button_theme'] );?>><?php esc_html_e( 'Dark', 'simple-comment-editing-options' ); ?></option>
 									<option value="light" <?php selected( 'light', $options['button_theme'] );?>><?php esc_html_e( 'Light', 'simple-comment-editing-options' ); ?></option>
 								</select>
+								<br /><br />
+								<input type="hidden" value="false" name="options[show_icons]" />
+								<input id="sce-allow-icons" type="checkbox" value="true" name="options[show_icons]" <?php checked( true, $options['show_icons'] ); ?> /> <label for="sce-allow-icons"><?php esc_html_e( 'Allow icons for the buttons.', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 						<tr>
@@ -186,6 +189,7 @@ class SCE_Admin_Menu_Output {
 				case 'allow_delete':
 				case 'show_timer':
 				case 'allow_edit_notification':
+				case 'show_icons':
 					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
 					break;
 				default:
@@ -211,6 +215,7 @@ class SCE_Admin_Menu_Output {
 			'loading_image'             => Simple_Comment_Editing::get_instance()->get_plugin_url( '/images/loading.gif' ),
 			'allow_delete'              => true,
 			'button_theme'              => 'default',
+			'show_icons'                => false,
 			'click_to_edit_text'       => __( 'Click to Edit', 'simple-comment-editing' ),
 			'show_timer'                => true,
 			'save_text'                 => __( 'Save', 'simple-comment-editing' ),

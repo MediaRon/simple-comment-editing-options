@@ -16,8 +16,13 @@
 			.sce-comment-save {
 				background-color: #4CAF50;
 				color: #FFF;
+				font-size: 20px;
 				&:hover {
 					background-color: darken( #4CAF50, 10% );
+				}
+				svg {
+					fill: #FFF;
+					margin-right: 10px;
 				}
 			}
 			.sce-comment-cancel {
@@ -26,12 +31,22 @@
 				&:hover {
 					background-color: darken( #e7e7e7, 10% );
 				}
+				font-size: 20px;
+				svg {
+					fill: #000;
+					margin-right: 10px;
+				}
 			}
 			.sce-comment-delete {
 				background-color: #f44336;
 				color: #FFF;
 				&:hover {
 					background-color: darken( #f44336, 10% );
+				}
+				font-size: 20px;
+				svg {
+					fill: #FFF;
+					margin-right: 10px;
 				}
 			}
 			.sce-comment-delete {
@@ -54,6 +69,11 @@
 				padding: 10px 20px;
 				&:hover {
 					background-color: darken( #333, 10% );
+				}
+				font-size: 20px;
+				svg {
+					fill: #FFF;
+					margin-right: 10px;
 				}
 			}
 			button:last-of-type {
@@ -79,6 +99,11 @@
 				padding: 10px 20px;
 				&:hover {
 					background-color: darken( #EEE, 10% );
+				}
+				font-size: 20px;
+				svg {
+					fill: #000;
+					margin-right: 10px;
 				}
 			}
 			button:last-of-type {
