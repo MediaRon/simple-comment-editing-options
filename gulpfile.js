@@ -44,16 +44,22 @@ var languagePaths = [
 // set clean paths
 var cleanPaths = [
 	'dist/*',
+	'dist/node_modules',
+	'dist/test',
 	'simple-comment-editing-options.zip'
 ];
 
 var phpPaths = [
 	'**/*.php',
+	'!node_modules',
+	'!tests',
 	'!dist/**/*.php'
 ];
 
 var jsPaths = [
 	'/js/*.js',
+	'!node_modules',
+	'!tests',
 	'!dist/js/*.js'
 ];
 
@@ -66,32 +72,44 @@ var imgPaths = [
 	'!dist/**/*.gif',
 	'!dist/**/*.jpg',
 	'!dist/**/*.svg',
+	'!node_modules',
+	'!tests',
 ];
 
 var scssPaths = [
 	'css/**/*.scss',
-	'!/dist/css/**/*.scss'
+	'!/dist/css/**/*.scss',
+	'!node_modules',
+	'!tests',
 ];
 
 var cssPaths = [
 	'css/*.css',
-	'!dist/css/*.css'
+	'!dist/css/*.css',
+	'!node_modules',
+	'!tests',
 ];
 
 var htmlPaths = [
 	'**/*.html',
-	'!dist/**/*.html'
+	'!dist/**/*.html',
+	'!node_modules',
+	'!tests',
 ];
 
 var miscPaths = [
 	'**/*.txt',
 	'**/*.md',
-	'.babelrc'
+	'.babelrc',
+	'!node_modules',
+	'!tests',
 ];
 
 var babelPaths = [
 	'js/*.js',
-	'!dist/js/*.js'
+	'!dist/js/*.js',
+	'!node_modules',
+	'!tests',
 ];
 
 //build type
@@ -101,7 +119,7 @@ gulp.task('build_type', function(){
 
 /* ==Start Gulp Process=== */
 gulp.copy = function (src, dest) {
-	return gulp.src(src, { base: "." })
+	return gulp.src([src, '!node_modules', '!tests'], { base: "." })
 		.pipe(plumber(reportError))
 		.pipe(gulp.dest(dest));
 };
@@ -215,6 +233,13 @@ gulp.task('php_move', function () {
 		.pipe(gulp.dest('dist'));
 });
 
+gulp.task('dist_clean', function () {
+  return del([
+    'dist/node_modules/',
+    'dist/tests/',
+  ]);
+});
+
 
 /* ===========Babel============== */
 
@@ -284,7 +309,7 @@ gulp.task('check_upgrade_notice', function() {
 gulp.task('copy_for_zip', function () {
 	return gulp.src('dist/**')
 		.pipe(plumber(reportError))
-		.pipe(gulp.dest('simple-comment-editing'));
+		.pipe(gulp.dest('simple-comment-editing-options'));
 });
 
 gulp.task('build_zip', function () {
@@ -319,6 +344,7 @@ gulp.task('build', function (done) {
 		['check_upgrade_notice'],
 		['pot'],
 		['move_po_files', 'move_mo_files'],
+		['dist_clean'],
 		done
 	);
 });
