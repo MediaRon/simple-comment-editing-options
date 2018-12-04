@@ -109,7 +109,9 @@ class SCE_Output {
 		$query = "select * from $tablename where comment_id = %d and blog_id = %d order by date DESC";
 		$query = $wpdb->prepare( $query, $comment_id, $blog_id );
 		$results = $wpdb->get_results( $query );
-		if( empty( $results ) ) return;
+		if( empty( $results ) ) {
+			echo sprintf( '<p>%s</p>', __( 'No edits have occurred on this comment.', 'simple-comment-editing-options' ) );
+		}
 
 		// Display Comments
 		?>
