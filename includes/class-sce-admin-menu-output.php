@@ -15,10 +15,85 @@ class SCE_Admin_Menu_Output {
 	 */
 	public function output_options() {
 		
+		$license_message = '';
 		if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
 			check_admin_referer( 'save_sce_options' );
 			$this->update_options( $_POST['options'] );
 			printf( '<div class="updated"><p><strong>%s</strong></p></div>', __( 'Your options have been saved.', 'simple-comment-editing-options' ) );
+
+			// Check for valid license
+			$store_url = 'https://mediaron.com';
+			$api_params = array(
+				'edd_action' => 'activate_license',
+				'license'    => $_POST['options']['license'],
+				'item_name'  => urlencode( 'Simple Comment Editing Options' ),
+				'url'        => home_url()
+			);
+			// Call the custom API.
+			$response = wp_remote_post( $store_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+
+			// make sure the response came back okay
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+
+				if ( is_wp_error( $response ) ) {
+					$license_message = $response->get_error_message();
+				} else {
+					$license_message = __( 'An error occurred, please try again.', 'simple-comment-editing-options' );
+				}
+
+			} else {
+
+				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+				if ( false === $license_data->success ) {
+					delete_site_option( 'sce_license_status' );
+					switch( $license_data->error ) {
+
+						case 'expired' :
+
+							$license_message = sprintf(
+								__( 'Your license key expired on %s.', 'simple-comment-editing-options' ),
+								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+							);
+							break;
+
+						case 'disabled' :
+						case 'revoked' :
+
+							$license_message = __( 'Your license key has been disabled.', 'simple-comment-editing-options' );
+							break;
+
+						case 'missing' :
+
+							$license_message = __( 'Invalid license.', 'simple-comment-editing-options' );
+							break;
+
+						case 'invalid' :
+						case 'site_inactive' :
+
+							$license_message = __( 'Your license is not active for this URL.', 'simple-comment-editing-options' );
+							break;
+
+						case 'item_name_mismatch' :
+
+							$license_message = sprintf( __( 'This appears to be an invalid license key for %s.', 'simple-comment-editing-options' ), 'Simple Comment Editing Options' );
+							break;
+
+						case 'no_activations_left':
+
+							$license_message = __( 'Your license key has reached its activation limit.', 'simple-comment-editing-options' );
+							break;
+
+						default :
+
+							$license_message = __( 'An error occurred, please try again.', 'simple-comment-editing-options' );
+							break;
+					}
+				}
+				if ( empty( $license_message ) ) {
+					update_site_option( 'sce_license_status', $license_data->license );
+				}
+			}
 		}
 		// Get options and defaults
 		$options = get_site_option( 'sce_options', false );
@@ -50,8 +125,27 @@ class SCE_Admin_Menu_Output {
 				?>
 				<table class="form-table">
 					<tbody>
+					<tr>
+							<th scope="row"><label for="sce-license"><?php esc_html_e( 'Enter Your License', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input id="sce-license" class="regular-text" type="text" value="<?php echo esc_attr( $options['license'] ); ?>" name="options[license]" /><br />
+								<?php
+								$license_status = get_site_option( 'sce_license_status', false );
+								if( false === $license_status ) {
+									printf('<p>%s</p>', esc_html__( 'Please enter your licence key.', 'simple-comment-editing-options' ) );
+								} else {
+									printf('<p>%s</p>', esc_html__( 'Your license is valid and you will now receive update notifications.', 'simple-comment-editing-options' ) );
+								}
+								?>
+								<?php
+								if( ! empty( $license_message ) ) {
+									printf( '<div class="updated error"><p><strong>%s</p></strong></div>', esc_html( $license_message ) );
+								}
+								?>
+							</td>
+						</tr>
 						<tr>
-							<th scope="row"><label for="sce-timer"><?php esc_html_e('Edit Timer in Minutes', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><label for="sce-timer"><?php esc_html_e( 'Edit Timer in Minutes', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input id="sce-timer" class="regular-text" type="number" value="<?php echo esc_attr( absint( $options['timer'] ) ); ?>" name="options[timer]" />
 							</td>
@@ -261,6 +355,7 @@ class SCE_Admin_Menu_Output {
 			'require_comment_length'    => false,
 			'min_comment_length'        => 50,
 			'allow_comment_logging'     => false,
+			'license'                   => '',
 		);
 		return $defaults;
 	}
