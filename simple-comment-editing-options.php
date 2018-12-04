@@ -182,6 +182,35 @@ class SCE_Options {
 		}
 		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
 		new SCE_Output();
+
+		// Auto Update class
+		add_action( 'admin_init', array( $this, 'sce_plugin_updater' ), 0 );
+	}
+
+	/**
+	 * Allow for automatic updates.
+	 *
+	 * Allow for automatic updates.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function sce_plugin_updater() {
+		require_once $this->get_plugin_dir( '/includes/EDD_SL_Plugin_Updater.php' );
+		$options = get_site_option( 'sce_options' );
+		$license_status = get_site_option( 'sce_license_status', false );
+		if ( isset( $options['license'] ) && false !== $license_status ) {
+			// setup the updater
+			$edd_updater = new EDD_SL_Plugin_Updater( 'https://mediaron.com', __FILE__,
+				array(
+					'version' => '1.0.0',
+					'license' => $options['license'],
+					'item_id' => 2,
+					'author'  => 'Ronald Huereca',
+					'beta'    => false,
+				)
+			);
+		}
 	}
 
 	/**
