@@ -1,6 +1,16 @@
 /* Regular Theme */
 .sce-edit-comment {
   margin: 20px 0; }
+  @media only screen and (max-width: 600px) {
+    .sce-edit-comment .sce-comment-edit-buttons button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      text-align: center; }
+      .sce-edit-comment .sce-comment-edit-buttons button .sce-comment-delete {
+        float: none; } }
+  .sce-edit-comment .sce-comment-edit-buttons svg {
+    margin-right: 10px; }
   .sce-edit-comment.regular .sce-comment-edit-buttons {
     margin: 10px 0; }
     .sce-edit-comment.regular .sce-comment-edit-buttons button {

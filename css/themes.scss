@@ -1,6 +1,22 @@
 /* Regular Theme */
 .sce-edit-comment {
 	margin: 20px 0;
+	.sce-comment-edit-buttons {
+		@media only screen and (max-width: 600px) {
+			button {
+				display: block;
+				width: 100%;
+				margin-bottom: 10px;
+				text-align: center;
+				.sce-comment-delete {
+					float: none;
+				}
+			}
+		}
+		svg {
+			margin-right: 10px;
+		}
+	}
 	&.regular {
 		.sce-comment-edit-buttons {
 			margin: 10px 0;

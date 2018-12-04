@@ -88,7 +88,7 @@ class SCE_Admin_Menu_Output {
 								</select>
 								<br /><br />
 								<input type="hidden" value="false" name="options[show_icons]" />
-								<input id="sce-allow-icons" type="checkbox" value="true" name="options[show_icons]" <?php checked( true, $options['show_icons'] ); ?> /> <label for="sce-allow-icons"><?php esc_html_e( 'Allow icons for the buttons.', 'simple-comment-editing-options' ); ?></label>
+								<input id="sce-allow-icons" type="checkbox" value="true" name="options[show_icons]" <?php checked( true, $options['show_icons'] ); ?> /> <label for="sce-allow-icons"><?php esc_html_e( 'Allow icons for the buttons. Recommended if you have selected a button theme.', 'simple-comment-editing-options' ); ?></label>
 							</td>
 						</tr>
 						<tr>
