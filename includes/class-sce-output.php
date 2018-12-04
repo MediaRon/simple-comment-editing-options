@@ -66,6 +66,80 @@ class SCE_Output {
 		add_action( 'sce_save_after', array( $this, 'maybe_send_edit_email' ), 10, 4 );
 		add_action( 'sce_save_after', array( $this, 'maybe_store_comment' ), 10, 4 );
 		add_action( 'sce_comment_is_deleted', array( $this, 'maybe_send_delete_email' ), 10, 2 );
+		add_action( 'add_meta_boxes_comment', array( $this, 'maybe_add_comment_metabox' ), 10, 1 );
+	}
+
+	/**
+	 * Init a comment meta box.
+	 *
+	 * Init a comment meta box.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param object comment object
+	 * 
+	 * @return void
+	 */
+	public function maybe_add_comment_metabox( $comment ) {
+		if( isset( $this->options['allow_comment_logging'] ) && true === $this->options['allow_comment_logging'] ) {
+			add_meta_box( 'sce_comment_history', __( 'Comment Edit History', 'simple-comment-editing-object' ), array( $this, 'comment_history_meta_box' ), 'comment', 'normal', 'high' );
+		}
+	}
+
+	/**
+	 * Add a comment meta box.
+	 *
+	 * Add a comment meta box.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * 
+	 * @param object comment object
+	 * 
+	 * @return void
+	 */
+	public function comment_history_meta_box( $comment ) {
+		global $wpdb;
+		$tablename = $wpdb->base_prefix . 'sce_comments';
+		$blog_id = get_current_blog_id();
+		$comment_id = absint( $comment->comment_ID );
+
+		// Get comments
+		$query = "select * from $tablename where comment_id = %d and blog_id = %d order by date DESC";
+		$query = $wpdb->prepare( $query, $comment_id, $blog_id );
+		$results = $wpdb->get_results( $query );
+		if( empty( $results ) ) return;
+
+		// Display Comments
+		?>
+		<table class="form-table">
+			<tbody>
+				<?php 
+				foreach( $results as $result ):
+				?>
+				<tr>
+					<th scope="row">
+						<?php
+						$date = $result->date;
+						$datef = __( 'M j, Y @ H:i' );
+						$date = strtotime( $date );
+						echo esc_html( date( $datef, $date ) );
+						?>
+					</th>
+					<td>
+						<?php
+						$comment_text = apply_filters( 'comment_text', apply_filters( 'get_comment_text', $result->comment_content) );
+						echo $comment_text;
+						?>
+					</td>
+				</tr>
+				<?php
+				endforeach;
+				?>
+			</tbody>
+		</table>
+		<?php
 	}
 
 	/**
