@@ -245,7 +245,7 @@ class SCE_Output {
 			$message .= $comment['comment_content'] . "\r\n\r\n";
 
 			// Get comment trash URL
-			$comment_trash_url = esc_url( add_query_arg( array( 'comment_status' => 'trash' ), admin_url( 'edit-comments.php' ) ) );
+			$comment_trash_url = esc_url_raw( add_query_arg( array( 'comment_status' => 'trash' ), admin_url( 'edit-comments.php' ) ) );
 			$message .= __( 'To permanently delete or restore this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_trash_url;
 
 			// Send email
@@ -339,7 +339,7 @@ class SCE_Output {
 			$message .= $saved_comment['comment_content'] . "\r\n\r\n";
 
 			// Get comment edit URL
-			$comment_url = esc_url( add_query_arg( array( 'action' => 'editcomment', 'c' => $comment_id ), admin_url( 'comment.php' ) ) );
+			$comment_url = esc_url_raw( add_query_arg( array( 'action' => 'editcomment', 'c' => $comment_id ), admin_url( 'comment.php' ) ) );
 			$message .= __( 'To edit or view this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_url;
 
 			// Send email
