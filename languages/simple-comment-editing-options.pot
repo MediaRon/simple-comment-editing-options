@@ -88,7 +88,7 @@ msgid "Show Timer"
 msgstr ""
 
 #: includes/class-sce-admin-menu-output.php:157
-msgid "Show Timer (We recommend hiding the timer if you have a high timer)"
+msgid "Show timer (We recommend hiding the timer if you have a high timer)."
 msgstr ""
 
 #: includes/class-sce-admin-menu-output.php:161
@@ -180,50 +180,50 @@ msgid "Email Notifications"
 msgstr ""
 
 #: includes/class-sce-admin-menu-output.php:231
-msgid "Receive an email notification each time a user edits or deletes their comment"
+msgid "Receive an email notification each time a user edits or deletes their comment."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:233
+#: includes/class-sce-admin-menu-output.php:234
 msgid "Allow email notifications."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:235
+#: includes/class-sce-admin-menu-output.php:236
 msgid "To Email Address"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:238
+#: includes/class-sce-admin-menu-output.php:239
 msgid "From Email Address"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:241
+#: includes/class-sce-admin-menu-output.php:242
 msgid "Email Subject"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:246
+#: includes/class-sce-admin-menu-output.php:247
 msgid "Comment Length"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:249
+#: includes/class-sce-admin-menu-output.php:250
 msgid "Ensure an edited comment has a minimum length in characters."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:251
+#: includes/class-sce-admin-menu-output.php:252
 msgid "Minimum Comment Length"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:256
+#: includes/class-sce-admin-menu-output.php:257
 msgid "Allow Comment Logging and Stats"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:259
+#: includes/class-sce-admin-menu-output.php:260
 msgid "Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:265
+#: includes/class-sce-admin-menu-output.php:266
 msgid "Save Options"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:349
+#: includes/class-sce-admin-menu-output.php:350
 msgid "A user has edited a comment on %s"
 msgstr ""
 
