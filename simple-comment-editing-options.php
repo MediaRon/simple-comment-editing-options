@@ -203,11 +203,12 @@ class SCE_Options {
 			// setup the updater
 			$edd_updater = new EDD_SL_Plugin_Updater( 'https://mediaron.com', __FILE__,
 				array(
-					'version' => '1.0.0',
+					'version' => '1.0.1',
 					'license' => $options['license'],
 					'item_id' => 797,
 					'author'  => 'Ronald Huereca',
 					'beta'    => false,
+					'url'     => home_url(),
 				)
 			);
 		}
