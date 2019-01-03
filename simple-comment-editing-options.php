@@ -205,7 +205,7 @@ class SCE_Options {
 				array(
 					'version' => '1.0.0',
 					'license' => $options['license'],
-					'item_id' => 2,
+					'item_id' => 797,
 					'author'  => 'Ronald Huereca',
 					'beta'    => false,
 				)
