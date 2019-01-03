@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -167,7 +167,7 @@ class SCE_Options {
 	 * @access public
 	 */
 	public function plugins_loaded() {
-		
+
 		// Check to see if SCE is installed
 		if( ! $this->is_sce_enabled() ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_sce_not_installed' ) );
@@ -220,18 +220,18 @@ class SCE_Options {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $path Relative path to asset
-	 * 
+	 *
 	 * @return string Absolute path to asset
 	 */
 	public function get_plugin_dir( $path = '' ) {
 		$dir = rtrim( plugin_dir_path(__FILE__), '/' );
 		if ( !empty( $path ) && is_string( $path) )
 			$dir .= '/' . ltrim( $path, '/' );
-		return $dir;		
+		return $dir;
 	}
-	
+
 	/**
 	 * Return url path to asset.
 	 *
@@ -239,16 +239,16 @@ class SCE_Options {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $path Relative path to asset
-	 * 
+	 *
 	 * @return string URL path to asset
 	 */
 	public function get_plugin_url( $path = '' ) {
 		$dir = rtrim( plugin_dir_url(__FILE__), '/' );
 		if ( !empty( $path ) && is_string( $path) )
 			$dir .= '/' . ltrim( $path, '/' );
-		return $dir;	
+		return $dir;
 	}
 }
 /**

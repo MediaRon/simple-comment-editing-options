@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -32,6 +32,10 @@ Simple Comment Editing Options features:
 
 == Changelog ==
 
+= 1.0.1 =
+* Released 2019-01-03
+* Fixing class conflict.
+
 = 1.0.0 =
 * Released 2018-12-06
 * WordPress 5.0 compatible only
@@ -39,6 +43,9 @@ Simple Comment Editing Options features:
 
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Fixing problem with class conflict.
 
 = 1.0.0 =
 Initial release

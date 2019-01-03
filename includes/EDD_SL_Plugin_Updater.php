@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @author Easy Digital Downloads
  * @version 1.6.17
  */
+if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ):
 class EDD_SL_Plugin_Updater {
 
 	private $api_url     = '';
@@ -562,3 +563,4 @@ class EDD_SL_Plugin_Updater {
 	}
 
 }
+endif;
