@@ -23,7 +23,7 @@ class SCE_Admin {
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 	}
-	
+
 	/**
 	 * Initializes admin menus, plugin settings links, tables, etc.
 	 *
@@ -36,8 +36,6 @@ class SCE_Admin {
 		// Add settings link
 		$prefix = is_multisite() ? 'network_admin_' : '';
 		add_action( $prefix . 'plugin_action_links_' . SCE_OPTIONS_SLUG, array( $this, 'plugin_settings_link' ) );
-		add_action( $prefix . 'plugin_action_links_' . SCE_SLUG, array( $this, 'plugin_settings_link' ) );
-
 		// Init admin menu
 		if (is_multisite()) {
 			add_action( 'network_admin_menu', array( $this, 'register_sub_menu' ) );
@@ -56,11 +54,11 @@ class SCE_Admin {
 	public function register_sub_menu() {
 		$hook = '';
 		if( is_multisite() ) {
-			$hook = add_submenu_page( 
+			$hook = add_submenu_page(
 				'settings.php', __( 'Simple Comment Editing', 'simple-comment-editing-options' ), __( 'Simple Comment Editing', 'simple-comment-editing-options' ), 'manage_network', 'sce', array( $this, 'sce_admin_page' )
 			);
 		} else {
-			$hook = add_submenu_page( 
+			$hook = add_submenu_page(
 				'options-general.php', __( 'Simple Comment Editing', 'simple-comment-editing-options' ), __( 'Simple Comment Editing', 'simple-comment-editing-options' ), 'manage_options', 'sce', array( $this, 'sce_admin_page' )
 			);
 		}
@@ -74,7 +72,7 @@ class SCE_Admin {
 	 * @see register_sub_menu
 	 */
 	public function sce_admin_page() {
-		include SCE_Options::get_instance()::get_plugin_dir('/includes/class-sce-admin-menu-output.php');
+		include SCE_Options::get_instance()->get_plugin_dir('/includes/class-sce-admin-menu-output.php');
 		new SCE_Admin_Menu_Output();
 	}
 
