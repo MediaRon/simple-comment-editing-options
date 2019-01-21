@@ -49,7 +49,7 @@ msgstr ""
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:111, includes/class-sce-admin.php:60, includes/class-sce-admin.php:60, includes/class-sce-admin.php:64, includes/class-sce-admin.php:64
+#: includes/class-sce-admin-menu-output.php:111, includes/class-sce-admin.php:58, includes/class-sce-admin.php:58, includes/class-sce-admin.php:62, includes/class-sce-admin.php:62
 msgid "Simple Comment Editing"
 msgstr ""
 
