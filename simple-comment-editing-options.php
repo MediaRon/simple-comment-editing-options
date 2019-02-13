@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.0.2
+Version: 1.0.4
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -12,7 +12,7 @@ Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
 if (!defined('ABSPATH')) die('No direct access.');
-define( 'SCE_OPTIONS_VERSION', '1.0.2' );
+define( 'SCE_OPTIONS_VERSION', '1.0.4' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename(__FILE__) );
 
@@ -91,7 +91,7 @@ class SCE_Options {
 	 *
 	 * Checks if WP version is sufficient.
 	 *
-	 * @since 1.0.0
+	 * @since 1.0.3
 	 * @access public
 	 */
 	public function admin_notice_insufficient_wp() {
@@ -144,6 +144,21 @@ class SCE_Options {
 	}
 
 	/**
+	 * Add scripts to SCE options front-end
+	 *
+	 * Add scriptss to SCE options front-end
+	 *
+	 * @since 1.0.4
+	 * @access public
+	 */
+	public function add_scripts() {
+		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
+		wp_localize_script( 'sce-options', 'sce_options', array(
+			'done_editing' => __( 'I am done editing.', 'simple-comment-editing-options' )
+		) );
+	}
+
+	/**
 	 * Checks for Simple Comment Editing.
 	 *
 	 * Checks if SCE is installed
@@ -182,6 +197,8 @@ class SCE_Options {
 		}
 		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
 		new SCE_Output();
+
+		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 
 		// Auto Update class
 		add_action( 'admin_init', array( $this, 'sce_plugin_updater' ), 0 );
