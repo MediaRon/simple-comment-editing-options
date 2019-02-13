@@ -154,7 +154,7 @@ class SCE_Options {
 	public function add_scripts() {
 		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
 		wp_localize_script( 'sce-options', 'sce_options', array(
-			'done_editing' => __( 'I am done editing.', 'simple-comment-editing-options' )
+			'done_editing' => __( 'Cancel timer', 'simple-comment-editing-options' )
 		) );
 	}
 
