@@ -6,7 +6,7 @@ jQuery( document ).ready( function( $ ) {
 			var ajax_params = wpAjax.unserialize( ajax_url );
 			var element = this;
 			jQuery(element).on( 'sce.timer.countdown', function(e) {
-				$( element ).find( '.sce-timer' ).append( '&nbsp;|&nbsp;<a href="#" class="sce-timer-cancel">' + sce_options.done_editing + '</a>');
+				$( element ).find( '.sce-timer' ).append( '&nbsp;|&nbsp;<a href="' + ajax_url + '" class="sce-timer-cancel">' + sce_options.done_editing + '</a>');
 				$( element ).siblings( '.sce-textarea' ).find( ' .sce-timer' ).append( '&nbsp;|&nbsp;<a href="#" class="sce-timer-cancel">' + sce_options.done_editing + '</a>' )
 			} );
 			jQuery( element ).on( 'click', '.sce-timer-cancel', function( e ) {
@@ -23,6 +23,10 @@ jQuery( document ).ready( function( $ ) {
 
 				//Remove elements
 				$( element ).parent().remove();
+
+				$.post( ajax_url, { action: 'sce_stop_timer', comment_id: ajax_params.cid, post_id: ajax_params.pid, nonce: ajax_params._wpnonce }, function( response ) {
+					// do nothing for now
+				}, 'json' );
 			}
 		} );
 
