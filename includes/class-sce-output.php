@@ -6,10 +6,10 @@ class SCE_Output {
 	 * Holds options for SCE Options
 	 *
 	 * @since 1.0.0
-	 * @access private
+	 * @access public
 	 * @var array $options
 	 */
-	private $options = array();
+	public $options = array();
 
 	public function __construct() {
 

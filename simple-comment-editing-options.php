@@ -153,8 +153,12 @@ class SCE_Options {
 	 */
 	public function add_scripts() {
 		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
+		$options = get_site_option( 'sce_options', false );
+		$show_stop_timer = isset( $options['show_stop_timer'] ) ? $options['show_stop_timer'] : false;
+		$stop_timer_text = isset( $options['stop_timer_text'] ) ? $options['stop_timer_text'] : __( 'Cancel Timer', 'simple-comment-editing-options' );
 		wp_localize_script( 'sce-options', 'sce_options', array(
-			'done_editing' => __( 'Cancel timer', 'simple-comment-editing-options' ),
+			'show_stop_timer' => $show_stop_timer,
+			'stop_timer_text' => $stop_timer_text,
 			'stop_timer_svg' => apply_filters( 'sce_button_extra_stop_timer', '' )
 		) );
 	}

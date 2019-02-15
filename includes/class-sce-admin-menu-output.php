@@ -14,7 +14,7 @@ class SCE_Admin_Menu_Output {
 	 * @see __construct
 	 */
 	public function output_options() {
-		
+
 		$license_message = '';
 		if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
 			check_admin_referer( 'save_sce_options' );
@@ -158,6 +158,13 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Allow Timer To Be Canceled', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input type="hidden" value="false" name="options[show_stop_timer]" />
+								<input id="sce-show-stop-timer" type="checkbox" value="true" name="options[show_stop_timer]" <?php checked( true, $options['show_stop_timer'] ); ?> /> <label for="sce-show-stop-timer"><?php esc_html_e( 'Allow timer to be stopped.', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><label for="sce-allow-deletion"><?php esc_html_e( 'Allow Comment Deletion', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_delete]" />
@@ -189,13 +196,16 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><?php esc_html_e( 'Button Text', 'simple-comment-editing-options' ); ?></th>
 							<td>
 							<label for="sce-save-text"><?php esc_html_e( 'Save Button Text', 'simple-comment-editing-options' ); ?></label><br />
-								<input id="sce-save-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['save_text'] ); ?>" name="options[save_text]" />
+							<input id="sce-save-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['save_text'] ); ?>" name="options[save_text]" />
 							<br /><br />
 							<label for="sce-cancel-text"><?php esc_html_e( 'Cancel Button Text', 'simple-comment-editing-options' ); ?></label><br />
-								<input id="sce-cancel-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['cancel_text'] ); ?>" name="options[cancel_text]" />
+							<input id="sce-cancel-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['cancel_text'] ); ?>" name="options[cancel_text]" />
 							<br /><br />
 							<label for="sce-delete-text"><?php esc_html_e( 'Delete Button Text', 'simple-comment-editing-options' ); ?></label><br />
-								<input id="sce-delete-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['delete_text'] ); ?>" name="options[delete_text]" />
+							<input id="sce-delete-text" class="regular-text" type="text" value="<?php echo esc_attr( $options['delete_text'] ); ?>" name="options[delete_text]" />
+							<br /><br />
+							<label for="sce-comment-stop-timer"><?php esc_html_e( 'Stop Timer Text', 'simple-comment-editing-options' ); ?></label><br />
+							<input id="sce-comment-stop-timer" class="regular-text" type="text" value="<?php echo esc_attr( $options['stop_timer_text'] ); ?>" name="options[stop_timer_text]" />
 							</td>
 						</tr>
 						<tr>
@@ -297,6 +307,7 @@ class SCE_Admin_Menu_Output {
 				case 'show_timer':
 				case 'allow_edit_notification':
 				case 'show_icons':
+				case 'show_stop_timer':
 					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
 					break;
 				case 'allow_comment_logging':
@@ -324,7 +335,7 @@ class SCE_Admin_Menu_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @return array default options
 	 */
 	private function get_defaults() {
@@ -343,9 +354,9 @@ class SCE_Admin_Menu_Output {
 			'custom_class'              => '',
 			'allow_delete_confirmation' => true,
 			'allow_edit_notification'   => false,
-			'edit_notification_to'      => is_multisite() ? get_site_option( 'admin_email' ) : get_option( 
+			'edit_notification_to'      => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email' ),
-			'edit_notification_from'    => is_multisite() ? get_site_option( 'admin_email' ) : get_option( 
+			'edit_notification_from'    => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email' ),
 			'edit_notification_subject' => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), is_multisite() ? get_site_option('site_name') : get_option( 'blogname' ) ),
 			'edit_text'                 => __( 'Click to Edit', 'simple-comment-editing' ),
@@ -356,6 +367,8 @@ class SCE_Admin_Menu_Output {
 			'require_comment_length'    => false,
 			'min_comment_length'        => 50,
 			'allow_comment_logging'     => false,
+			'show_stop_timer'           => false,
+			'stop_timer_text'           => __( 'Cancel Timer', 'simple-comment-editing-options' ),
 			'license'                   => '',
 		);
 		return $defaults;
