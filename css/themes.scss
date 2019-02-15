@@ -17,14 +17,27 @@
 			margin-right: 10px;
 		}
 	}
+	.sce-timer-cancel {
+		display: block;
+		margin-top: 15px;
+		font-size: 0.8em;
+		float: right;
+		&:after {
+			content: "";
+			display: table;
+			clear: right;
+		}
+	}
 	&.regular {
-		.sce-comment-edit-buttons {
+		.sce-comment-edit-buttons,
+		.sce-timer-cancel-wrapper {
 			margin: 10px 0;
 			button {
 				display: inline-block;
 				border-radius: 2px;
 				padding: 10px 20px;
 				margin-right: 10px;
+				font-weight: 700;
 			}
 			button:last-of-type {
 				margin-right: 0;
@@ -53,6 +66,27 @@
 					margin-right: 10px;
 				}
 			}
+			.sce-timer-cancel {
+				background-color: #f44336;
+				color: #FFF;
+				text-decoration: none;
+				&:hover {
+					background-color: darken( #f44336, 10% );
+					text-decoration: none;
+				}
+				&:focus {
+					text-decoration: none;
+				}
+				font-size: 20px;
+				svg {
+					position: relative;
+					top: 3px;
+					width: 20px;
+					height: 20px;
+					fill: #FFF;
+					margin-right: 10px;
+				}
+			}
 			.sce-comment-delete {
 				background-color: #f44336;
 				color: #FFF;
@@ -74,7 +108,8 @@
 		}
 	}
 	&.dark {
-		.sce-comment-edit-buttons {
+		.sce-comment-edit-buttons,
+		.sce-timer-cancel-wrapper {
 			margin: 10px 0;
 			button {
 				display: inline-block;
@@ -83,8 +118,14 @@
 				margin-right: 10px;
 				border-radius: 2px;
 				padding: 10px 20px;
+				text-decoration: none;
+				font-weight: 700;
 				&:hover {
 					background-color: darken( #333, 10% );
+					text-decoration: none;
+				}
+				&:focus {
+					text-decoration: none;
 				}
 				font-size: 20px;
 				svg {
@@ -98,13 +139,24 @@
 			.sce-comment-delete {
 				float: right;
 			}
+			.sce-timer-cancel {
+				svg {
+					position: relative;
+					top: 3px;
+					width: 20px;
+					height: 20px;
+					fill: #FFF;
+					margin-right: 10px;
+				}
+			}
 			.sce-timer {
 				margin-top: 10px;
 			}
 		}
 	}
 	&.light {
-		.sce-comment-edit-buttons {
+		.sce-comment-edit-buttons,
+		.sce-timer-cancel-wrapper {
 			margin: 10px 0;
 			button {
 				display: inline-block;
@@ -113,8 +165,14 @@
 				margin-right: 10px;
 				border-radius: 2px;
 				padding: 10px 20px;
+				text-decoration: none;
+				font-weight: 700;
 				&:hover {
 					background-color: darken( #EEE, 10% );
+					text-decoration: none;
+				}
+				&:focus {
+					text-decoration: none;
 				}
 				font-size: 20px;
 				svg {
@@ -124,6 +182,16 @@
 			}
 			button:last-of-type {
 				margin-right: 0;
+			}
+			.sce-timer-cancel {
+				svg {
+					position: relative;
+					top: 3px;
+					width: 20px;
+					height: 20px;
+					fill: #000;
+					margin-right: 10px;
+				}
 			}
 			.sce-comment-delete {
 				float: right;

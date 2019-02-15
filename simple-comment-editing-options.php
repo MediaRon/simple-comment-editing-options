@@ -154,7 +154,8 @@ class SCE_Options {
 	public function add_scripts() {
 		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
 		wp_localize_script( 'sce-options', 'sce_options', array(
-			'done_editing' => __( 'Cancel timer', 'simple-comment-editing-options' )
+			'done_editing' => __( 'Cancel timer', 'simple-comment-editing-options' ),
+			'stop_timer_svg' => apply_filters( 'sce_button_extra_stop_timer', '' )
 		) );
 	}
 
@@ -193,10 +194,10 @@ class SCE_Options {
 		}
 		if( is_admin() ) {
 			include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
-			new SCE_Admin();
+			$this->admin = new SCE_Admin();
 		}
 		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
-		new SCE_Output();
+		$this->output = new SCE_Output();
 
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 

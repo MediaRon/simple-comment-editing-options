@@ -51,6 +51,7 @@ class SCE_Output {
 		add_filter( 'sce_button_extra_save', array( $this, 'maybe_add_save_icon' ) );
 		add_filter( 'sce_button_extra_cancel', array( $this, 'maybe_add_cancel_icon' ) );
 		add_filter( 'sce_button_extra_delete', array( $this, 'maybe_add_delete_icon' ) );
+		add_filter( 'sce_button_extra_stop_timer', array( $this, 'maybe_add_stop_timer_icon' ) );
 	}
 
 	/**
@@ -76,9 +77,9 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param object comment object
-	 * 
+	 *
 	 * @return void
 	 */
 	public function maybe_add_comment_metabox( $comment ) {
@@ -94,9 +95,9 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param object comment object
-	 * 
+	 *
 	 * @return void
 	 */
 	public function comment_history_meta_box( $comment ) {
@@ -117,7 +118,7 @@ class SCE_Output {
 		?>
 		<table class="form-table">
 			<tbody>
-				<?php 
+				<?php
 				foreach( $results as $result ):
 				?>
 				<tr>
@@ -145,15 +146,34 @@ class SCE_Output {
 	}
 
 	/**
+	 * Add a stop timer icon.
+	 *
+	 * Add a stop timer icon.
+	 *
+	 * @since 1.0.4
+	 * @access public
+	 *
+	 * @param string Button text
+	 *
+	 * @return string Button text
+	 */
+	public function maybe_add_stop_timer_icon( $text ) {
+		if ( isset( $this->options['show_icons'] ) && true === $this->options['show_icons'] ) {
+			return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0zm0 0h24v24H0zm0 0h24v24H0zm0 0h24v24H0zm0 0h24v24H0z" fill="none"/><path d="M19.04 4.55l-1.42 1.42C16.07 4.74 14.12 4 12 4c-1.83 0-3.53.55-4.95 1.48l1.46 1.46C9.53 6.35 10.73 6 12 6c3.87 0 7 3.13 7 7 0 1.27-.35 2.47-.94 3.49l1.45 1.45C20.45 16.53 21 14.83 21 13c0-2.12-.74-4.07-1.97-5.61l1.42-1.42-1.41-1.42zM15 1H9v2h6V1zm-4 8.44l2 2V8h-2v1.44zM3.02 4L1.75 5.27 4.5 8.03C3.55 9.45 3 11.16 3 13c0 4.97 4.02 9 9 9 1.84 0 3.55-.55 4.98-1.5l2.5 2.5 1.27-1.27-7.71-7.71L3.02 4zM12 20c-3.87 0-7-3.13-7-7 0-1.28.35-2.48.95-3.52l9.56 9.56c-1.03.61-2.23.96-3.51.96z"/></svg>';
+		}
+		return $text;
+	}
+
+	/**
 	 * Add a delete icon.
 	 *
 	 * Add a delete icon.
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string Button text
-	 * 
+	 *
 	 * @return string Button text
 	 */
 	public function maybe_add_delete_icon( $text ) {
@@ -170,9 +190,9 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string Button text
-	 * 
+	 *
 	 * @return string Button text
 	 */
 	public function maybe_add_cancel_icon( $text ) {
@@ -189,9 +209,9 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string Button text
-	 * 
+	 *
 	 * @return string Button text
 	 */
 	public function maybe_add_save_icon( $text ) {
@@ -208,7 +228,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param int $comment_id
 	 */
@@ -260,7 +280,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param array $saved_comment
 	 * @param int $post_id
 	 * @param int $comment_id
@@ -302,7 +322,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param array $saved_comment
 	 * @param int $post_id
 	 * @param int $comment_id
@@ -366,10 +386,10 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param bool $errors Any comment errors
 	 * @param array $comment Comment to save
-	 * 
+	 *
 	 * @return mixed false if no errors, string if errors exist
 	 */
 	public function check_comment_length( $errors, $comment ) {
@@ -396,7 +416,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $message Empty comment error
 	 * @return string New empty comment error
 	 */
@@ -411,7 +431,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $message Delete error message
 	 * @return string New delete error message
 	 */
@@ -426,7 +446,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $message Delete removal message
 	 * @return string New delete removal message
 	 */
@@ -441,7 +461,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $message Delete confirmation message
 	 * @return string New delete confirmation message
 	 */
@@ -456,7 +476,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $loading_image_url Loading image url
 	 * @return string New loading image url
 	 */
@@ -472,7 +492,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param bool $allow_deletion Whether to allow comment deletion
 	 * @return bool Whether to allow comment deletion
 	 */
@@ -488,7 +508,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param bool $allow_deletion_confirmation Whether to allow confirmation modal
 	 * @return bool Whether to allow confirmation modal
 	 */
@@ -504,7 +524,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $edit_text The main edit text for SCE
 	 * @return string New edit text
 	 */
@@ -521,7 +541,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $button_text Button text
 	 * @return string New button text
 	 */
@@ -538,7 +558,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $button_text Button text
 	 * @return string New button text
 	 */
@@ -555,7 +575,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param string $button_text Button text
 	 * @return string New button text
 	 */
@@ -572,7 +592,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param bool $show_timer Whether to show the timer or not
 	 * @return bool Whether to show the timer or not
 	 */
@@ -589,7 +609,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param int $timer Time in minutes to edit the comment
 	 * @return int New time in minutes
 	 */
@@ -606,7 +626,7 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * 
+	 *
 	 * @param array $classes SCE Wrapper class
 	 * @return array $classes New SCE theme classes
 	 */

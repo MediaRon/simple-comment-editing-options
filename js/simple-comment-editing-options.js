@@ -5,9 +5,9 @@ jQuery( document ).ready( function( $ ) {
 			var ajax_url = $( this ).find( 'a:first' ).attr( 'href' );
 			var ajax_params = wpAjax.unserialize( ajax_url );
 			var element = this;
-			jQuery(element).on( 'sce.timer.countdown', function(e) {
-				$( element ).find( '.sce-timer' ).append( '<br /><a href="' + ajax_url + '" class="sce-timer-cancel">' + sce_options.done_editing + '</a>');
-				$( element ).siblings( '.sce-textarea' ).find( ' .sce-timer' ).append( '<br /><a href="#" class="sce-timer-cancel">' + sce_options.done_editing + '</a>' )
+			jQuery(element).on( 'sce.timer.loaded', function(e) {
+				$( element ).find( '.sce-timer' ).after( '<div class="sce-timer-cancel-wrapper"><button class="sce-timer-cancel">' + sce_options.stop_timer_svg + sce_options.done_editing + '</button></div>');
+				$( element ).siblings( '.sce-textarea' ).find( ' .sce-timer' ).after( '<div class="sce-timer-cancel-wrapper"><button class="sce-timer-cancel">' + sce_options.stop_timer_svg + sce_options.done_editing + '</button></div>' )
 			} );
 			jQuery( element ).on( 'click', '.sce-timer-cancel', function( e ) {
 				e.preventDefault();
