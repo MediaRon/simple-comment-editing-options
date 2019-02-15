@@ -203,6 +203,9 @@ class SCE_Options {
 
 		// Auto Update class
 		add_action( 'admin_init', array( $this, 'sce_plugin_updater' ), 0 );
+
+		// Load text domain
+		load_plugin_textdomain( 'simple-comment-editing-options', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
