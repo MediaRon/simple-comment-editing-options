@@ -1,4 +1,47 @@
 jQuery( document ).ready( function( $ ) {
+	if( 'compact' === sce_options.timer_appearance ) {
+		sce_hooks.addFilter( 'sce.comment.timer.text', 'simple-comment-editing-options', function( timer_text, days_text, hours_text, minutes_text, seconds_text, days, hours, minutes, seconds ) {
+			timer_text = '';
+			if( days > 0 ) {
+				if( days < 10 ) {
+					timer_text += '' + '0' + days;
+				} else {
+					timer_text += days;
+				}
+				timer_text += ':';
+			}
+			if( hours > 0 ) {
+				if( hours < 10 ) {
+					timer_text += '' + '0' + hours;
+				} else {
+					timer_text += hours;
+				}
+				timer_text += ':';
+			} else if( hours === 0 && days > 0 ) {
+				timer_text += '00';
+			}
+			if( minutes > 0 ) {
+				if( minutes < 10 ) {
+					timer_text += '' + '0' + minutes;
+				} else {
+					timer_text += minutes;
+				}
+				timer_text += ':';
+			} else if( minutes === 0 && hours > 0 ) {
+				timer_text += '00';
+			}
+			if (seconds > 0) {
+				if( seconds < 10 ) {
+					timer_text += '' + '0' + seconds;
+				} else {
+					timer_text += seconds;
+				}
+			} else if( seconds === 0 && minutes > 0 ) {
+				timer_text += '00';
+			}
+			return timer_text;
+		} );
+	}
 	var simplecommenteditingoptions = $.simplecommenteditingoptions = $.fn.simplecommenteditingoptions = function() {
 		var $this = this;
 		return this.each( function() {
