@@ -165,6 +165,15 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><label for="sce-timer-appearance"><?php esc_html_e( 'Timer Appearance', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<select name="options[timer_appearance]">
+									<option value="words" <?php selected( 'words', $options['timer_appearance'] );?>><?php esc_html_e( 'Words', 'simple-comment-editing-options' ); ?></option>
+									<option value="compact" <?php selected( 'compact', $options['timer_appearance'] );?>><?php esc_html_e( 'Compact', 'simple-comment-editing-options' ); ?></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><label for="sce-allow-deletion"><?php esc_html_e( 'Allow Comment Deletion', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_delete]" />
@@ -183,8 +192,8 @@ class SCE_Admin_Menu_Output {
 							<td>
 								<select name="options[button_theme]">
 									<option value="default" <?php selected( 'default', $options['button_theme'] );?>><?php esc_html_e( 'None', 'simple-comment-editing-options' ); ?></option>
-									<option value="regular" <?php selected( 'regular', $options['button_theme'] );?> <?php selected( 'regular', $options['button_theme'] );?>><?php esc_html_e( 'Regular', 'simple-comment-editing-options' ); ?></option>
-									<option value="dark" <?php selected( 'dark', $options['button_theme'] );?> <?php selected( 'dark', $options['button_theme'] );?>><?php esc_html_e( 'Dark', 'simple-comment-editing-options' ); ?></option>
+									<option value="regular" <?php selected( 'regular', $options['button_theme'] );?>><?php esc_html_e( 'Regular', 'simple-comment-editing-options' ); ?></option>
+									<option value="dark" <?php selected( 'dark', $options['button_theme'] );?> ><?php esc_html_e( 'Dark', 'simple-comment-editing-options' ); ?></option>
 									<option value="light" <?php selected( 'light', $options['button_theme'] );?>><?php esc_html_e( 'Light', 'simple-comment-editing-options' ); ?></option>
 								</select>
 								<br /><br />
@@ -369,6 +378,7 @@ class SCE_Admin_Menu_Output {
 			'allow_comment_logging'     => false,
 			'show_stop_timer'           => false,
 			'stop_timer_text'           => __( 'Cancel Timer', 'simple-comment-editing-options' ),
+			'timer_appearance'          => 'words',
 			'license'                   => '',
 		);
 		return $defaults;

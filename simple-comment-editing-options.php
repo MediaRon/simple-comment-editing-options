@@ -156,10 +156,12 @@ class SCE_Options {
 		$options = get_site_option( 'sce_options', false );
 		$show_stop_timer = isset( $options['show_stop_timer'] ) ? $options['show_stop_timer'] : false;
 		$stop_timer_text = isset( $options['stop_timer_text'] ) ? $options['stop_timer_text'] : __( 'Cancel Timer', 'simple-comment-editing-options' );
+		$timer_appearance = isset( $options['timer_appearance'] ) ? $options['timer_appearance'] : 'words';
 		wp_localize_script( 'sce-options', 'sce_options', array(
-			'show_stop_timer' => $show_stop_timer,
-			'stop_timer_text' => $stop_timer_text,
-			'stop_timer_svg' => apply_filters( 'sce_button_extra_stop_timer', '' )
+			'show_stop_timer'  => $show_stop_timer,
+			'stop_timer_text'  => $stop_timer_text,
+			'stop_timer_svg'   => apply_filters( 'sce_button_extra_stop_timer', '' ),
+			'timer_appearance' => $timer_appearance,
 		) );
 	}
 

@@ -165,8 +165,6 @@ gulp.task('scss_compile', function(){
 	.pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
   	.pipe(sass())
 	.pipe(plumber(reportError))
-	.pipe(gulp.dest('css'))
-	.pipe(gulp.dest('dist/css'))
 	.pipe(uglifycss({'maxLineLen': 0, 'uglyComments': true}))
 	.pipe(rename({suffix: '.min'}))
 	.pipe(sourcemaps.write('.'))
