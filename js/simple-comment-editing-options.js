@@ -19,6 +19,7 @@ jQuery( document ).ready( function( $ ) {
 				timer_text += ':';
 			} else if( hours === 0 && days > 0 ) {
 				timer_text += '00';
+				timer_text += ':';
 			}
 			if( minutes > 0 ) {
 				if( minutes < 10 ) {
@@ -29,6 +30,7 @@ jQuery( document ).ready( function( $ ) {
 				timer_text += ':';
 			} else if( minutes === 0 && hours > 0 ) {
 				timer_text += '00';
+				timer_text += ':';
 			}
 			if (seconds > 0) {
 				if( seconds < 10 ) {
