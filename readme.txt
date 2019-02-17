@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -32,6 +32,10 @@ Simple Comment Editing Options features:
 
 == Changelog ==
 
+= 1.0.5 =
+* Released 2019-02-17
+* Added option for timer to be compact or with words
+
 = 1.0.4 =
 * Released 2019-02-14
 * Added option to stop timer
@@ -52,6 +56,9 @@ Simple Comment Editing Options features:
 
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+Added option for timer to be compact or with words
 
 = 1.0.4 =
 Added option to stop timer. Added option to change stop timer text.

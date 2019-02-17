@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.0.4
+Version: 1.0.5
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -12,7 +12,7 @@ Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
 if (!defined('ABSPATH')) die('No direct access.');
-define( 'SCE_OPTIONS_VERSION', '1.0.4' );
+define( 'SCE_OPTIONS_VERSION', '1.0.5' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename(__FILE__) );
 
@@ -230,7 +230,7 @@ class SCE_Options {
 			// setup the updater
 			$edd_updater = new EDD_SL_Plugin_Updater( 'https://mediaron.com', __FILE__,
 				array(
-					'version' => '1.0.1',
+					'version' => '1.0.5',
 					'license' => $options['license'],
 					'item_id' => 797,
 					'author'  => 'Ronald Huereca',
