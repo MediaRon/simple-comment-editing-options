@@ -151,6 +151,13 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Unlimited Timer', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input type="hidden" value="false" name="options[allow_unlimited_editing]" />
+								<input id="sce-unlimited-timer" type="checkbox" value="true" name="options[allow_unlimited_editing]" <?php checked( true, $options['allow_unlimited_editing'] ); ?> /> <label for="sce-unlimited-timer"><?php esc_html_e( 'Allow unlimited editing for logged in users.', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Show Timer', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[show_timer]" />
@@ -317,6 +324,7 @@ class SCE_Admin_Menu_Output {
 				case 'allow_edit_notification':
 				case 'show_icons':
 				case 'show_stop_timer':
+				case 'allow_unlimited_editing':
 					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
 					break;
 				case 'allow_comment_logging':
@@ -380,6 +388,7 @@ class SCE_Admin_Menu_Output {
 			'stop_timer_text'           => __( 'Cancel Timer', 'simple-comment-editing-options' ),
 			'timer_appearance'          => 'words',
 			'license'                   => '',
+			'allow_unlimited_editing'   => false,
 		);
 		return $defaults;
 	}

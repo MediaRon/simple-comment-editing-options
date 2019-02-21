@@ -52,6 +52,7 @@ class SCE_Output {
 		add_filter( 'sce_button_extra_cancel', array( $this, 'maybe_add_cancel_icon' ) );
 		add_filter( 'sce_button_extra_delete', array( $this, 'maybe_add_delete_icon' ) );
 		add_filter( 'sce_button_extra_stop_timer', array( $this, 'maybe_add_stop_timer_icon' ) );
+		add_filter( 'sce_unlimited_editing', array( $this, 'maybe_unlimited_editing' ), 10, 2 );
 	}
 
 	/**
@@ -68,6 +69,33 @@ class SCE_Output {
 		add_action( 'sce_save_after', array( $this, 'maybe_store_comment' ), 10, 4 );
 		add_action( 'sce_comment_is_deleted', array( $this, 'maybe_send_delete_email' ), 10, 2 );
 		add_action( 'add_meta_boxes_comment', array( $this, 'maybe_add_comment_metabox' ), 10, 1 );
+	}
+
+	/**
+	 * Maybe allow for unlimited editing.
+	 *
+	 * Maybe allow for unlimited editing.
+	 *
+	 * @since 1.0.6
+	 * @access public
+	 *
+	 * @param bool   Whether to allow unlimited comment editing
+	 * @param object comment object
+	 *
+	 * @return bool Whether to allow unlimited editing
+	 */
+	public function maybe_unlimited_editing( $unlimited, $comment ) {
+		if( ! is_user_logged_in() ) return false;
+		if( !isset( $this->options['allow_unlimited_editing'] ) ) return false;
+
+		if( isset( $this->options['allow_unlimited_editing'] ) && true === $this->options['allow_unlimited_editing'] ) {
+			global $current_user;
+			$user_id = $current_user->ID;
+			if( $comment->user_id == $user_id ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
