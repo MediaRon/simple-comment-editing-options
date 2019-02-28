@@ -267,35 +267,39 @@ msgstr ""
 msgid "No edits have occurred on this comment."
 msgstr ""
 
-#: includes/class-sce-output.php:281
+#: includes/class-sce-output.php:168
+msgid "Restore this comment"
+msgstr ""
+
+#: includes/class-sce-output.php:283
 msgid "A user has deleted a comment from %s"
 msgstr ""
 
-#: includes/class-sce-output.php:291
+#: includes/class-sce-output.php:293
 msgid "A user has deleted a comment on your site."
 msgstr ""
 
-#: includes/class-sce-output.php:292, includes/class-sce-output.php:384
+#: includes/class-sce-output.php:294, includes/class-sce-output.php:386
 msgid "The original comment is:"
 msgstr ""
 
-#: includes/class-sce-output.php:297
+#: includes/class-sce-output.php:299
 msgid "To permanently delete or restore this comment, follow this link:"
 msgstr ""
 
-#: includes/class-sce-output.php:383
+#: includes/class-sce-output.php:385
 msgid "A user has edited a comment on your site."
 msgstr ""
 
-#: includes/class-sce-output.php:386
+#: includes/class-sce-output.php:388
 msgid "The edited comment is:"
 msgstr ""
 
-#: includes/class-sce-output.php:391
+#: includes/class-sce-output.php:393
 msgid "To edit or view this comment, follow this link:"
 msgstr ""
 
-#: includes/class-sce-output.php:435
+#: includes/class-sce-output.php:437
 msgid "Comment must be at least %d characters."
 msgstr ""
 
