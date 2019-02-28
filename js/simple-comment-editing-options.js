@@ -80,3 +80,12 @@ jQuery( document ).ready( function( $ ) {
 	};
 	$( '.sce-edit-button' ).simplecommenteditingoptions();
 } );
+function sce_get_comment(e) {
+	e.preventDefault();
+	var $ = jQuery;
+	$element = $(e.target);
+	var url = wpAjax.unserialize( $element.attr( 'href' ) );
+	$.post( $element.attr( 'href' ), { action: 'sce_get_moderation_comment', comment_id: url.comment_id, nonce: url.nonce}, function( response ) {
+		console.log( response );
+	}, 'json' );
+}

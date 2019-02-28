@@ -211,11 +211,53 @@ class SCE_Options {
 
 		add_action( 'wp_footer', array( $this, 'add_editing_interface_footer' ) );
 
+		add_action( 'init', array( $this, 'setup_comment_filters' ) );
+
 		// Auto Update class
 		add_action( 'admin_init', array( $this, 'sce_plugin_updater' ), 0 );
 
 		// Load text domain
 		load_plugin_textdomain( 'simple-comment-editing-options', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
+	public function setup_comment_filters() {
+		/* Begin Filters */
+		if ( !is_feed() && !defined( 'DOING_SCE' ) ) {
+			add_filter( 'comment_excerpt', array( $this, 'add_edit_interface'), 1000, 2 );
+			add_filter( 'comment_text', array( $this, 'add_edit_interface'), 1000, 2 );
+			add_filter( 'thesis_comment_text', array( $this, 'add_edit_interface'), 1000, 2 );
+		}
+	}
+
+	public function add_edit_interface( $comment_content, $passed_comment = false ) {
+		if( ! current_user_can( 'moderate_comments' ) ) return $comment_content;
+
+		// Get current comment
+		global $comment; // For Thesis
+		if ( ( ! $comment && ! $passed_comment ) || empty( $comment_content ) ) return $comment_content;
+		if ( $passed_comment ) {
+			$comment = (object)$passed_comment;
+		}
+
+		$comment_id = absint( $comment->comment_ID );
+		$edit_text = apply_filters( 'sce_text_edit', __( 'Click to edit', 'simple-comment-editing-options' ) );
+
+		// Build link
+		$link = add_query_arg( array(
+			'comment_id' => $comment_id,
+			'nonce'      => wp_create_nonce( 'sce-moderator-edit-' . $comment_id ),
+		),
+		admin_url( 'admin-ajax.php' ) );
+
+		$html = '';
+		$html .= '<div class="sce-moderator-edit-link">';
+		$html .= sprintf( '<a href="%s" onclick="sce_get_comment(event)">%s</a>', esc_url( $link ), esc_html( $edit_text ) );
+		$html .= '</div>';
+
+		// Return
+		$comment_wrapper = sprintf( '<div id="sce-comment%d" class="sce-comment">%s</div>', $comment_id, $comment_content );
+		$comment_wrapper .= $html;
+		return $comment_wrapper;
 	}
 
 	/**
@@ -255,6 +297,43 @@ class SCE_Options {
 	 */
 	public function setup_ajax_calls() {
 		add_action( 'wp_ajax_sce_restore_comment', array( $this, 'ajax_restore_comment' ) );
+		add_action( 'wp_ajax_sce_get_moderation_comment', array( $this, 'ajax_get_comment' ) );
+	}
+
+	/**
+	 * Gets a comment.
+	 *
+	 * Gets a comment.
+	 *
+	 * @since 1.1.0
+	 * @access public
+	 */
+	public function ajax_get_comment() {
+		$nonce = $_POST['nonce'];
+		$comment_id = absint( $_POST['comment_id'] );
+
+		// Do a permissions check
+		if ( ! current_user_can( 'moderate_comments' ) ) {
+			$return = array(
+				'errors' => true
+			);
+			wp_send_json( $return );
+			exit;
+		}
+
+		// Verify nonce
+		if ( ! wp_verify_nonce( $nonce, 'sce-moderator-edit-' . $comment_id ) ) {
+			$return = array(
+				'errors' => true
+			);
+			wp_send_json( $return );
+			exit;
+		}
+
+		$comment = get_comment( $comment_id );
+
+		wp_send_json( $comment );
+		exit;
 	}
 
 	/**
