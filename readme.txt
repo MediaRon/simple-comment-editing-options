@@ -3,7 +3,7 @@ Contributors: ronalfy
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -31,6 +31,10 @@ Simple Comment Editing Options features:
 
 
 == Changelog ==
+
+= 1.0.7 =
+* Released 2019-02-27
+* Added ability to restore an edited comment
 
 = 1.0.6 =
 * Released 2019-02-20
@@ -60,6 +64,9 @@ Simple Comment Editing Options features:
 
 
 == Upgrade Notice ==
+
+= 1.0.7 =
+Added ability to restore an edited comment.
 
 = 1.0.6 =
 Added option for unlimited editing for logged in users.

@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.0.6
+Version: 1.0.7
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -12,7 +12,7 @@ Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
 if (!defined('ABSPATH')) die('No direct access.');
-define( 'SCE_OPTIONS_VERSION', '1.0.6' );
+define( 'SCE_OPTIONS_VERSION', '1.0.7' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename(__FILE__) );
 
@@ -207,6 +207,8 @@ class SCE_Options {
 
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 
+		add_action( 'init', array( $this, 'setup_ajax_calls' ) );
+
 		// Auto Update class
 		add_action( 'admin_init', array( $this, 'sce_plugin_updater' ), 0 );
 
@@ -239,6 +241,64 @@ class SCE_Options {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Sets up Ajax calls.
+	 *
+	 * Sets up Ajax calls.
+	 *
+	 * @since 1.0.7
+	 * @access public
+	 */
+	public function setup_ajax_calls() {
+		add_action( 'wp_ajax_sce_restore_comment', array( $this, 'ajax_restore_comment' ) );
+	}
+
+	/**
+	 * Restores a comment.
+	 *
+	 * Restores a comment.
+	 *
+	 * @since 1.0.7
+	 * @access public
+	 */
+	public function ajax_restore_comment() {
+		$nonce = $_POST['nonce'];
+		$comment_id = absint( $_POST['comment_id'] );
+		$record_id = absint( $_POST['id'] );
+
+		// Do a permissions check
+		if ( ! current_user_can( 'moderate_comments' ) ) {
+			$return = array(
+				'errors' => true
+			);
+			wp_send_json( $return );
+			exit;
+		}
+
+		// Verify nonce
+		if ( ! wp_verify_nonce( $nonce, 'restore-comment-' . $comment_id ) ) {
+			$return = array(
+				'errors' => true
+			);
+			wp_send_json( $return );
+			exit;
+		}
+
+		// Get record ID
+		global $wpdb;
+		$tablename = $wpdb->base_prefix . 'sce_comments';
+		$query = "select comment_content from $tablename where id = %d";
+		$query = $wpdb->prepare( $query, $record_id );
+		$results = $wpdb->get_row( $query );
+		$comment_text = $results->comment_content;
+
+		// Now update the comment
+		$comment_to_save = get_comment( $comment_id, ARRAY_A );
+		$comment_to_save['comment_content'] = $comment_text;
+		wp_update_comment( $comment_to_save );
+		die( $comment_text );
 	}
 
 	/**

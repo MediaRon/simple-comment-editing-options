@@ -141,10 +141,11 @@ class SCE_Output {
 		if( empty( $results ) ) {
 			echo sprintf( '<p>%s</p>', __( 'No edits have occurred on this comment.', 'simple-comment-editing-options' ) );
 		}
+		wp_enqueue_script( 'sce-options-restore', plugins_url( '/js/simple-comment-editing-options-restore.js', dirname( __FILE__ ) ), array( 'jquery' ), SCE_OPTIONS_VERSION, true );
 
 		// Display Comments
 		?>
-		<table class="form-table">
+		<table class="form-table sce-form-table">
 			<tbody>
 				<?php
 				foreach( $results as $result ):
@@ -164,6 +165,7 @@ class SCE_Output {
 						echo $comment_text;
 						?>
 					</td>
+					<td><a class="sce-restore-comment" href="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-comment-id="<?php echo absint( $comment_id ); ?>" data-id="<?php echo absint( $result->id ); ?>" data-nonce="<?php echo wp_create_nonce( 'restore-comment-' . absint( $comment_id ) ); ?>"><?php esc_html_e( 'Restore this comment', 'simple-comment-editing-options' ); ?></td>
 				</tr>
 				<?php
 				endforeach;
