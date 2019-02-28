@@ -163,7 +163,7 @@ gulp.task('scss_compile', function(){
 	.pipe(plumber(reportError))
 	.pipe(sourcemaps.init())
 	.pipe(postcss([ autoprefixer({ browsers: ['last 2 versions'] }) ]))
-  	.pipe(sass())
+	.pipe(sass())
 	.pipe(plumber(reportError))
 	.pipe(uglifycss({'maxLineLen': 0, 'uglyComments': true}))
 	.pipe(rename({suffix: '.min'}))

@@ -188,6 +188,9 @@
   -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   margin: 10px 0;
-  padding: 5px 12px; }
+  padding: 20px 15px; }
   .sce-status.error {
     border-left-color: #dc3232; }
+
+.sce-inline-interface-hidden {
+  display: none; }
