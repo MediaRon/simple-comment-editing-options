@@ -292,7 +292,7 @@ class SCE_Options {
 	 *
 	 * Sets up Ajax calls.
 	 *
-	 * @since 1.0.7
+	 * @since 1.1.0
 	 * @access public
 	 */
 	public function setup_ajax_calls() {

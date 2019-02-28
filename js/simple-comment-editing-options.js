@@ -86,6 +86,8 @@ function sce_get_comment(e) {
 	$element = $(e.target);
 	var url = wpAjax.unserialize( $element.attr( 'href' ) );
 	$.post( $element.attr( 'href' ), { action: 'sce_get_moderation_comment', comment_id: url.comment_id, nonce: url.nonce}, function( response ) {
-		console.log( response );
+		var $wrapper_clone = $( '.sce-inline-interface-hidden:last' ).clone();
+		$wrapper_clone.removeClass( 'sce-inline-interface-hidden' ).addClass( 'sce-inline-interface' );
+		$wrapper_clone.appendTo( '#sce-comment' + url.comment_id );
 	}, 'json' );
 }
