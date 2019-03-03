@@ -88,6 +88,31 @@ function sce_get_comment(e) {
 	$.post( $element.attr( 'href' ), { action: 'sce_get_moderation_comment', comment_id: url.comment_id, nonce: url.nonce}, function( response ) {
 		var $wrapper_clone = $( '.sce-inline-interface-hidden:last' ).clone();
 		$wrapper_clone.removeClass( 'sce-inline-interface-hidden' ).addClass( 'sce-inline-interface' );
+
+		// Add name to wrapper
+		$wrapper_clone.find('.sce-inline-name').val( response.comment_author );
+
+		// Add email to wrapper
+		$wrapper_clone.find( '.sce-inline-email' ).val( response.comment_author_email );
+
+		// Add URL to wrapper
+		$wrapper_clone.find( '.sce-inline-url' ).val( response.comment_author_url );
+
+		// Add Comment to wrapper
+		$wrapper_clone.find( '.sce-inline-comment' ).val( response.comment_content );
+
+		// Add comment status to wrapper
+		var comment_status = response.comment_approved;
+		if( 1 == comment_status ) {
+			$wrapper_clone.find('.sce-inline-status-wrapper .approved' ).attr( 'checked', 'checked' );
+		} else if ( 2 == comment_status ) {
+			$wrapper_clone.find('.sce-inline-status-wrapper .pending' ).attr( 'checked', 'checked' );
+		} else {
+			$wrapper_clone.find('.sce-inline-status-wrapper .spam' ).attr( 'checked', 'checked' );
+		}
+
+		$wrapper_clone.find('button').attr('data-comment_id', url.comment_id );
+		$wrapper_clone.find('button').attr('data-nonce', url.nonce );
 		$wrapper_clone.appendTo( '#sce-comment' + url.comment_id );
 	}, 'json' );
 }

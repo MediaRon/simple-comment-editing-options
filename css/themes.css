@@ -205,3 +205,6 @@
 
 .sce-inline-interface textarea {
   height: 300px; }
+
+.sce-inline-interface .sce-status {
+  display: none; }

@@ -144,9 +144,15 @@ class SCE_Frontend_Editing {
 		<textarea class="sce-inline-comment"></textarea>
 	</div>
 	<div class="sce-inline-status-wrapper">
-		<label><input type="radio" value="approved" name="comment_status" /> <?php esc_html_e( 'Approved', 'simple-comment-editing-options' ); ?></label><br />
-		<label><input type="radio" value="pending" name="comment_status" /> <?php esc_html_e( 'Pending', 'simple-comment-editing-options' ); ?></label><br />
-		<label><input type="radio" value="spam" name="comment_status" /> <?php esc_html_e( 'Spam', 'simple-comment-editing-options' ); ?></label>
+		<label><input type="radio" value="approved" name="comment_status" class="approved" /> <?php esc_html_e( 'Approved', 'simple-comment-editing-options' ); ?></label><br />
+		<label><input type="radio" value="pending" name="comment_status" class="pending" /> <?php esc_html_e( 'Pending', 'simple-comment-editing-options' ); ?></label><br />
+		<label><input type="radio" value="spam" name="comment_status" class="spam" /> <?php esc_html_e( 'Spam', 'simple-comment-editing-options' ); ?></label>
+	</div>
+	<div class="sce-status"></div>
+	<div class="sce-buttons">
+		<button class="sce-comment-save"><?php echo esc_html_e( 'Save', 'simple-comment-editig-options' ); ?></button>
+		<button class="sce-comment-cancel"><?php echo esc_html_e( 'Cancel', 'simple-comment-editig-options' ); ?></button>
+		<button class="sce-comment-delete"><?php echo esc_html_e( 'Delete', 'simple-comment-editig-options' ); ?></button>
 	</div>
 </div>
 		<?php
