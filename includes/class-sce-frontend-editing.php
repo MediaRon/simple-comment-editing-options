@@ -40,7 +40,7 @@ class SCE_Frontend_Editing {
 		}
 
 		$comment_id = absint( $comment->comment_ID );
-		$edit_text = apply_filters( 'sce_text_edit', __( 'Click to edit', 'simple-comment-editing-options' ) );
+		$edit_text = apply_filters( 'sce_frontend_text_edit', __( 'Click to inline edit', 'simple-comment-editing-options' ) );
 
 		// Build link
 		$link = add_query_arg( array(
