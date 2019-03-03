@@ -217,3 +217,16 @@
 .sce-inline-interface-hidden {
 	display: none;
 }
+.sce-inline-interface {
+	.sce-inline-input {
+		display: block;
+	}
+	input[type=text],
+	textarea {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	textarea {
+		height: 300px;
+	}
+}

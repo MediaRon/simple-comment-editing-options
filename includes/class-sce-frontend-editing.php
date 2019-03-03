@@ -91,9 +91,28 @@ class SCE_Frontend_Editing {
 		}
 
 		$comment = get_comment( $comment_id );
-
+		$comment->comment_content = $this->format_comment_text( $comment->comment_content );
+		$comment->comment_author = $this->format_comment_text( $comment->comment_author );
 		wp_send_json( $comment );
 		exit;
+	}
+
+	/**
+	 * Returns formatted text for output.
+	 *
+	 * Returns formatted text for output.
+	 *
+	 * @since 1.1.0
+	 * @access public
+	 *
+	 * @return void
+	 */
+	private function format_comment_text( $content ) {
+		//Format the comment for returning
+		if ( function_exists( 'mb_convert_encoding' ) ) {
+			$content = mb_convert_encoding( $content, ''. get_option( 'blog_charset' ) . '', mb_detect_encoding( $content, "UTF-8, ISO-8859-1, ISO-8859-15", true ) );
+		}
+		return $content;
 	}
 
 	/**
