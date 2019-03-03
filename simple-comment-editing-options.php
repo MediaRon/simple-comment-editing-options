@@ -205,11 +205,12 @@ class SCE_Options {
 		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
 		$this->output = new SCE_Output();
 
+		include $this->get_plugin_dir( '/includes/class-sce-frontend-editing.php' );
+		$this->output = new SCE_Frontend_Editing();
+
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 
 		add_action( 'init', array( $this, 'setup_ajax_calls' ) );
-
-		add_action( 'wp_footer', array( $this, 'add_editing_interface_footer' ) );
 
 		// Auto Update class
 		add_action( 'admin_init', array( $this, 'sce_plugin_updater' ), 0 );
@@ -250,7 +251,7 @@ class SCE_Options {
 	 *
 	 * Sets up Ajax calls.
 	 *
-	 * @since 1.0.7
+	 * @since 1.1.0
 	 * @access public
 	 */
 	public function setup_ajax_calls() {
@@ -339,46 +340,6 @@ class SCE_Options {
 		if ( !empty( $path ) && is_string( $path) )
 			$dir .= '/' . ltrim( $path, '/' );
 		return $dir;
-	}
-
-	/**
-	 * Return url path to asset.
-	 *
-	 * Return url path to asset.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $path Relative path to asset
-	 *
-	 * @return string URL path to asset
-	 */
-	public function add_editing_interface_footer() {
-		if ( !is_single() && !is_singular() && !is_page() ) return;
-		if( ! current_user_can( 'moderate_comments' ) ) return;
-		ob_start();
-		?>
-<div class="sce-inline-interface-hidden">
-	<div class="sce-inline-name-wrapper">
-		<label><span class="sce-inline-input"><?php esc_html_e( 'Name', 'simple-comment-editing-options' ); ?></span><input type="text" class="sce-inline-name" /></label>
-	</div>
-	<div class="sce-inline-email-wrapper">
-		<label><span class="sce-inline-input"><?php esc_html_e( 'Email', 'simple-comment-editing-options' ); ?></span><input type="text" class="sce-inline-email" /></label>
-	</div>
-	<div class="sce-inline-url-wrapper">
-		<label><span class="sce-inline-input"><?php esc_html_e( 'URL', 'simple-comment-editing-options' ); ?></span><input type="text" class="sce-inline-url" /></label>
-	</div>
-	<div class="sce-inline-comment-wrapper">
-		<textarea class="sce-inline-comment"></textarea>
-	</div>
-	<div class="sce-inline-status-wrapper">
-		<label><input type="radio" value="approved" name="comment_status" /> <?php esc_html_e( 'Approved', 'simple-comment-editing-options' ); ?></label><br />
-		<label><input type="radio" value="pending" name="comment_status" /> <?php esc_html_e( 'Pending', 'simple-comment-editing-options' ); ?></label><br />
-		<label><input type="radio" value="spam" name="comment_status" /> <?php esc_html_e( 'Spam', 'simple-comment-editing-options' ); ?></label>
-	</div>
-</div>
-		<?php
-		echo ob_get_clean();
 	}
 }
 /**

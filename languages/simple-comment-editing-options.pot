@@ -263,6 +263,34 @@ msgstr ""
 msgid "Cancel Timer"
 msgstr ""
 
+#: includes/class-sce-frontend-editing.php:43
+msgid "Click to edit"
+msgstr ""
+
+#: includes/class-sce-frontend-editing.php:116
+msgid "Name"
+msgstr ""
+
+#: includes/class-sce-frontend-editing.php:119
+msgid "Email"
+msgstr ""
+
+#: includes/class-sce-frontend-editing.php:122
+msgid "URL"
+msgstr ""
+
+#: includes/class-sce-frontend-editing.php:128
+msgid "Approved"
+msgstr ""
+
+#: includes/class-sce-frontend-editing.php:129
+msgid "Pending"
+msgstr ""
+
+#: includes/class-sce-frontend-editing.php:130
+msgid "Spam"
+msgstr ""
+
 #: includes/class-sce-output.php:142
 msgid "No edits have occurred on this comment."
 msgstr ""
