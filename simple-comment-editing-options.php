@@ -66,7 +66,7 @@ class SCE_Options {
 		}
 
 		if ( ! $has_errors ) {
-			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 9 );
 		}
 	}
 
@@ -189,6 +189,9 @@ class SCE_Options {
 	 * @access public
 	 */
 	public function plugins_loaded() {
+
+		// Prevent double loading admin/classnames
+		add_filter( 'sce_show_admin', '__return_false' );
 
 		// Check to see if SCE is installed
 		if( ! $this->is_sce_enabled() ) {
