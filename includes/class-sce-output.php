@@ -48,6 +48,7 @@ class SCE_Output {
 		add_filter( 'sce_comment_deleted_error', array( $this, 'message_comment_deleted_error' ) );
 		add_filter( 'sce_empty_comment', array( $this, 'message_empty_comment' ) );
 		add_filter( 'sce_comment_check_errors', array( $this, 'check_comment_length' ), 10, 2 );
+		add_filter( 'sce_comment_check_errors', array( $this, 'check_comment_length_max' ), 10, 2 );
 		add_filter( 'sce_button_extra_save', array( $this, 'maybe_add_save_icon' ) );
 		add_filter( 'sce_button_extra_cancel', array( $this, 'maybe_add_cancel_icon' ) );
 		add_filter( 'sce_button_extra_delete', array( $this, 'maybe_add_delete_icon' ) );
@@ -435,6 +436,36 @@ class SCE_Output {
 		$comment_length = strlen( $comment_content );
 		if ( $comment_length < $minimum_char_length ) {
 			return sprintf( __( 'Comment must be at least %d characters.', 'simple-comment-editing-options' ), absint( $minimum_char_length ) );
+		}
+		return $errors;
+	}
+
+	/**
+	 * Checks to see if comment meets maxiumum length.
+	 *
+	 * Checks to see if comment meets maxiumum length.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool $errors Any comment errors
+	 * @param array $comment Comment to save
+	 *
+	 * @return mixed false if no errors, string if errors exist
+	 */
+	public function check_comment_length_max( $errors, $comment ) {
+		$allow_comment_length_check =  isset( $this->options['require_comment_length_max'] ) ? $this->options['require_comment_length_max'] : $errors;
+		if ( false === $allow_comment_length_check ) return $errors;
+
+		// Get minimum char length
+		$maximum_char_length = isset( $this->options['max_comment_length'] ) ? $this->options['max_comment_length'] : 2000;
+		if( 0 === $maximum_char_length ) return $errors;
+
+		// Format comment text
+		$comment_content = trim( wp_strip_all_tags( $comment['comment_content'] ) );
+		$comment_length = strlen( $comment_content );
+		if ( $comment_length > $maximum_char_length ) {
+			return sprintf( __( 'Comment cannot exceed %d characters.', 'simple-comment-editing-options' ), absint( $maximum_char_length ) );
 		}
 		return $errors;
 	}
