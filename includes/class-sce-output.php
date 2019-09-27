@@ -445,7 +445,7 @@ class SCE_Output {
 	 *
 	 * Checks to see if comment meets maxiumum length.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 * @access public
 	 *
 	 * @param bool $errors Any comment errors
