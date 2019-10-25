@@ -38,6 +38,11 @@
 .sce-edit-comment.light .sce-comment-edit-buttons .sce-timer-cancel svg,.sce-edit-comment.light .sce-timer-cancel-wrapper .sce-timer-cancel svg{position:relative;top:3px;width:20px;height:20px;fill:#000;margin-right:10px}
 .sce-edit-comment.light .sce-comment-edit-buttons .sce-comment-delete,.sce-edit-comment.light .sce-timer-cancel-wrapper .sce-comment-delete{float:right}
 .sce-edit-comment.light .sce-comment-edit-buttons .sce-timer,.sce-edit-comment.light .sce-timer-cancel-wrapper .sce-timer{margin-top:10px}
+<<<<<<< HEAD
 .sce-status{color:#000;background:#fff;border-left:4px solid #46b450;-webkit-box-shadow:0 1px 1px 0 rgba(0,0,0,0.1);box-shadow:0 1px 1px 0 rgba(0,0,0,0.1);margin:10px 0;padding:20px 15px}
 .sce-status.error{border-left-color:#dc3232}.sce-inline-interface-hidden{display:none}
+=======
+.sce-status{color:#000;background:#fff;border-left:4px solid #46b450;-webkit-box-shadow:0 1px 1px 0 rgba(0,0,0,0.1);box-shadow:0 1px 1px 0 rgba(0,0,0,0.1);margin:10px 0;padding:5px 12px}
+.sce-status.error{border-left-color:#dc3232}
+>>>>>>> master
 /*# sourceMappingURL=themes.min.min.css.map */

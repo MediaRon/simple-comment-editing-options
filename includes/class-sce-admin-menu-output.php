@@ -277,6 +277,11 @@ class SCE_Admin_Menu_Output {
 								<br /><br />
 								<label for="sce-comment-length"><?php esc_html_e( 'Minimum Comment Length', 'simple-comment-editing-options' ); ?></label><br />
 								<input id="sce-comment-length" class="regular-text" type="number" value="<?php echo esc_attr( $options['min_comment_length'] ); ?>" name="options[min_comment_length]" />
+								<br /><br />
+								<input id="sce-allow-comment-length-max" type="checkbox" value="true" name="options[require_comment_length_max]" <?php checked( true, $options['require_comment_length_max'] ); ?> /> <label for="sce-allow-comment-length-max"><?php esc_html_e( 'Ensure an edited comment has a maximum length in characters.', 'simple-comment-editing-options' ); ?></label>
+								<br /><br />
+								<label for="sce-comment-length-max"><?php esc_html_e( 'Maximum Comment Length', 'simple-comment-editing-options' ); ?></label><br />
+								<input id="sce-comment-length-max" class="regular-text" type="number" value="<?php echo esc_attr( $options['max_comment_length'] ); ?>" name="options[max_comment_length]" />
 							</td>
 						</tr>
 						<tr>
@@ -316,8 +321,11 @@ class SCE_Admin_Menu_Output {
 				case 'min_comment_length':
 					$option = absint( $options[$key] );
 					break;
+				case 'max_comment_length':
+					$option = absint( $options[$key] );
+					break;
 				case 'require_comment_length':
-				case 'require_comment_length':
+				case 'require_comment_length_max':
 				case 'allow_delete_confirmation':
 				case 'allow_delete':
 				case 'show_timer':
@@ -383,6 +391,8 @@ class SCE_Admin_Menu_Output {
 			'comment_empty_error'       => Simple_Comment_Editing::get_instance()->errors->get_error_message( 'comment_empty' ),
 			'require_comment_length'    => false,
 			'min_comment_length'        => 50,
+			'require_comment_length_max'    => false,
+			'max_comment_length'        => 2000,
 			'allow_comment_logging'     => false,
 			'show_stop_timer'           => false,
 			'stop_timer_text'           => __( 'Cancel Timer', 'simple-comment-editing-options' ),

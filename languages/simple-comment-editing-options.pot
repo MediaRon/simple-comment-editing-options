@@ -243,26 +243,35 @@ msgstr ""
 msgid "Minimum Comment Length"
 msgstr ""
 
+#: includes/class-sce-admin-menu-output.php:281
+msgid "Ensure an edited comment has a maximum length in characters."
+msgstr ""
+
 #: includes/class-sce-admin-menu-output.php:283
+msgid "Maximum Comment Length"
+msgstr ""
+
+#: includes/class-sce-admin-menu-output.php:288
 msgid "Allow Comment Logging and Stats"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:286
+#: includes/class-sce-admin-menu-output.php:291
 msgid "Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:292
+#: includes/class-sce-admin-menu-output.php:297
 msgid "Save Options"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:378
+#: includes/class-sce-admin-menu-output.php:386
 msgid "A user has edited a comment on %s"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:388, simple-comment-editing-options.php:158
+#: includes/class-sce-admin-menu-output.php:398, simple-comment-editing-options.php:158
 msgid "Cancel Timer"
 msgstr ""
 
+<<<<<<< HEAD
 #: includes/class-sce-frontend-editing.php:43
 msgid "Click to edit"
 msgstr ""
@@ -292,43 +301,50 @@ msgid "Spam"
 msgstr ""
 
 #: includes/class-sce-output.php:142
+=======
+#: includes/class-sce-output.php:143
+>>>>>>> master
 msgid "No edits have occurred on this comment."
 msgstr ""
 
-#: includes/class-sce-output.php:168
+#: includes/class-sce-output.php:169
 msgid "Restore this comment"
 msgstr ""
 
-#: includes/class-sce-output.php:283
+#: includes/class-sce-output.php:284
 msgid "A user has deleted a comment from %s"
 msgstr ""
 
-#: includes/class-sce-output.php:293
+#: includes/class-sce-output.php:294
 msgid "A user has deleted a comment on your site."
 msgstr ""
 
-#: includes/class-sce-output.php:294, includes/class-sce-output.php:386
+#: includes/class-sce-output.php:295, includes/class-sce-output.php:387
 msgid "The original comment is:"
 msgstr ""
 
-#: includes/class-sce-output.php:299
+#: includes/class-sce-output.php:300
 msgid "To permanently delete or restore this comment, follow this link:"
 msgstr ""
 
-#: includes/class-sce-output.php:385
+#: includes/class-sce-output.php:386
 msgid "A user has edited a comment on your site."
 msgstr ""
 
-#: includes/class-sce-output.php:388
+#: includes/class-sce-output.php:389
 msgid "The edited comment is:"
 msgstr ""
 
-#: includes/class-sce-output.php:393
+#: includes/class-sce-output.php:394
 msgid "To edit or view this comment, follow this link:"
 msgstr ""
 
-#: includes/class-sce-output.php:437
+#: includes/class-sce-output.php:438
 msgid "Comment must be at least %d characters."
+msgstr ""
+
+#: includes/class-sce-output.php:468
+msgid "Comment cannot exceed %d characters."
 msgstr ""
 
 #: simple-comment-editing-options.php:83
