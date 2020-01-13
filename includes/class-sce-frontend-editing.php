@@ -33,6 +33,7 @@ class SCE_Frontend_Editing {
 				add_filter( 'comment_text', array( $this, 'add_edit_interface' ), 1000, 2 );
 				add_filter( 'thesis_comment_text', array( $this, 'add_edit_interface' ), 1000, 2 );
 				add_filter( 'sce_can_edit', '__return_false' );
+				add_filter( 'edit_comment_link', array( $this, 'modify_edit_link' ), 10, 3 );
 			}
 		}
 	}
@@ -148,5 +149,32 @@ class SCE_Frontend_Editing {
 			$content = mb_convert_encoding( $content, '' . get_option( 'blog_charset' ) . '', mb_detect_encoding( $content, 'UTF-8, ISO-8859-1, ISO-8859-15', true ) );
 		}
 		return $content;
+	}
+
+	/**
+	 * Modify the edit link HTML
+	 *
+	 * @param string $link The link HTML.
+	 * @param int    $comment_id The comment ID.
+	 * @param string $text       The edit text.
+	 *
+	 * @return string modified edit link.
+	 */
+	public function modify_edit_link( $link, $comment_id, $text ) {
+		$nonce = wp_create_nonce( 'edit-comment-' . $comment_id );
+		$url   = add_query_arg(
+			array(
+				'action' => 'sce_options_get_frontend_comment',
+				'nonce'  => $nonce,
+				'cid'    => $comment_id,
+			),
+			admin_url( 'admin-ajax.php' )
+		);
+		$html  = sprintf(
+			'<a data-fancybox data-type="iframe" data-src="%s" href="javascript:;">%s</a>',
+			esc_url( $url ),
+			__( 'Edit', 'simple-comment-editing-options' )
+		);
+		return $html;
 	}
 }
