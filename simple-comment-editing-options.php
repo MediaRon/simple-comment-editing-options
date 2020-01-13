@@ -256,6 +256,9 @@ class SCE_Options {
 		include_once $this->get_plugin_dir( '/includes/class-sce-output.php' );
 		$this->output = new SCE_Output();
 
+		include $this->get_plugin_dir( '/includes/class-sce-frontend-editing.php' );
+		$this->output = new SCE_Frontend_Editing();
+
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 
 		include_once self::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
@@ -309,7 +312,7 @@ class SCE_Options {
 	 *
 	 * Sets up Ajax calls.
 	 *
-	 * @since 1.0.7
+	 * @since 1.1.0
 	 * @access public
 	 */
 	public function setup_ajax_calls() {
