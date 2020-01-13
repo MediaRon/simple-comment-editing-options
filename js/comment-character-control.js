@@ -1,8 +1,7 @@
 jQuery( document ).ready( function( $ ) {
 	var textarea = $( '#respond textarea' );
 	var submit_button = $('#respond input[type=submit]').prop( 'disabled', 'disabled' );
-	var html = '<strong>Character Limit</strong>';
-	html += '<progress max="2000" value="0" aria-hidden="true" class="sce-ccc-status" style="display: block; width: 100%;"></progress>';
+	html = '<progress max="2000" value="0" aria-hidden="true" class="sce-ccc-status" style="display: block; width: 100%;"></progress>';
 	$(textarea).after(html);
 	sce_progress_bar(textarea);
 	$('textarea').keyup(function () {

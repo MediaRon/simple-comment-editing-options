@@ -1,10 +1,9 @@
 progress[value].sce-ccc-status {
 	/* Reset the default appearance */
 	-webkit-appearance: none;
-	 appearance: none;
-  
+	appearance: none;
 	height: 10px;
-  }
+}
 progress[value].sce-ccc-status::-webkit-progress-bar {
 	background-color: #eee;
 	border-radius: 10px;
