@@ -172,19 +172,22 @@ class SCE_Options {
 		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
 		$sce_options = new SCE_Plugin_Options();
 		$options = $sce_options->get_options();
-
-		wp_enqueue_style( 'sce-cct', plugins_url( '/css/sce-ccc-progress-bar.css', __FILE__ ), array(), SCE_OPTIONS_VERSION, 'all' );
-		wp_enqueue_script( 'sce-cct', plugins_url( '/js/comment-character-control.js', __FILE__ ), array(), SCE_OPTIONS_VERSION, true );
-		wp_localize_script(
-			'sce-ccc',
-			'sce_ccc',
-			array(
-				'min_length' => $options['min_comment_length'],
-				'max_length' => $options['max_comment_length'],
-				'min_option' => $options['require_comment_length'],
-				'max_option' => $options['require_comment_length_max'],
-			)
-		);
+		$min_comment_option = filter_var( $options['require_comment_length'], FILTER_VALIDATE_BOOLEAN );
+		$max_comment_option = filter_var( $options['require_comment_length_max'], FILTER_VALIDATE_BOOLEAN );
+		if ( $min_comment_option && $max_comment_option ) {
+			wp_enqueue_style( 'sce-ccc', plugins_url( '/css/sce-ccc-progress-bar.css', __FILE__ ), array(), SCE_OPTIONS_VERSION, 'all' );
+			wp_enqueue_script( 'sce-ccc', plugins_url( '/js/comment-character-control.js', __FILE__ ), array(), SCE_OPTIONS_VERSION, true );
+			wp_localize_script(
+				'sce-ccc',
+				'sce_ccc',
+				array(
+					'min_length' => $options['min_comment_length'],
+					'max_length' => $options['max_comment_length'],
+					'min_option' => $options['require_comment_length'],
+					'max_option' => $options['require_comment_length_max'],
+				)
+			);
+		}
 	}
 
 	/**

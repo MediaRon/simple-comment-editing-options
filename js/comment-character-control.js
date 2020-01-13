@@ -10,8 +10,8 @@ jQuery( document ).ready( function( $ ) {
 		sce_progress_bar( this );
 	});
 	function sce_progress_bar( textarea ) {
-		var max = 2000;
-		var min = 100;
+		var max = sce_ccc.max_length;
+		var min = sce_ccc.min_length;
 		var len = $(textarea).val().length;
 		var width = len / max * 100;
 		$('.sce-ccc-meter span').css('width', width + '%' );
