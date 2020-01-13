@@ -1,8 +1,8 @@
 === Simple Comment Editing Options ===
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
-Tested up to: 5.2
-Stable tag: 1.1.0
+Tested up to: 5.3
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -30,6 +30,10 @@ Simple Comment Editing Options features:
 
 
 == Changelog ==
+
+= 1.2.0 =
+* Released 2020-01-13
+* Add comment character control.
 
 = 1.1.0 =
 * Released 2019-09-27
@@ -71,6 +75,9 @@ Simple Comment Editing Options features:
 
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Add comment character control.
 
 = 1.1.0 =
 Added maximum content length.
