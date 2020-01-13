@@ -1,9 +1,20 @@
 <?php
-if (!defined('ABSPATH')) die('No direct access.');
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No direct access.' );
+}
 class SCE_Admin_Menu_Output {
 
+	public static function get_instance() {
+		if ( null == self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	} //end get_instance
+
 	public function __construct() {
-		$this->output_options();
+		if ( is_admin() ) {
+			$this->output_options();
+		}
 	}
 
 	/**
@@ -18,19 +29,28 @@ class SCE_Admin_Menu_Output {
 		$license_message = '';
 		if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
 			check_admin_referer( 'save_sce_options' );
-			$this->update_options( $_POST['options'] );
+			include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+			$sce_options = new SCE_Plugin_Options();
+			$sce_options->update_options( $_POST['options'] );
 			printf( '<div class="updated"><p><strong>%s</strong></p></div>', __( 'Your options have been saved.', 'simple-comment-editing-options' ) );
 
 			// Check for valid license
-			$store_url = 'https://mediaron.com';
+			$store_url  = 'https://mediaron.com';
 			$api_params = array(
 				'edd_action' => 'activate_license',
 				'license'    => $_POST['options']['license'],
 				'item_name'  => urlencode( 'Simple Comment Editing Options' ),
-				'url'        => home_url()
+				'url'        => home_url(),
 			);
 			// Call the custom API.
-			$response = wp_remote_post( $store_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+			$response = wp_remote_post(
+				$store_url,
+				array(
+					'timeout'   => 15,
+					'sslverify' => false,
+					'body'      => $api_params,
+				)
+			);
 
 			// make sure the response came back okay
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -40,52 +60,44 @@ class SCE_Admin_Menu_Output {
 				} else {
 					$license_message = __( 'An error occurred, please try again.', 'simple-comment-editing-options' );
 				}
-
 			} else {
 
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 				if ( false === $license_data->success ) {
 					delete_site_option( 'sce_license_status' );
-					switch( $license_data->error ) {
+					switch ( $license_data->error ) {
 
-						case 'expired' :
-
+						case 'expired':
 							$license_message = sprintf(
 								__( 'Your license key expired on %s.', 'simple-comment-editing-options' ),
 								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 							);
 							break;
 
-						case 'disabled' :
-						case 'revoked' :
-
+						case 'disabled':
+						case 'revoked':
 							$license_message = __( 'Your license key has been disabled.', 'simple-comment-editing-options' );
 							break;
 
-						case 'missing' :
-
+						case 'missing':
 							$license_message = __( 'Invalid license.', 'simple-comment-editing-options' );
 							break;
 
-						case 'invalid' :
-						case 'site_inactive' :
-
+						case 'invalid':
+						case 'site_inactive':
 							$license_message = __( 'Your license is not active for this URL.', 'simple-comment-editing-options' );
 							break;
 
-						case 'item_name_mismatch' :
-
+						case 'item_name_mismatch':
 							$license_message = sprintf( __( 'This appears to be an invalid license key for %s.', 'simple-comment-editing-options' ), 'Simple Comment Editing Options' );
 							break;
 
 						case 'no_activations_left':
-
 							$license_message = __( 'Your license key has reached its activation limit.', 'simple-comment-editing-options' );
 							break;
 
-						default :
-
+						default:
 							$license_message = __( 'An error occurred, please try again.', 'simple-comment-editing-options' );
 							break;
 					}
@@ -95,27 +107,22 @@ class SCE_Admin_Menu_Output {
 				}
 			}
 		}
-		// Get options and defaults
-		$options = get_site_option( 'sce_options', false );
-		if ( false === $options ) {
-			$options = $this->get_defaults();
-		} elseif( is_array( $options ) ) {
-			$options = wp_parse_args( $options, $this->get_defaults() );
-		} else {
-			$options = $this->get_defaults();
-		}
+		// Get options and defaults.
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options = $sce_options->get_options();
 		?>
 		<div class="wrap">
 			<form action="" method="POST">
-				<?php wp_nonce_field('save_sce_options'); ?>
+				<?php wp_nonce_field( 'save_sce_options' ); ?>
 				<h2><?php esc_html_e( 'Simple Comment Editing', 'simple-comment-editing-options' ); ?></h2>
 				<p><?php esc_html_e( 'Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction.', 'simple-comment-editing-options' ); ?></p>
 				<?php
 				$version = get_site_option( 'sce_table_version', '0' );
-				if( $version === SCE_OPTIONS_TABLE_VERSION && true === $options['allow_comment_logging'] ) {
+				if ( $version === SCE_OPTIONS_TABLE_VERSION && true === $options['allow_comment_logging'] ) {
 					global $wpdb;
 					$tablename = $wpdb->base_prefix . 'sce_comments';
-					$blog_id = get_current_blog_id();
+					$blog_id   = get_current_blog_id();
 
 					$edit_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $tablename WHERE blog_id = %d", $blog_id ) );
 					?>
@@ -131,14 +138,14 @@ class SCE_Admin_Menu_Output {
 								<input id="sce-license" class="regular-text" type="text" value="<?php echo esc_attr( $options['license'] ); ?>" name="options[license]" /><br />
 								<?php
 								$license_status = get_site_option( 'sce_license_status', false );
-								if( false === $license_status ) {
-									printf('<p>%s</p>', esc_html__( 'Please enter your licence key.', 'simple-comment-editing-options' ) );
+								if ( false === $license_status ) {
+									printf( '<p>%s</p>', esc_html__( 'Please enter your licence key.', 'simple-comment-editing-options' ) );
 								} else {
-									printf('<p>%s</p>', esc_html__( 'Your license is valid and you will now receive update notifications.', 'simple-comment-editing-options' ) );
+									printf( '<p>%s</p>', esc_html__( 'Your license is valid and you will now receive update notifications.', 'simple-comment-editing-options' ) );
 								}
 								?>
 								<?php
-								if( ! empty( $license_message ) ) {
+								if ( ! empty( $license_message ) ) {
 									printf( '<div class="updated error"><p><strong>%s</p></strong></div>', esc_html( $license_message ) );
 								}
 								?>
@@ -175,8 +182,8 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><label for="sce-timer-appearance"><?php esc_html_e( 'Timer Appearance', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<select name="options[timer_appearance]">
-									<option value="words" <?php selected( 'words', $options['timer_appearance'] );?>><?php esc_html_e( 'Words', 'simple-comment-editing-options' ); ?></option>
-									<option value="compact" <?php selected( 'compact', $options['timer_appearance'] );?>><?php esc_html_e( 'Compact', 'simple-comment-editing-options' ); ?></option>
+									<option value="words" <?php selected( 'words', $options['timer_appearance'] ); ?>><?php esc_html_e( 'Words', 'simple-comment-editing-options' ); ?></option>
+									<option value="compact" <?php selected( 'compact', $options['timer_appearance'] ); ?>><?php esc_html_e( 'Compact', 'simple-comment-editing-options' ); ?></option>
 								</select>
 							</td>
 						</tr>
@@ -198,10 +205,10 @@ class SCE_Admin_Menu_Output {
 							<th scope="row"><label for="sce-button-theme"><?php esc_html_e( 'Button Theme', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<select name="options[button_theme]">
-									<option value="default" <?php selected( 'default', $options['button_theme'] );?>><?php esc_html_e( 'None', 'simple-comment-editing-options' ); ?></option>
-									<option value="regular" <?php selected( 'regular', $options['button_theme'] );?>><?php esc_html_e( 'Regular', 'simple-comment-editing-options' ); ?></option>
-									<option value="dark" <?php selected( 'dark', $options['button_theme'] );?> ><?php esc_html_e( 'Dark', 'simple-comment-editing-options' ); ?></option>
-									<option value="light" <?php selected( 'light', $options['button_theme'] );?>><?php esc_html_e( 'Light', 'simple-comment-editing-options' ); ?></option>
+									<option value="default" <?php selected( 'default', $options['button_theme'] ); ?>><?php esc_html_e( 'None', 'simple-comment-editing-options' ); ?></option>
+									<option value="regular" <?php selected( 'regular', $options['button_theme'] ); ?>><?php esc_html_e( 'Regular', 'simple-comment-editing-options' ); ?></option>
+									<option value="dark" <?php selected( 'dark', $options['button_theme'] ); ?> ><?php esc_html_e( 'Dark', 'simple-comment-editing-options' ); ?></option>
+									<option value="light" <?php selected( 'light', $options['button_theme'] ); ?>><?php esc_html_e( 'Light', 'simple-comment-editing-options' ); ?></option>
 								</select>
 								<br /><br />
 								<input type="hidden" value="false" name="options[show_icons]" />
@@ -272,7 +279,11 @@ class SCE_Admin_Menu_Output {
 						<tr>
 							<th scope="row"><?php esc_html_e( 'Comment Length', 'simple-comment-editing-options' ); ?></th>
 							<td>
-							<input type="hidden" value="false" name="options[require_comment_length]" />
+								<p><?php esc_html_e( 'Allow front-end comment character control', 'simple-comment-editing-options' ); ?></p>
+								<br />
+								<input type="radio" value="false" name="options[allow_front_end_character_limit]" id="disable-ccc" <?php checked( false, $options['allow_front_end_character_limit'] ); ?> /> <label for="disable-ccc"><?php esc_html_e( 'Disable Comment Character Control', 'simple-comment-editing-options' ); ?></label><br />
+								<input type="radio" value="true" name="options[allow_front_end_character_limit]" id="enable-ccc" <?php checked( true, $options['allow_front_end_character_limit'] ); ?> /> <label for="enable-ccc"><?php esc_html_e( 'Enable Comment Character Control', 'simple-comment-editing-options' ); ?></label><br /><br /><br />
+								<input type="hidden" value="false" name="options[require_comment_length]" />
 								<input id="sce-allow-comment-length" type="checkbox" value="true" name="options[require_comment_length]" <?php checked( true, $options['require_comment_length'] ); ?> /> <label for="sce-allow-comment-length"><?php esc_html_e( 'Ensure an edited comment has a minimum length in characters.', 'simple-comment-editing-options' ); ?></label>
 								<br /><br />
 								<label for="sce-comment-length"><?php esc_html_e( 'Minimum Comment Length', 'simple-comment-editing-options' ); ?></label><br />
@@ -298,109 +309,6 @@ class SCE_Admin_Menu_Output {
 			</form>
 		</div>
 		<?php
-	}
-
-	/**
-	 * Update options via sanitization
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 * @param array $options array of options to save
-	 * @return void
-	 */
-	private function update_options( $options ) {
-		foreach( $options as $key => &$option ) {
-			switch( $key ) {
-				case 'timer':
-					$timer = absint( $options[$key] );
-					if( 0 === $timer ) {
-						$timer = 5;
-					}
-					$option = $timer;
-					break;
-				case 'min_comment_length':
-					$option = absint( $options[$key] );
-					break;
-				case 'max_comment_length':
-					$option = absint( $options[$key] );
-					break;
-				case 'require_comment_length':
-				case 'require_comment_length_max':
-				case 'allow_delete_confirmation':
-				case 'allow_delete':
-				case 'show_timer':
-				case 'allow_edit_notification':
-				case 'show_icons':
-				case 'show_stop_timer':
-				case 'allow_unlimited_editing':
-					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
-					break;
-				case 'allow_comment_logging':
-					$option = filter_var( $options[$key], FILTER_VALIDATE_BOOLEAN );
-					if ( true === $option ) {
-						require_once SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-table-create.php' );
-						$table_create = new SCE_Table_Create();
-						$table_create->create_table();
-					} else {
-						require_once SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-table-create.php' );
-						$table_create = new SCE_Table_Create();
-						$table_create->drop();
-					}
-					break;
-				default:
-					$option = sanitize_text_field( $options[$key] );
-					break;
-			}
-		}
-		update_site_option( 'sce_options', $options );
-	}
-
-	/**
-	 * Get defaults for SCE options
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @return array default options
-	 */
-	private function get_defaults() {
-		$defaults = array(
-			'timer'                     => 5,
-			'show_timer'                => true,
-			'loading_image'             => Simple_Comment_Editing::get_instance()->get_plugin_url( '/images/loading.gif' ),
-			'allow_delete'              => true,
-			'button_theme'              => 'default',
-			'show_icons'                => false,
-			'click_to_edit_text'       => __( 'Click to Edit', 'simple-comment-editing' ),
-			'show_timer'                => true,
-			'save_text'                 => __( 'Save', 'simple-comment-editing' ),
-			'cancel_text'               => __( 'Cancel', 'simple-comment-editing' ),
-			'delete_text'               => __( 'Delete', 'simple-comment-editing' ),
-			'custom_class'              => '',
-			'allow_delete_confirmation' => true,
-			'allow_edit_notification'   => false,
-			'edit_notification_to'      => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
-				'admin_email' ),
-			'edit_notification_from'    => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
-				'admin_email' ),
-			'edit_notification_subject' => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), is_multisite() ? get_site_option('site_name') : get_option( 'blogname' ) ),
-			'edit_text'                 => __( 'Click to Edit', 'simple-comment-editing' ),
-			'confirm_delete'            => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
-			'comment_deleted'           => __( 'Your comment has been removed.', 'simple-comment-editing' ),
-			'comment_deleted_error'     => __( 'Your comment could not be deleted', 'simple-comment-editing' ),
-			'comment_empty_error'       => Simple_Comment_Editing::get_instance()->errors->get_error_message( 'comment_empty' ),
-			'require_comment_length'    => false,
-			'min_comment_length'        => 50,
-			'require_comment_length_max'    => false,
-			'max_comment_length'        => 2000,
-			'allow_comment_logging'     => false,
-			'show_stop_timer'           => false,
-			'stop_timer_text'           => __( 'Cancel Timer', 'simple-comment-editing-options' ),
-			'timer_appearance'          => 'words',
-			'license'                   => '',
-			'allow_unlimited_editing'   => false,
-		);
-		return $defaults;
 	}
 
 }

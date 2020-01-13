@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Simple Comment Editing Options
+# Copyright (C) 2020 Simple Comment Editing Options
 # This file is distributed under the same license as the Simple Comment Editing Options package.
 msgid ""
 msgstr ""
@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ronald Huerca <ronald@mediaron.com>\n"
 "Language-Team: Ronald Huereca <ronald@mediaron.com\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,257 +17,269 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/class-sce-admin-menu-output.php:22
+#: includes/class-sce-admin-menu-output.php:35
 msgid "Your options have been saved."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:41, includes/class-sce-admin-menu-output.php:89
+#: includes/class-sce-admin-menu-output.php:61, includes/class-sce-admin-menu-output.php:101
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:55
+#: includes/class-sce-admin-menu-output.php:73
 msgid "Your license key expired on %s."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:63
+#: includes/class-sce-admin-menu-output.php:80
 msgid "Your license key has been disabled."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:68
+#: includes/class-sce-admin-menu-output.php:84
 msgid "Invalid license."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:74
+#: includes/class-sce-admin-menu-output.php:89
 msgid "Your license is not active for this URL."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:79
+#: includes/class-sce-admin-menu-output.php:93
 msgid "This appears to be an invalid license key for %s."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:84
+#: includes/class-sce-admin-menu-output.php:97
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:111, includes/class-sce-admin.php:58, includes/class-sce-admin.php:58, includes/class-sce-admin.php:62, includes/class-sce-admin.php:62
+#: includes/class-sce-admin-menu-output.php:118, includes/class-sce-admin.php:58, includes/class-sce-admin.php:58, includes/class-sce-admin.php:62, includes/class-sce-admin.php:62
 msgid "Simple Comment Editing"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:112
+#: includes/class-sce-admin-menu-output.php:119
 msgid "Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:122
+#: includes/class-sce-admin-menu-output.php:129
 msgid "Your users have edited their comments"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:122
+#: includes/class-sce-admin-menu-output.php:129
 msgid "time"
 msgid_plural "times"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-sce-admin-menu-output.php:129
+#: includes/class-sce-admin-menu-output.php:136
 msgid "Enter Your License"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:135
+#: includes/class-sce-admin-menu-output.php:142
 msgid "Please enter your licence key."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:137
+#: includes/class-sce-admin-menu-output.php:144
 msgid "Your license is valid and you will now receive update notifications."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:148
+#: includes/class-sce-admin-menu-output.php:155
 msgid "Edit Timer in Minutes"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:154
+#: includes/class-sce-admin-menu-output.php:161
 msgid "Unlimited Timer"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:157
+#: includes/class-sce-admin-menu-output.php:164
 msgid "Allow unlimited editing for logged in users."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:161
+#: includes/class-sce-admin-menu-output.php:168
 msgid "Show Timer"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:164
+#: includes/class-sce-admin-menu-output.php:171
 msgid "Show timer (We recommend hiding the timer if you have a high timer)."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:168
+#: includes/class-sce-admin-menu-output.php:175
 msgid "Allow Timer To Be Canceled"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:171
+#: includes/class-sce-admin-menu-output.php:178
 msgid "Allow timer to be stopped."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:175
+#: includes/class-sce-admin-menu-output.php:182
 msgid "Timer Appearance"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:178
+#: includes/class-sce-admin-menu-output.php:185
 msgid "Words"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:179
+#: includes/class-sce-admin-menu-output.php:186
 msgid "Compact"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:184
+#: includes/class-sce-admin-menu-output.php:191
 msgid "Allow Comment Deletion"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:187
+#: includes/class-sce-admin-menu-output.php:194
 msgid "Allow users to delete their comments."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:191
+#: includes/class-sce-admin-menu-output.php:198
 msgid "Allow Comment Deletion Confirmation"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:194
+#: includes/class-sce-admin-menu-output.php:201
 msgid "Allow the modal warning for comment deletion."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:198
+#: includes/class-sce-admin-menu-output.php:205
 msgid "Button Theme"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:201
+#: includes/class-sce-admin-menu-output.php:208
 msgid "None"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:202
+#: includes/class-sce-admin-menu-output.php:209
 msgid "Regular"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:203
+#: includes/class-sce-admin-menu-output.php:210
 msgid "Dark"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:204
+#: includes/class-sce-admin-menu-output.php:211
 msgid "Light"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:208
+#: includes/class-sce-admin-menu-output.php:215
 msgid "Allow icons for the buttons. Recommended if you have selected a button theme."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:212
+#: includes/class-sce-admin-menu-output.php:219
 msgid "Button Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:214
+#: includes/class-sce-admin-menu-output.php:221
 msgid "Save Button Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:217
+#: includes/class-sce-admin-menu-output.php:224
 msgid "Cancel Button Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:220
+#: includes/class-sce-admin-menu-output.php:227
 msgid "Delete Button Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:223
+#: includes/class-sce-admin-menu-output.php:230
 msgid "Stop Timer Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:228, includes/class-sce-admin-menu-output.php:230
+#: includes/class-sce-admin-menu-output.php:235, includes/class-sce-admin-menu-output.php:237
 msgid "Loading Image"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:236
+#: includes/class-sce-admin-menu-output.php:243
 msgid "Messages"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:238
+#: includes/class-sce-admin-menu-output.php:245
 msgid "Edit Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:241
+#: includes/class-sce-admin-menu-output.php:248
 msgid "Comment Deletion Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:244
+#: includes/class-sce-admin-menu-output.php:251
 msgid "Comment Deleted Text"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:247
+#: includes/class-sce-admin-menu-output.php:254
 msgid "Comment Deleted Error"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:250
+#: includes/class-sce-admin-menu-output.php:257
 msgid "Comment Empty Error"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:255
+#: includes/class-sce-admin-menu-output.php:262
 msgid "Email Notifications"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:257
+#: includes/class-sce-admin-menu-output.php:264
 msgid "Receive an email notification each time a user edits or deletes their comment."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:260
+#: includes/class-sce-admin-menu-output.php:267
 msgid "Allow email notifications."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:262
+#: includes/class-sce-admin-menu-output.php:269
 msgid "To Email Address"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:265
+#: includes/class-sce-admin-menu-output.php:272
 msgid "From Email Address"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:268
+#: includes/class-sce-admin-menu-output.php:275
 msgid "Email Subject"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:273
+#: includes/class-sce-admin-menu-output.php:280
 msgid "Comment Length"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:276
+#: includes/class-sce-admin-menu-output.php:282
+msgid "Allow front-end comment character control"
+msgstr ""
+
+#: includes/class-sce-admin-menu-output.php:284
+msgid "Disable Comment Character Control"
+msgstr ""
+
+#: includes/class-sce-admin-menu-output.php:285
+msgid "Enable Comment Character Control"
+msgstr ""
+
+#: includes/class-sce-admin-menu-output.php:287
 msgid "Ensure an edited comment has a minimum length in characters."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:278
+#: includes/class-sce-admin-menu-output.php:289
 msgid "Minimum Comment Length"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:281
+#: includes/class-sce-admin-menu-output.php:292
 msgid "Ensure an edited comment has a maximum length in characters."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:283
+#: includes/class-sce-admin-menu-output.php:294
 msgid "Maximum Comment Length"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:288
+#: includes/class-sce-admin-menu-output.php:299
 msgid "Allow Comment Logging and Stats"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:291
+#: includes/class-sce-admin-menu-output.php:302
 msgid "Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area."
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:297
+#: includes/class-sce-admin-menu-output.php:308
 msgid "Save Options"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:386
+#: includes/class-sce-options.php:119
 msgid "A user has edited a comment on %s"
 msgstr ""
 
-#: includes/class-sce-admin-menu-output.php:398, simple-comment-editing-options.php:158
+#: includes/class-sce-options.php:131, simple-comment-editing-options.php:158
 msgid "Cancel Timer"
 msgstr ""
 

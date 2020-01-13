@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -12,7 +12,7 @@ Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
 if (!defined('ABSPATH')) die('No direct access.');
-define( 'SCE_OPTIONS_VERSION', '1.1.0' );
+define( 'SCE_OPTIONS_VERSION', '1.2.0' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename(__FILE__) );
 
@@ -165,6 +165,31 @@ class SCE_Options {
 		) );
 	}
 
+	public function add_scripts_ccc() {
+		if ( ! is_singular() || ! comments_open() ) {
+			return;
+		}
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options = $sce_options->get_options();
+		$min_comment_option = filter_var( $options['require_comment_length'], FILTER_VALIDATE_BOOLEAN );
+		$max_comment_option = filter_var( $options['require_comment_length_max'], FILTER_VALIDATE_BOOLEAN );
+		if ( $min_comment_option && $max_comment_option ) {
+			wp_enqueue_style( 'sce-ccc', plugins_url( '/css/sce-ccc-progress-bar.css', __FILE__ ), array(), SCE_OPTIONS_VERSION, 'all' );
+			wp_enqueue_script( 'sce-ccc', plugins_url( '/js/comment-character-control.js', __FILE__ ), array(), SCE_OPTIONS_VERSION, true );
+			wp_localize_script(
+				'sce-ccc',
+				'sce_ccc',
+				array(
+					'min_length' => $options['min_comment_length'],
+					'max_length' => $options['max_comment_length'],
+					'min_option' => $options['require_comment_length'],
+					'max_option' => $options['require_comment_length_max'],
+				)
+			);
+		}
+	}
+
 	/**
 	 * Checks for Simple Comment Editing.
 	 *
@@ -205,13 +230,21 @@ class SCE_Options {
 			include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
 			$this->admin = new SCE_Admin();
 		}
-		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
+		include_once $this->get_plugin_dir( '/includes/class-sce-output.php' );
 		$this->output = new SCE_Output();
 
 		include $this->get_plugin_dir( '/includes/class-sce-frontend-editing.php' );
 		$this->output = new SCE_Frontend_Editing();
 
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
+
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options = $sce_options->get_options();
+
+		if ( isset( $options['allow_front_end_character_limit'] ) && true === filter_var( $options['allow_front_end_character_limit'], FILTER_VALIDATE_BOOLEAN ) ) {
+			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts_ccc' ) );
+		}
 
 		add_action( 'init', array( $this, 'setup_ajax_calls' ) );
 
