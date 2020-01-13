@@ -165,6 +165,28 @@ class SCE_Options {
 		) );
 	}
 
+	public function add_scripts_ccc() {
+		if ( ! is_singular() || ! comments_open() ) {
+			return;
+		}
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options = $sce_options->get_options();
+
+		wp_enqueue_style( 'sce-cct', plugins_url( '/css/sce-ccc-progress-bar.css', __FILE__ ), array(), SCE_OPTIONS_VERSION, 'all' );
+		wp_enqueue_script( 'sce-cct', plugins_url( '/js/comment-character-control.js', __FILE__ ), array(), SCE_OPTIONS_VERSION, true );
+		wp_localize_script(
+			'sce-ccc',
+			'sce_ccc',
+			array(
+				'min_length' => $options['min_comment_length'],
+				'max_length' => $options['max_comment_length'],
+				'min_option' => $options['require_comment_length'],
+				'max_option' => $options['require_comment_length_max'],
+			)
+		);
+	}
+
 	/**
 	 * Checks for Simple Comment Editing.
 	 *
@@ -205,10 +227,18 @@ class SCE_Options {
 			include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
 			$this->admin = new SCE_Admin();
 		}
-		include $this->get_plugin_dir( '/includes/class-sce-output.php' );
+		include_once $this->get_plugin_dir( '/includes/class-sce-output.php' );
 		$this->output = new SCE_Output();
 
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
+
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options = $sce_options->get_options();
+
+		if ( isset( $options['allow_front_end_character_limit'] ) && true === filter_var( $options['allow_front_end_character_limit'], FILTER_VALIDATE_BOOLEAN ) ) {
+			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts_ccc' ) );
+		}
 
 		add_action( 'init', array( $this, 'setup_ajax_calls' ) );
 

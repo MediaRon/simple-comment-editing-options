@@ -1,0 +1,21 @@
+progress[value].sce-ccc-status {
+	/* Reset the default appearance */
+	-webkit-appearance: none;
+	 appearance: none;
+  
+	height: 10px;
+  }
+progress[value].sce-ccc-status::-webkit-progress-bar {
+	background-color: #eee;
+	border-radius: 10px;
+}
+progress[value].sce-ccc-invalid::-webkit-progress-value {
+	background-color: red;
+	border-radius: 10px; 
+	background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+progress[value].sce-ccc-valid::-webkit-progress-value {
+	background-color: green;
+	border-radius: 10px; 
+	background-size: 35px 20px, 100% 100%, 100% 100%;
+}
