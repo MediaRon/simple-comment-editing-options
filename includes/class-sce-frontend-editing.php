@@ -35,8 +35,73 @@ class SCE_Frontend_Editing {
 				add_filter( 'sce_can_edit', '__return_false' );
 				add_filter( 'edit_comment_link', array( $this, 'modify_edit_link' ), 10, 3 );
 				add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts_and_styles' ) );
+				add_action( 'wp_ajax_sce_options_get_frontend_comment', array( $this, 'ajax_fancybox_interface' ) );
+				add_action( 'wp_ajax_sce_frontend_save_comment', array( $this, 'ajax_save_frontend_comment' ) );
+				add_action( 'wp_ajax_sce_frontend_delete_comment', array( $this, 'ajax_delete_frontend_comment' ) );
 			}
 		}
+	}
+
+	/**
+	 * Get the HTML for FancyBox Edit via Ajax
+	 */
+	public function ajax_fancybox_interface() {
+		$nonce = sanitize_text_field( $_GET['nonce'] ); // phpcs:ignore
+		$comment_id = absint( $_GET['cid'] ); // phpcs:ignore
+		if ( ! current_user_can( 'moderate_comments' ) ) {
+			wp_die( 'The user must be able to edit comments.' );
+		}
+		if ( ! wp_verify_nonce( $nonce, 'edit-comment-' . $comment_id ) ) {
+			wp_die( 'Could not validate nonce.' );
+		}
+		include_once SCE_Options::get_instance()->get_plugin_dir( '/templates/front-end-editing.php' );
+		die( '' );
+	}
+
+	/**
+	 * Save a comment via Ajax.
+	 */
+	public function ajax_save_frontend_comment() {
+		$nonce = sanitize_text_field( $_POST['nonce'] ); // phpcs:ignore
+		$comment_id = absint( $_POST['comment_id'] ); // phpcs:ignore
+		if ( ! current_user_can( 'moderate_comments' ) ) {
+			die( 'The user must be able to edit comments.' );
+		}
+		if ( ! wp_verify_nonce( $nonce, 'sce-modify-comment-' . $comment_id ) ) {
+			die( 'Could not validate nonce.' );
+		}
+		$comment = $this->format_comment_text( wp_kses_post( $_POST['content'] ) ); // phpcs:ignore
+		$author  = $this->format_comment_text( sanitize_text_field( $_POST['name'] ) ); // phpcs:ignore
+		$url     = sanitize_text_field( $_POST['url'] ); // phpcs:ignore
+		$email   = sanitize_text_field( $_POST['email'] ); // phpcs:ignore
+		$status  = sanitize_text_field( $_POST['status'] ); // phpcs:ignore
+
+		$sce_comment                         = get_comment( $comment_id, ARRAY_A );
+		$sce_comment['comment_content']      = $comment;
+		$sce_comment['comment_author']       = $author;
+		$sce_comment['comment_author_email'] = $email;
+		$sce_comment['comment_author_url']   = $url;
+		$sce_comment['comment_approved']     = $status;
+
+		wp_update_comment( $sce_comment );
+		die( '' );
+	}
+
+	/**
+	 * Save a comment via Ajax.
+	 */
+	public function ajax_delete_frontend_comment() {
+		$nonce = sanitize_text_field( $_POST['nonce'] ); // phpcs:ignore
+		$comment_id = absint( $_POST['comment_id'] ); // phpcs:ignore
+		if ( ! current_user_can( 'moderate_comments' ) ) {
+			die( 'The user must be able to edit comments.' );
+		}
+		if ( ! wp_verify_nonce( $nonce, 'sce-modify-comment-' . $comment_id ) ) {
+			die( 'Could not validate nonce.' );
+		}
+
+		wp_delete_comment( $comment_id );
+		die( '' );
 	}
 
 	/**

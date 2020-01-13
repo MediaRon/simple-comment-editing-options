@@ -79,10 +79,13 @@ jQuery( document ).ready( function( $ ) {
 
 	};
 	$( '.sce-edit-button' ).simplecommenteditingoptions();
-	$('body').on( 'click', '.comment-edit-link', function( e ) {
-		e.preventDefault();
-		alert( 'test' );
-	} );
+	jQuery('[data-fancybox]').fancybox({
+		toolbar  : true,
+		smallBtn : true,
+		iframe : {
+			preload : false
+		}
+	})
 } );
 function sce_get_comment(e) {
 	e.preventDefault();
