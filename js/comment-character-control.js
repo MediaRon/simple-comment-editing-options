@@ -1,7 +1,9 @@
 jQuery( document ).ready( function( $ ) {
 	var textarea = $( '#respond textarea' );
 	var submit_button = $('#respond input[type=submit]').prop( 'disabled', 'disabled' );
-	html = '<progress max="2000" value="0" aria-hidden="true" class="sce-ccc-status" style="display: block; width: 100%;"></progress>';
+	var html = '<div class="sce-ccc-meter">';
+	html += '<span></span>';
+	html += '</div>';
 	$(textarea).after(html);
 	sce_progress_bar(textarea);
 	$('textarea').keyup(function () {
@@ -11,13 +13,14 @@ jQuery( document ).ready( function( $ ) {
 		var max = 2000;
 		var min = 100;
 		var len = $(textarea).val().length;
-		$('.sce-ccc-status').val( len );
+		var width = len / max * 100;
+		$('.sce-ccc-meter span').css('width', width + '%' );
 		if ( len > min ) {
-			$('.sce-ccc-status').removeClass('sce-ccc-invalid').addClass( 'sce-ccc-valid' );
+			$('.sce-ccc-meter').removeClass('sce-ccc-invalid').addClass( 'sce-ccc-valid' );
 			$( submit_button ).removeAttr( 'disabled' );
 		}
 		if ( len > max || len < min ) {
-			$('.sce-ccc-status').removeClass('sce-ccc-valid').addClass( 'sce-ccc-invalid' );
+			$('.sce-ccc-meter').removeClass('sce-ccc-valid').addClass( 'sce-ccc-invalid' );
 			$( submit_button ).prop('disabled', 'disabled');
 		}
 	}
