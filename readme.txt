@@ -2,7 +2,7 @@
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.3
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -31,7 +31,7 @@ Simple Comment Editing Options features:
 
 == Changelog ==
 
-= 1.3.0 =
+= 1.3.1 =
 * Released 2020-01-13
 * Added front-end editing.
 
@@ -80,7 +80,7 @@ Simple Comment Editing Options features:
 
 == Upgrade Notice ==
 
-= 1.3.0 =
+= 1.3.1 =
 Released front-end editing.
 
 = 1.2.0 =

@@ -100,6 +100,8 @@ var htmlPaths = [
 var miscPaths = [
 	'**/*.txt',
 	'**/*.md',
+	'**/fancybox/*',
+	'**/bootstrap/**/*',
 	'.babelrc',
 	'!node_modules',
 	'!tests',
