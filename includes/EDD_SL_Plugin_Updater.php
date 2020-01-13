@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignorefile
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;

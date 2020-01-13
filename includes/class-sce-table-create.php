@@ -1,7 +1,22 @@
 <?php
-if (!defined('ABSPATH')) die('No direct access.');
+/**
+ * Create table for SCEOptions.
+ *
+ * @package SCEOptions
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No direct access.' );
+}
+
+/**
+ * Class for creating the options table.
+ */
 class SCE_Table_Create {
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 	}
 
@@ -17,12 +32,14 @@ class SCE_Table_Create {
 		$tablename = $wpdb->base_prefix . 'sce_comments';
 
 		$version = get_site_option( 'sce_table_version', '0' );
-		if ( version_compare( $version, SCE_OPTIONS_TABLE_VERSION ) < 0) {
+		if ( version_compare( $version, SCE_OPTIONS_TABLE_VERSION ) < 0 ) {
 			$charset_collate = '';
-			if (! empty($wpdb->charset))
+			if ( ! empty( $wpdb->charset ) ) {
 				$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-			if (! empty($wpdb->collate))
+			}
+			if ( ! empty( $wpdb->collate ) ) {
 				$charset_collate .= " COLLATE $wpdb->collate";
+			}
 
 			$sql = "CREATE TABLE {$tablename} (
 							id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -32,8 +49,8 @@ class SCE_Table_Create {
 							date DATETIME NOT NULL,
 							PRIMARY KEY  (id) 
 							) {$charset_collate};";
-			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-			dbDelta($sql);
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			dbDelta( $sql );
 
 			update_site_option( 'sce_table_version', SCE_OPTIONS_TABLE_VERSION );
 		}
@@ -49,8 +66,8 @@ class SCE_Table_Create {
 	public function drop() {
 		global $wpdb;
 		$tablename = $wpdb->base_prefix . 'sce_comments';
-		$sql = "drop table if exists $tablename";
-		$wpdb->query($sql);
-		delete_site_option('sce_table_version');
+		$sql       = "drop table if exists $tablename";
+		$wpdb->query( $sql ); // phpcs:ignore
+		delete_site_option( 'sce_table_version' );
 	}
 }

@@ -1,23 +1,43 @@
-<?php
-if (!defined('ABSPATH')) die('No direct access.');
+<?php // phpcs:ignore
+/**
+ * Register SCE Options and defaults.
+ *
+ * @package SCEOptions
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No direct access.' );
+}
+
+/**
+ * Class that updates and stores the options.
+ */
 class SCE_Plugin_Options {
 
 	/**
 	 * Holds the options variable.
 	 *
-	 * @since 5.0.0
+	 * @since 1.0.0
 	 * @static
 	 * @var string $slug
 	 */
 	private static $options = array();
 
+	/**
+	 * Retrieve an instance of the class.
+	 *
+	 * @return SCE_Plugin_Options
+	 */
 	public static function get_instance() {
-		if ( null == self::$instance ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	} //end get_instance
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 	}
 
@@ -26,7 +46,7 @@ class SCE_Plugin_Options {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @param array $options array of options to save
+	 * @param array $options array of options to save.
 	 * @return void
 	 */
 	public function update_options( $options ) {
@@ -77,6 +97,11 @@ class SCE_Plugin_Options {
 		update_site_option( 'sce_options', $options );
 	}
 
+	/**
+	 * Return a list of options.
+	 *
+	 * @return array Array of options.
+	 */
 	public function get_options() {
 		$options  = get_site_option( 'sce_options', array() );
 		$defaults = $this->get_defaults();
@@ -116,6 +141,7 @@ class SCE_Plugin_Options {
 			'edit_notification_from'          => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email'
 			),
+			/* Translators: %s is the site name a user has left a comment on */
 			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
 			'edit_text'                       => __( 'Click to Edit', 'simple-comment-editing' ),
 			'confirm_delete'                  => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
@@ -136,5 +162,5 @@ class SCE_Plugin_Options {
 		);
 		return $defaults;
 	}
-	
+
 }
