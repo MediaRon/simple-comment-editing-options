@@ -1,5 +1,17 @@
 <?php
-if (!defined('ABSPATH')) die('No direct access.');
+/**
+ * Register the admin menu and settings.
+ *
+ * @package SCEOptions
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No direct access.' );
+}
+
+/**
+ * Admin class for SCE Options.
+ */
 class SCE_Admin {
 
 	/**
@@ -20,6 +32,9 @@ class SCE_Admin {
 	 */
 	private static $url = '';
 
+	/**
+	 * Main constructor.
+	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 	}
@@ -33,14 +48,14 @@ class SCE_Admin {
 	 */
 	public function init() {
 
-		// Add settings link
+		// Add settings link.
 		$prefix = is_multisite() ? 'network_admin_' : '';
 		add_action( $prefix . 'plugin_action_links_' . SCE_OPTIONS_SLUG, array( $this, 'plugin_settings_link' ) );
-		// Init admin menu
-		if (is_multisite()) {
+		// Init admin menu.
+		if ( is_multisite() ) {
 			add_action( 'network_admin_menu', array( $this, 'register_sub_menu' ) );
 		} else {
-			add_action( 'admin_menu', array( $this, 'register_sub_menu') );
+			add_action( 'admin_menu', array( $this, 'register_sub_menu' ) );
 		}
 	}
 
@@ -53,13 +68,23 @@ class SCE_Admin {
 	 */
 	public function register_sub_menu() {
 		$hook = '';
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			$hook = add_submenu_page(
-				'settings.php', __( 'Simple Comment Editing', 'simple-comment-editing-options' ), __( 'Simple Comment Editing', 'simple-comment-editing-options' ), 'manage_network', 'sce', array( $this, 'sce_admin_page' )
+				'settings.php',
+				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
+				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
+				'manage_network',
+				'sce',
+				array( $this, 'sce_admin_page' )
 			);
 		} else {
 			$hook = add_submenu_page(
-				'options-general.php', __( 'Simple Comment Editing', 'simple-comment-editing-options' ), __( 'Simple Comment Editing', 'simple-comment-editing-options' ), 'manage_options', 'sce', array( $this, 'sce_admin_page' )
+				'options-general.php',
+				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
+				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
+				'manage_options',
+				'sce',
+				array( $this, 'sce_admin_page' )
 			);
 		}
 	}
@@ -72,7 +97,7 @@ class SCE_Admin {
 	 * @see register_sub_menu
 	 */
 	public function sce_admin_page() {
-		include SCE_Options::get_instance()->get_plugin_dir('/includes/class-sce-admin-menu-output.php');
+		include SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-admin-menu-output.php' );
 		new SCE_Admin_Menu_Output();
 	}
 
@@ -82,15 +107,15 @@ class SCE_Admin {
 	 * @since 1.0.0
 	 * @access public
 	 * @see __construct
-	 * @param array $settings Uses $prefix . "plugin_action_links_$plugin_file" action
+	 * @param array $settings Uses $prefix . "plugin_action_links_$plugin_file" action.
 	 * @return array Array of settings
 	 */
 	public function plugin_settings_link( $settings ) {
-		$admin_anchor = sprintf('<a href="%s">%s</a>', esc_url($this->get_url()), esc_html__('Settings', 'stops-core-theme-and-plugin-updates'));
-		if (! is_array( $settings  )) {
+		$admin_anchor = sprintf( '<a href="%s">%s</a>', esc_url( $this->get_url() ), esc_html__( 'Settings', 'stops-core-theme-and-plugin-updates' ) );
+		if ( ! is_array( $settings ) ) {
 			return array( $admin_anchor );
 		} else {
-			return array_merge( array( $admin_anchor ), $settings) ;
+			return array_merge( array( $admin_anchor ), $settings );
 		}
 	}
 
@@ -106,11 +131,11 @@ class SCE_Admin {
 	 */
 	public static function get_url() {
 		$url = self::$url;
-		if (empty($url)) {
-			if (is_multisite()) {
-				$url = add_query_arg(array( 'page' => self::$slug ), network_admin_url('settings.php'));
+		if ( empty( $url ) ) {
+			if ( is_multisite() ) {
+				$url = add_query_arg( array( 'page' => self::$slug ), network_admin_url( 'settings.php' ) );
 			} else {
-				$url = add_query_arg(array( 'page' => self::$slug ), admin_url('options-general.php'));
+				$url = add_query_arg( array( 'page' => self::$slug ), admin_url( 'options-general.php' ) );
 			}
 			self::$url = $url;
 		}

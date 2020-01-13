@@ -1,16 +1,33 @@
 <?php
+/**
+ * Output SCE Options.
+ *
+ * @package SCEOptions
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
+/**
+ * Main class for outputting SCE options.
+ */
 class SCE_Admin_Menu_Output {
 
+	/**
+	 * Get an instance of the class.
+	 *
+	 * @return SCE_Admin_Menu_Output
+	 */
 	public static function get_instance() {
-		if ( null == self::$instance ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	} //end get_instance
 
+	/**
+	 * Main class constructor.
+	 */
 	public function __construct() {
 		if ( is_admin() ) {
 			$this->output_options();
@@ -31,15 +48,15 @@ class SCE_Admin_Menu_Output {
 			check_admin_referer( 'save_sce_options' );
 			include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
 			$sce_options = new SCE_Plugin_Options();
-			$sce_options->update_options( $_POST['options'] );
-			printf( '<div class="updated"><p><strong>%s</strong></p></div>', __( 'Your options have been saved.', 'simple-comment-editing-options' ) );
+			$sce_options->update_options( $_POST['options'] ); // phpcs:ignore
+			printf( '<div class="updated"><p><strong>%s</strong></p></div>', esc_html__( 'Your options have been saved.', 'simple-comment-editing-options' ) );
 
-			// Check for valid license
+			// Check for valid license.
 			$store_url  = 'https://mediaron.com';
 			$api_params = array(
 				'edd_action' => 'activate_license',
-				'license'    => $_POST['options']['license'],
-				'item_name'  => urlencode( 'Simple Comment Editing Options' ),
+				'license'    => sanitize_text_field( $_POST['options']['license'] ), // phpcs:ignore
+				'item_name'  => urlencode( 'Simple Comment Editing Options' ), // phpcs:ignore
 				'url'        => home_url(),
 			);
 			// Call the custom API.
@@ -52,7 +69,7 @@ class SCE_Admin_Menu_Output {
 				)
 			);
 
-			// make sure the response came back okay
+			// make sure the response came back okay.
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 
 				if ( is_wp_error( $response ) ) {
@@ -70,8 +87,9 @@ class SCE_Admin_Menu_Output {
 
 						case 'expired':
 							$license_message = sprintf(
+								/* translators: %s is a date of license expiration */
 								__( 'Your license key expired on %s.', 'simple-comment-editing-options' ),
-								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) ) // phpcs:ignore
 							);
 							break;
 
@@ -90,6 +108,7 @@ class SCE_Admin_Menu_Output {
 							break;
 
 						case 'item_name_mismatch':
+							/* Translators: %s is the plugin name. */
 							$license_message = sprintf( __( 'This appears to be an invalid license key for %s.', 'simple-comment-editing-options' ), 'Simple Comment Editing Options' );
 							break;
 
@@ -110,7 +129,7 @@ class SCE_Admin_Menu_Output {
 		// Get options and defaults.
 		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
 		$sce_options = new SCE_Plugin_Options();
-		$options = $sce_options->get_options();
+		$options     = $sce_options->get_options();
 		?>
 		<div class="wrap">
 			<form action="" method="POST">
@@ -119,14 +138,14 @@ class SCE_Admin_Menu_Output {
 				<p><?php esc_html_e( 'Welcome to Simple Commment Editing! You can now edit the Simple Comment Editing Options to your satisfaction.', 'simple-comment-editing-options' ); ?></p>
 				<?php
 				$version = get_site_option( 'sce_table_version', '0' );
-				if ( $version === SCE_OPTIONS_TABLE_VERSION && true === $options['allow_comment_logging'] ) {
+				if ( SCE_OPTIONS_TABLE_VERSION === $version && true === $options['allow_comment_logging'] ) {
 					global $wpdb;
 					$tablename = $wpdb->base_prefix . 'sce_comments';
 					$blog_id   = get_current_blog_id();
 
-					$edit_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $tablename WHERE blog_id = %d", $blog_id ) );
+					$edit_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $tablename WHERE blog_id = %d", $blog_id ) ); // phpcs:ignore
 					?>
-					<p><?php esc_html_e( 'Your users have edited their comments', 'simple-comment-editing-options' ); ?> <?php echo number_format( $edit_count ); ?> <?php echo _n( 'time', 'times', $edit_count, 'simple-comment-editing-options' ); ?>.</p>
+					<p><?php esc_html_e( 'Your users have edited their comments', 'simple-comment-editing-options' ); ?> <?php echo number_format( $edit_count ); ?> <?php echo esc_html( _n( 'time', 'times', $edit_count, 'simple-comment-editing-options' ) ); ?>.</p>
 					<?php
 				}
 				?>

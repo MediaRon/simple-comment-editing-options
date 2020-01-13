@@ -1,5 +1,17 @@
 <?php
-if (!defined('ABSPATH')) die('No direct access.');
+/**
+ * Register SCE Options and defaults.
+ *
+ * @package SCEOptions
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No direct access.' );
+}
+
+/**
+ * Output SCE's interface and hooks.
+ */
 class SCE_Output {
 
 	/**
@@ -11,12 +23,15 @@ class SCE_Output {
 	 */
 	public $options = array();
 
+	/**
+	 * Main class constructor.
+	 */
 	public function __construct() {
 
-		// Get SCE options
-		$options = get_site_option( 'sce_options', false );
-		if( false === $options ) return;
-		if( is_array( $options ) ) {
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options     = $sce_options->get_options();
+		if ( is_array( $options ) ) {
 			$this->options = $options;
 		}
 
@@ -80,19 +95,23 @@ class SCE_Output {
 	 * @since 1.0.6
 	 * @access public
 	 *
-	 * @param bool   Whether to allow unlimited comment editing
-	 * @param object comment object
+	 * @param bool   $unlimited Whether to allow unlimited comment editing.
+	 * @param object $comment comment object.
 	 *
 	 * @return bool Whether to allow unlimited editing
 	 */
 	public function maybe_unlimited_editing( $unlimited, $comment ) {
-		if( ! is_user_logged_in() ) return false;
-		if( !isset( $this->options['allow_unlimited_editing'] ) ) return false;
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+		if ( ! isset( $this->options['allow_unlimited_editing'] ) ) {
+			return false;
+		}
 
-		if( isset( $this->options['allow_unlimited_editing'] ) && true === $this->options['allow_unlimited_editing'] ) {
+		if ( isset( $this->options['allow_unlimited_editing'] ) && true === $this->options['allow_unlimited_editing'] ) {
 			global $current_user;
 			$user_id = $current_user->ID;
-			if( $comment->user_id == $user_id ) {
+			if ( $comment->user_id === $user_id ) {
 				return true;
 			}
 		}
@@ -107,12 +126,12 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param object comment object
+	 * @param object $comment object.
 	 *
 	 * @return void
 	 */
 	public function maybe_add_comment_metabox( $comment ) {
-		if( isset( $this->options['allow_comment_logging'] ) && true === $this->options['allow_comment_logging'] ) {
+		if ( isset( $this->options['allow_comment_logging'] ) && true === $this->options['allow_comment_logging'] ) {
 			add_meta_box( 'sce_comment_history', __( 'Comment Edit History', 'simple-comment-editing-object' ), array( $this, 'comment_history_meta_box' ), 'comment', 'normal', 'high' );
 		}
 	}
@@ -125,50 +144,50 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param object comment object
+	 * @param object $comment object.
 	 *
 	 * @return void
 	 */
 	public function comment_history_meta_box( $comment ) {
 		global $wpdb;
-		$tablename = $wpdb->base_prefix . 'sce_comments';
-		$blog_id = get_current_blog_id();
+		$tablename  = $wpdb->base_prefix . 'sce_comments';
+		$blog_id    = get_current_blog_id();
 		$comment_id = absint( $comment->comment_ID );
 
-		// Get comments
-		$query = "select * from $tablename where comment_id = %d and blog_id = %d order by date DESC";
-		$query = $wpdb->prepare( $query, $comment_id, $blog_id );
-		$results = $wpdb->get_results( $query );
-		if( empty( $results ) ) {
-			echo sprintf( '<p>%s</p>', __( 'No edits have occurred on this comment.', 'simple-comment-editing-options' ) );
+		// Get comments.
+		$query   = "select * from $tablename where comment_id = %d and blog_id = %d order by date DESC";
+		$query   = $wpdb->prepare( $query, $comment_id, $blog_id ); // phpcs:ignore
+		$results = $wpdb->get_results( $query ); // phpcs:ignore
+		if ( empty( $results ) ) {
+			echo sprintf( '<p>%s</p>', esc_html__( 'No edits have occurred on this comment.', 'simple-comment-editing-options' ) );
 		}
 		wp_enqueue_script( 'sce-options-restore', plugins_url( '/js/simple-comment-editing-options-restore.js', dirname( __FILE__ ) ), array( 'jquery' ), SCE_OPTIONS_VERSION, true );
 
-		// Display Comments
+		// Display Comments.
 		?>
 		<table class="form-table sce-form-table">
 			<tbody>
 				<?php
-				foreach( $results as $result ):
-				?>
+				foreach ( $results as $result ) :
+					?>
 				<tr>
 					<th scope="row">
 						<?php
-						$date = $result->date;
+						$date  = $result->date;
 						$datef = __( 'M j, Y @ H:i' );
-						$date = strtotime( $date );
-						echo esc_html( date( $datef, $date ) );
+						$date  = strtotime( $date );
+						echo esc_html( date( $datef, $date ) ); // phpcs:ignore
 						?>
 					</th>
 					<td>
 						<?php
-						$comment_text = apply_filters( 'comment_text', apply_filters( 'get_comment_text', $result->comment_content) );
-						echo $comment_text;
+						$comment_text = apply_filters( 'comment_text', apply_filters( 'get_comment_text', $result->comment_content ) );
+						echo wp_kses_post( $comment_text );
 						?>
 					</td>
-					<td><a class="sce-restore-comment" href="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-comment-id="<?php echo absint( $comment_id ); ?>" data-id="<?php echo absint( $result->id ); ?>" data-nonce="<?php echo wp_create_nonce( 'restore-comment-' . absint( $comment_id ) ); ?>"><?php esc_html_e( 'Restore this comment', 'simple-comment-editing-options' ); ?></td>
+					<td><a class="sce-restore-comment" href="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-comment-id="<?php echo absint( $comment_id ); ?>" data-id="<?php echo absint( $result->id ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'restore-comment-' . absint( $comment_id ) ) ); ?>"><?php esc_html_e( 'Restore this comment', 'simple-comment-editing-options' ); ?></td>
 				</tr>
-				<?php
+					<?php
 				endforeach;
 				?>
 			</tbody>
@@ -184,7 +203,7 @@ class SCE_Output {
 	 * @since 1.0.4
 	 * @access public
 	 *
-	 * @param string Button text
+	 * @param string $text Button text.
 	 *
 	 * @return string Button text
 	 */
@@ -203,7 +222,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string Button text
+	 * @param string $text Button text.
 	 *
 	 * @return string Button text
 	 */
@@ -222,7 +241,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string Button text
+	 * @param string $text Button text.
 	 *
 	 * @return string Button text
 	 */
@@ -241,7 +260,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string Button text
+	 * @param string $text Button text.
 	 *
 	 * @return string Button text
 	 */
@@ -260,46 +279,47 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param int $post_id
-	 * @param int $comment_id
+	 * @param int $post_id     Post ID.
+	 * @param int $comment_id  Comment ID.
 	 */
 	public function maybe_send_delete_email( $post_id, $comment_id ) {
-		if( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
-			$to = $this->options['edit_notification_to'];
+		if ( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
+			$to   = $this->options['edit_notification_to'];
 			$from = $this->options['edit_notification_from'];
 
-			// Check email
-			if( ! is_email( $to ) || ! is_email( $from ) ) {
+			// Check email.
+			if ( ! is_email( $to ) || ! is_email( $from ) ) {
 				return;
 			}
 
-			// Get site name
+			// Get site name.
 			$sitename = '';
-			if (is_multisite()) {
-				$sitename = get_site_option('site_name');
+			if ( is_multisite() ) {
+				$sitename = get_site_option( 'site_name' );
 			} else {
-				$sitename = get_option('blogname');
+				$sitename = get_option( 'blogname' );
 			}
 
+			/* Translators: %s is the site name */
 			$subject = sprintf( __( 'A user has deleted a comment from %s', 'simple-comment-editing-options' ), $sitename );
 
-			// Get comment
+			// Get comment.
 			$comment = get_comment( $comment_id, ARRAY_A );
 
-			// Set headers
-			$headers = array();
+			// Set headers.
+			$headers   = array();
 			$headers[] = sprintf( 'From: %s <%s>', esc_html( $sitename ), $from );
 
-			// Get comment message
-			$message = __( 'A user has deleted a comment on your site.', 'simple-comment-editing-options' ) . "\r\n\r\n";
+			// Get comment message.
+			$message  = __( 'A user has deleted a comment on your site.', 'simple-comment-editing-options' ) . "\r\n\r\n";
 			$message .= __( 'The original comment is:', 'simple-comment-editing-options' ) . "\r\n";
 			$message .= $comment['comment_content'] . "\r\n\r\n";
 
-			// Get comment trash URL
+			// Get comment trash URL.
 			$comment_trash_url = esc_url_raw( add_query_arg( array( 'comment_status' => 'trash' ), admin_url( 'edit-comments.php' ) ) );
-			$message .= __( 'To permanently delete or restore this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_trash_url;
+			$message          .= __( 'To permanently delete or restore this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_trash_url;
 
-			// Send email
+			// Send email.
 			wp_mail( $to, $subject, $message, $headers );
 		}
 	}
@@ -312,35 +332,35 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array $saved_comment
-	 * @param int $post_id
-	 * @param int $comment_id
-	 * @param array $original_comment
+	 * @param array $saved_comment    The saved comment.
+	 * @param int   $post_id          The post ID.
+	 * @param int   $comment_id       The comment ID.
+	 * @param array $original_comment The original comment.
 	 */
 	public function maybe_store_comment( $saved_comment, $post_id, $comment_id, $original_comment ) {
-		if( isset( $this->options['allow_comment_logging'] ) && true === $this->options['allow_comment_logging'] ) {
+		if ( isset( $this->options['allow_comment_logging'] ) && true === $this->options['allow_comment_logging'] ) {
 			global $wpdb;
-			$tablename = $wpdb->base_prefix . 'sce_comments';
-			$blog_id = get_current_blog_id();
-			$time = current_time('mysql');
-			$original_comment = wp_filter_comment( $original_comment );
-			$comment = wp_unslash( $original_comment );
+			$tablename                  = $wpdb->base_prefix . 'sce_comments';
+			$blog_id                    = get_current_blog_id();
+			$time                       = current_time( 'mysql' );
+			$original_comment           = wp_filter_comment( $original_comment );
+			$comment                    = wp_unslash( $original_comment );
 			$comment['comment_content'] = apply_filters( 'comment_save_pre', $comment['comment_content'] );
 
-			// Save comment data
-			$wpdb->insert(
+			// Save comment data.
+			$wpdb->insert( // phpcs:ignore
 				$tablename,
 				array(
-					'blog_id' => $blog_id,
-					'comment_id' => $comment_id,
+					'blog_id'         => $blog_id,
+					'comment_id'      => $comment_id,
 					'comment_content' => $comment['comment_content'],
-					'date' => $time
+					'date'            => $time,
 				),
 				array(
 					'%d',
 					'%d',
 					'%s',
-					'%s'
+					'%s',
 				)
 			);
 		}
@@ -354,46 +374,54 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array $saved_comment
-	 * @param int $post_id
-	 * @param int $comment_id
-	 * @param array $original_comment
+	 * @param array $saved_comment    The saved comment.
+	 * @param int   $post_id          The post ID.
+	 * @param int   $comment_id       The comment ID.
+	 * @param array $original_comment The original comment.
 	 */
 	public function maybe_send_edit_email( $saved_comment, $post_id, $comment_id, $original_comment ) {
-		if( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
-			$to = $this->options['edit_notification_to'];
-			$from = $this->options['edit_notification_from'];
+		if ( isset( $this->options['allow_edit_notification'] ) && true === $this->options['allow_edit_notification'] ) {
+			$to      = $this->options['edit_notification_to'];
+			$from    = $this->options['edit_notification_from'];
 			$subject = $this->options['edit_notification_subject'];
 
-			// Check email
-			if( ! is_email( $to ) || ! is_email( $from ) ) {
+			// Check email.
+			if ( ! is_email( $to ) || ! is_email( $from ) ) {
 				return;
 			}
 
-			// Get site name
+			// Get site name.
 			$sitename = '';
-			if (is_multisite()) {
-				$sitename = get_site_option('site_name');
+			if ( is_multisite() ) {
+				$sitename = get_site_option( 'site_name' );
 			} else {
-				$sitename = get_option('blogname');
+				$sitename = get_option( 'blogname' );
 			}
 
-			// Set headers
-			$headers = array();
+			// Set headers.
+			$headers   = array();
 			$headers[] = sprintf( 'From: %s <%s>', esc_html( $sitename ), $from );
 
-			// Get comment message
-			$message = __( 'A user has edited a comment on your site.', 'simple-comment-editing-options' ) . "\r\n\r\n";
+			// Get comment message.
+			$message  = __( 'A user has edited a comment on your site.', 'simple-comment-editing-options' ) . "\r\n\r\n";
 			$message .= __( 'The original comment is:', 'simple-comment-editing-options' ) . "\r\n";
 			$message .= $original_comment['comment_content'] . "\r\n\r\n";
 			$message .= __( 'The edited comment is:', 'simple-comment-editing-options' ) . "\r\n";
 			$message .= $saved_comment['comment_content'] . "\r\n\r\n";
 
-			// Get comment edit URL
-			$comment_url = esc_url_raw( add_query_arg( array( 'action' => 'editcomment', 'c' => $comment_id ), admin_url( 'comment.php' ) ) );
-			$message .= __( 'To edit or view this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_url;
+			// Get comment edit URL.
+			$comment_url = esc_url_raw(
+				add_query_arg(
+					array(
+						'action' => 'editcomment',
+						'c'      => $comment_id,
+					),
+					admin_url( 'comment.php' )
+				)
+			);
+			$message    .= __( 'To edit or view this comment, follow this link:', 'simple-comment-editing-options' ) . ' ' . $comment_url;
 
-			// Send email
+			// Send email.
 			wp_mail( $to, $subject, $message, $headers );
 		}
 	}
@@ -405,9 +433,11 @@ class SCE_Output {
 	 *
 	 * @since 1.0.0
 	 * @access public
+	 *
+	 * @param string $message The message to display.
 	 */
 	public function output_styles( $message ) {
-		wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url('css/themes.css'), array(), SCE_OPTIONS_VERSION, 'all' );
+		wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url( 'css/themes.css' ), array(), SCE_OPTIONS_VERSION, 'all' );
 	}
 
 	/**
@@ -418,23 +448,28 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param bool $errors Any comment errors
-	 * @param array $comment Comment to save
+	 * @param bool  $errors Any comment errors.
+	 * @param array $comment Comment to save.
 	 *
 	 * @return mixed false if no errors, string if errors exist
 	 */
 	public function check_comment_length( $errors, $comment ) {
-		$allow_comment_length_check =  isset( $this->options['require_comment_length'] ) ? $this->options['require_comment_length'] : $errors;
-		if ( false === $allow_comment_length_check ) return $errors;
+		$allow_comment_length_check = isset( $this->options['require_comment_length'] ) ? $this->options['require_comment_length'] : $errors;
+		if ( false === $allow_comment_length_check ) {
+			return $errors;
+		}
 
-		// Get minimum char length
+		// Get minimum char length.
 		$minimum_char_length = isset( $this->options['min_comment_length'] ) ? $this->options['min_comment_length'] : 50;
-		if( 0 === $minimum_char_length ) return $errors;
+		if ( 0 === $minimum_char_length ) {
+			return $errors;
+		}
 
-		// Format comment text
+		// Format comment text.
 		$comment_content = trim( wp_strip_all_tags( $comment['comment_content'] ) );
-		$comment_length = strlen( $comment_content );
+		$comment_length  = strlen( $comment_content );
 		if ( $comment_length < $minimum_char_length ) {
+			/* Translators: %d is the minimum number of characters for a comment. */
 			return sprintf( __( 'Comment must be at least %d characters.', 'simple-comment-editing-options' ), absint( $minimum_char_length ) );
 		}
 		return $errors;
@@ -448,23 +483,28 @@ class SCE_Output {
 	 * @since 1.1.0
 	 * @access public
 	 *
-	 * @param bool $errors Any comment errors
-	 * @param array $comment Comment to save
+	 * @param bool  $errors Any comment errors.
+	 * @param array $comment Comment to save.
 	 *
 	 * @return mixed false if no errors, string if errors exist
 	 */
 	public function check_comment_length_max( $errors, $comment ) {
-		$allow_comment_length_check =  isset( $this->options['require_comment_length_max'] ) ? $this->options['require_comment_length_max'] : $errors;
-		if ( false === $allow_comment_length_check ) return $errors;
+		$allow_comment_length_check = isset( $this->options['require_comment_length_max'] ) ? $this->options['require_comment_length_max'] : $errors;
+		if ( false === $allow_comment_length_check ) {
+			return $errors;
+		}
 
-		// Get minimum char length
+		// Get minimum char length.
 		$maximum_char_length = isset( $this->options['max_comment_length'] ) ? $this->options['max_comment_length'] : 2000;
-		if( 0 === $maximum_char_length ) return $errors;
+		if ( 0 === $maximum_char_length ) {
+			return $errors;
+		}
 
-		// Format comment text
+		// Format comment text.
 		$comment_content = trim( wp_strip_all_tags( $comment['comment_content'] ) );
-		$comment_length = strlen( $comment_content );
+		$comment_length  = strlen( $comment_content );
 		if ( $comment_length > $maximum_char_length ) {
+			/* Translators: %d is the maximum number of characters for a comment. */
 			return sprintf( __( 'Comment cannot exceed %d characters.', 'simple-comment-editing-options' ), absint( $maximum_char_length ) );
 		}
 		return $errors;
@@ -478,7 +518,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $message Empty comment error
+	 * @param string $message Empty comment error.
 	 * @return string New empty comment error
 	 */
 	public function message_empty_comment( $message ) {
@@ -493,7 +533,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $message Delete error message
+	 * @param string $message Delete error message.
 	 * @return string New delete error message
 	 */
 	public function message_comment_deleted_error( $message ) {
@@ -508,7 +548,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $message Delete removal message
+	 * @param string $message Delete removal message.
 	 * @return string New delete removal message
 	 */
 	public function message_comment_deleted( $message ) {
@@ -523,7 +563,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $message Delete confirmation message
+	 * @param string $message Delete confirmation message.
 	 * @return string New delete confirmation message
 	 */
 	public function message_confirm_delete( $message ) {
@@ -538,7 +578,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $loading_image_url Loading image url
+	 * @param string $loading_image_url Loading image url.
 	 * @return string New loading image url
 	 */
 	public function loading_img( $loading_image_url ) {
@@ -554,7 +594,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param bool $allow_deletion Whether to allow comment deletion
+	 * @param bool $allow_deletion Whether to allow comment deletion.
 	 * @return bool Whether to allow comment deletion
 	 */
 	public function allow_deletion( $allow_deletion ) {
@@ -570,7 +610,7 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param bool $allow_deletion_confirmation Whether to allow confirmation modal
+	 * @param bool $allow_delete_confirmation Whether to allow confirmation modal.
 	 * @return bool Whether to allow confirmation modal
 	 */
 	public function allow_delete_confirmation( $allow_delete_confirmation ) {
@@ -586,12 +626,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $edit_text The main edit text for SCE
+	 * @param string $edit_text The main edit text for SCE.
 	 * @return string New edit text
 	 */
 	public function edit_text( $edit_text ) {
 		$new_edit_text = isset( $this->options['click_to_edit_text'] ) ? $this->options['click_to_edit_text'] : '';
-		if ( '' === $new_edit_text ) return $edit_text;
+		if ( '' === $new_edit_text ) {
+			return $edit_text;
+		}
 		return $new_edit_text;
 	}
 
@@ -603,12 +645,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $button_text Button text
+	 * @param string $button_text Button text.
 	 * @return string New button text
 	 */
 	public function save_delete_text( $button_text ) {
 		$new_button_text = isset( $this->options['delete_text'] ) ? $this->options['delete_text'] : '';
-		if ( '' === $new_button_text ) return $button_text;
+		if ( '' === $new_button_text ) {
+			return $button_text;
+		}
 		return $new_button_text;
 	}
 
@@ -620,12 +664,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $button_text Button text
+	 * @param string $button_text Button text.
 	 * @return string New button text
 	 */
 	public function save_cancel_text( $button_text ) {
 		$new_button_text = isset( $this->options['cancel_text'] ) ? $this->options['cancel_text'] : '';
-		if ( '' === $new_button_text ) return $button_text;
+		if ( '' === $new_button_text ) {
+			return $button_text;
+		}
 		return $new_button_text;
 	}
 
@@ -637,12 +683,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param string $button_text Button text
+	 * @param string $button_text Button text.
 	 * @return string New button text
 	 */
 	public function save_button_text( $button_text ) {
 		$new_button_text = isset( $this->options['save_text'] ) ? $this->options['save_text'] : '';
-		if ( '' === $new_button_text ) return $button_text;
+		if ( '' === $new_button_text ) {
+			return $button_text;
+		}
 		return $new_button_text;
 	}
 
@@ -654,12 +702,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param bool $show_timer Whether to show the timer or not
+	 * @param bool $show_timer Whether to show the timer or not.
 	 * @return bool Whether to show the timer or not
 	 */
 	public function show_timer( $show_timer ) {
 		$new_show_timer = isset( $this->options['show_timer'] ) ? $this->options['show_timer'] : '';
-		if ( '' === $new_show_timer ) return $show_timer;
+		if ( '' === $new_show_timer ) {
+			return $show_timer;
+		}
 		return $new_show_timer;
 	}
 
@@ -671,12 +721,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param int $timer Time in minutes to edit the comment
+	 * @param int $timer Time in minutes to edit the comment.
 	 * @return int New time in minutes
 	 */
 	public function modify_timer( $timer ) {
 		$new_timer = isset( $this->options['timer'] ) ? $this->options['timer'] : false;
-		if ( false === $new_timer ) return $timer;
+		if ( false === $new_timer ) {
+			return $timer;
+		}
 		return $new_timer;
 	}
 
@@ -688,12 +740,14 @@ class SCE_Output {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @param array $classes SCE Wrapper class
+	 * @param array $classes SCE Wrapper class.
 	 * @return array $classes New SCE theme classes
 	 */
 	public function output_theme_class( $classes = array() ) {
 		$theme = isset( $this->options['button_theme'] ) ? $this->options['button_theme'] : false;
-		if ( false === $theme ) return $classes;
+		if ( false === $theme ) {
+			return $classes;
+		}
 		$classes[] = $theme;
 		return $classes;
 	}
