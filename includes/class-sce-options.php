@@ -75,6 +75,7 @@ class SCE_Plugin_Options {
 				case 'show_stop_timer':
 				case 'allow_unlimited_editing':
 				case 'allow_front_end_character_limit':
+				case 'allow_front_end_editing':
 					$option = filter_var( $options[ $key ], FILTER_VALIDATE_BOOLEAN );
 					break;
 				case 'allow_comment_logging':
@@ -159,6 +160,7 @@ class SCE_Plugin_Options {
 			'license'                         => '',
 			'allow_unlimited_editing'         => false,
 			'allow_front_end_character_limit' => false,
+			'allow_front_end_editing'         => false,
 		);
 		return $defaults;
 	}

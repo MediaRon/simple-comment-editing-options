@@ -26,8 +26,11 @@ class SCE_Frontend_Editing {
 	 * Set up front-end editing filters.
 	 */
 	public function setup_comment_filters() {
+		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
+		$sce_options = new SCE_Plugin_Options();
+		$options     = $sce_options->get_options();
 		/* Begin Filters */
-		if ( ! is_feed() && ! defined( 'DOING_SCE' ) ) {
+		if ( ! is_feed() && ! defined( 'DOING_SCE' ) && true === filter_var( $options['allow_front_end_editing'], FILTER_VALIDATE_BOOLEAN ) ) {
 			if ( current_user_can( 'moderate_comments' ) ) {
 				add_filter( 'comment_excerpt', array( $this, 'add_edit_interface' ), 1000, 2 );
 				add_filter( 'comment_text', array( $this, 'add_edit_interface' ), 1000, 2 );

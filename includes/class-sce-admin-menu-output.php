@@ -177,6 +177,13 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><label for="sce-allow-front-end-editing"><?php esc_html_e( 'Enable Front End Editing', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input type="hidden" value="false" name="options[allow_front_end_editing]" />
+								<input id="sce-allow-front-end-editing" type="checkbox" value="true" name="options[allow_front_end_editing]" <?php checked( true, $options['allow_front_end_editing'] ); ?> /> <label for="sce-allow-front-end-editing"><?php esc_html_e( 'Allow front-end editing of comments if logged in.', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Unlimited Timer', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_unlimited_editing]" />
