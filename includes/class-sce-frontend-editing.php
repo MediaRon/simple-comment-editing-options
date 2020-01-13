@@ -34,8 +34,20 @@ class SCE_Frontend_Editing {
 				add_filter( 'thesis_comment_text', array( $this, 'add_edit_interface' ), 1000, 2 );
 				add_filter( 'sce_can_edit', '__return_false' );
 				add_filter( 'edit_comment_link', array( $this, 'modify_edit_link' ), 10, 3 );
+				add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts_and_styles' ) );
 			}
 		}
+	}
+
+	/**
+	 * Add Fancybox scripts and styles.
+	 */
+	public function add_scripts_and_styles() {
+		if ( ! is_singular() ) {
+			return;
+		}
+		wp_enqueue_script( 'fancybox', plugins_url( '/fancybox/jquery.fancybox.min.js', dirname( __FILE__ ) ), array( 'jquery' ), SCE_OPTIONS_VERSION, true );
+		wp_enqueue_style( 'fancybox', plugins_url( '/fancybox/jquery.fancybox.min.css', dirname( __FILE__ ) ), array(), SCE_OPTIONS_VERSION, 'all' );
 	}
 
 	/**
