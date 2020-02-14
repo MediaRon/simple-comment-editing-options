@@ -137,7 +137,11 @@ class SCE_Frontend_Editing {
 			return $comment_content;
 		}
 		if ( $passed_comment ) {
-			$comment = (object) $passed_comment; // phpcs:ignore
+			if ( is_numeric( $passed_comment ) ) {
+				$comment = get_comment( $passed_comment, OBJECT ); // phpcs:ignore
+			} else {
+				$comment = (object) $passed_comment; // phpcs:ignore
+			}
 		}
 
 		$comment_id = absint( $comment->comment_ID );

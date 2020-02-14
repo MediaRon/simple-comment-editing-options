@@ -79,13 +79,15 @@ jQuery( document ).ready( function( $ ) {
 
 	};
 	$( '.sce-edit-button' ).simplecommenteditingoptions();
-	jQuery('[data-fancybox]').fancybox({
-		toolbar  : true,
-		smallBtn : true,
-		iframe : {
-			preload : false
-		}
-	})
+	if ( typeof jQuery.fancybox == 'function' ) {
+		jQuery('[data-fancybox]').fancybox({
+			toolbar  : true,
+			smallBtn : true,
+			iframe : {
+				preload : false
+			}
+		})
+	}
 } );
 function sce_get_comment(e) {
 	e.preventDefault();
