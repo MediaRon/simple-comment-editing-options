@@ -341,7 +341,7 @@ gulp.task('clean_build', function () {
 gulp.task('build', function (done) {
 	runSequence(['clean'],
 		['build_type'],
-		['imgs_move', 'misc_move', 'html_move', 'php_move', 'scss_compile', 'css_move', 'css_min'],
+		['imgs_move', 'misc_move', 'html_move', 'php_move', 'scss_compile', 'css_move'],
 		['babel', 'babel_min'],
 		['check_upgrade_notice'],
 		['pot'],
