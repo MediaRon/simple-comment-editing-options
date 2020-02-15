@@ -283,11 +283,11 @@ msgstr ""
 msgid "Save Options"
 msgstr ""
 
-#: includes/class-sce-frontend-editing.php:144
+#: includes/class-sce-frontend-editing.php:148
 msgid "Click to inline edit"
 msgstr ""
 
-#: includes/class-sce-frontend-editing.php:256
+#: includes/class-sce-frontend-editing.php:260
 msgid "Edit"
 msgstr ""
 
