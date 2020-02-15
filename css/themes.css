@@ -208,3 +208,6 @@
 
 .sce-inline-interface .sce-status {
   display: none; }
+
+.fancybox-content {
+  height: 100vh !important; }

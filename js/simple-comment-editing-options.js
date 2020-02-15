@@ -84,7 +84,7 @@ jQuery( document ).ready( function( $ ) {
 			toolbar  : true,
 			smallBtn : true,
 			iframe : {
-				preload : false
+				preload : true
 			}
 		})
 	}
