@@ -299,7 +299,7 @@ class SCE_Options {
 		// Check to see SCE Minimum is installed.
 		if ( version_compare( SCE_VERSION, SCE_MIN_VERSION, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_sce' ) );
-			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			if ( is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_sce' ) );
 			}
 			return;
