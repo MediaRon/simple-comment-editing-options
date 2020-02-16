@@ -95,7 +95,11 @@ class SCE_Plugin_Options {
 					break;
 			}
 		}
-		update_site_option( 'sce_options', $options );
+		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			update_site_option( 'sce_options', $options );
+		} else {
+			update_option( 'sce_options', $options );
+		}
 	}
 
 	/**
@@ -104,7 +108,12 @@ class SCE_Plugin_Options {
 	 * @return array Array of options.
 	 */
 	public function get_options() {
-		$options  = get_site_option( 'sce_options', array() );
+		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			$options = get_site_option( 'sce_options', array() );
+		} else {
+			$options = get_option( 'sce_options', array() );
+		}
+
 		$defaults = $this->get_defaults();
 		if ( count( $options ) < count( $defaults ) ) {
 			$options = wp_parse_args( $options, $defaults );
@@ -136,14 +145,14 @@ class SCE_Plugin_Options {
 			'custom_class'                    => '',
 			'allow_delete_confirmation'       => true,
 			'allow_edit_notification'         => false,
-			'edit_notification_to'            => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
+			'edit_notification_to'            => Simple_Comment_Editing::get_instance()::is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email'
 			),
-			'edit_notification_from'          => is_multisite() ? get_site_option( 'admin_email' ) : get_option(
+			'edit_notification_from'          => Simple_Comment_Editing::get_instance()::is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email'
 			),
 			/* Translators: %s is the site name a user has left a comment on */
-			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
+			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), Simple_Comment_Editing::get_instance()::is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
 			'edit_text'                       => __( 'Click to Edit', 'simple-comment-editing' ),
 			'confirm_delete'                  => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
 			'comment_deleted'                 => __( 'Your comment has been removed.', 'simple-comment-editing' ),

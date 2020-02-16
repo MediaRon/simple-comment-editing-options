@@ -169,7 +169,12 @@ class SCE_Options {
 	 */
 	public function add_scripts() {
 		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
-		$options          = get_site_option( 'sce_options', false );
+		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			$options = get_site_option( 'sce_options', false );
+		} else {
+			$options = get_option( 'sce_options', false );
+		}
+		
 		$show_stop_timer  = isset( $options['show_stop_timer'] ) ? $options['show_stop_timer'] : false;
 		$stop_timer_text  = isset( $options['stop_timer_text'] ) ? $options['stop_timer_text'] : __( 'Cancel Timer', 'simple-comment-editing-options' );
 		$timer_appearance = isset( $options['timer_appearance'] ) ? $options['timer_appearance'] : 'words';
@@ -288,7 +293,12 @@ class SCE_Options {
 	 */
 	public function sce_plugin_updater() {
 		require_once $this->get_plugin_dir( '/includes/EDD_SL_Plugin_Updater.php' );
-		$options        = get_site_option( 'sce_options' );
+		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			$options = get_site_option( 'sce_options' );
+		} else {
+			$options = get_option( 'sce_options' );
+		}
+		
 		$license_status = get_site_option( 'sce_license_status', false );
 		if ( isset( $options['license'] ) && false !== $license_status ) {
 			// setup the updater.

@@ -294,7 +294,7 @@ class SCE_Output {
 
 			// Get site name.
 			$sitename = '';
-			if ( is_multisite() ) {
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 				$sitename = get_site_option( 'site_name' );
 			} else {
 				$sitename = get_option( 'blogname' );
@@ -392,7 +392,7 @@ class SCE_Output {
 
 			// Get site name.
 			$sitename = '';
-			if ( is_multisite() ) {
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 				$sitename = get_site_option( 'site_name' );
 			} else {
 				$sitename = get_option( 'blogname' );

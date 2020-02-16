@@ -49,10 +49,10 @@ class SCE_Admin {
 	public function init() {
 
 		// Add settings link.
-		$prefix = is_multisite() ? 'network_admin_' : '';
+		$prefix = Simple_Comment_Editing::get_instance()::is_multisite() ? 'network_admin_' : '';
 		add_action( $prefix . 'plugin_action_links_' . SCE_OPTIONS_SLUG, array( $this, 'plugin_settings_link' ) );
 		// Init admin menu.
-		if ( is_multisite() ) {
+		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 			add_action( 'network_admin_menu', array( $this, 'register_sub_menu' ) );
 		} else {
 			add_action( 'admin_menu', array( $this, 'register_sub_menu' ) );
@@ -68,7 +68,7 @@ class SCE_Admin {
 	 */
 	public function register_sub_menu() {
 		$hook = '';
-		if ( is_multisite() ) {
+		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 			$hook = add_submenu_page(
 				'settings.php',
 				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
@@ -132,7 +132,7 @@ class SCE_Admin {
 	public static function get_url() {
 		$url = self::$url;
 		if ( empty( $url ) ) {
-			if ( is_multisite() ) {
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 				$url = add_query_arg( array( 'page' => self::$slug ), network_admin_url( 'settings.php' ) );
 			} else {
 				$url = add_query_arg( array( 'page' => self::$slug ), admin_url( 'options-general.php' ) );
