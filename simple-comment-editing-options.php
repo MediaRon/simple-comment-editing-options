@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.3.2
+Version: 1.3.5
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -237,6 +237,21 @@ class SCE_Options {
 	}
 
 	/**
+	 * Checks if the plugin is on a multisite install.
+	 *
+	 * @return true if multisite, false if not.
+	 */
+	public static function is_plugin_activated_multisite() {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+		if ( is_multisite() && is_plugin_active_for_network( SCE_OPTIONS_SLUG ) && is_plugin_active_for_network( SCE_SLUG ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Checks for Simple Comment Editing.
 	 *
 	 * Checks if SCE is installed
@@ -245,7 +260,16 @@ class SCE_Options {
 	 * @access private
 	 */
 	private function is_sce_enabled() {
-		if ( class_exists( 'Simple_Comment_Editing' ) ) {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+		if ( self::is_plugin_activated_multisite() ) {
+			return true;
+		} elseif ( is_network_admin() && is_plugin_active_for_network( SCE_OPTIONS_SLUG ) && ! is_plugin_active_for_network( SCE_SLUG ) ) {
+			return false;
+		} elseif ( is_multisite() && ! self::is_plugin_activated_multisite() && class_exists( 'Simple_Comment_Editing' ) ) {
+			return true;
+		} elseif ( ! is_multisite() && class_exists( 'Simple_Comment_Editing' ) ) {
 			return true;
 		}
 		return false;
@@ -267,7 +291,7 @@ class SCE_Options {
 		// Check to see if SCE is installed.
 		if ( ! $this->is_sce_enabled() ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_sce_not_installed' ) );
-			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			if ( is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_sce_not_installed' ) );
 			}
 			return;
