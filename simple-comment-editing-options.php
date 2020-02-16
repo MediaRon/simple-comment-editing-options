@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'SCE_OPTIONS_VERSION', '1.3.2' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename( __FILE__ ) );
+define( 'SCE_MIN_VERSION', '2.4.5' );
 
 /**
  * Main SCE Options Class.
@@ -63,7 +64,7 @@ class SCE_Options {
 		// Check if PHP version is sufficient.
 		if ( version_compare( PHP_VERSION, self::PHP_REQUIRED, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_php' ) );
-			if ( is_multisite() ) {
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_php' ) );
 			}
 			$has_errors = true;
@@ -73,7 +74,7 @@ class SCE_Options {
 		include ABSPATH . WPINC . '/version.php';
 		if ( version_compare( $wp_version, self::WP_REQUIRED, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_wp' ) );
-			if ( is_multisite() ) {
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_wp' ) );
 			}
 			$has_errors = true;
@@ -115,6 +116,23 @@ class SCE_Options {
 			__( 'Higher WordPress version required', 'simple-comment-editing-options' ),
 			/* translators: %1$s is name of the plugin. */
 			sprintf( __( 'The %1$s plugin requires %2$s version %3$s or higher - your current version is only %4$s.', 'simple-comment-editing-options' ), 'Simple Comment Editing Options', 'WordPress', self::WP_REQUIRED, $wp_version ),
+			'notice-error'
+		);
+	}
+
+	/**
+	 * Checks for SCE version.
+	 *
+	 * Checks if SCE version is sufficient.
+	 *
+	 * @since 1.0.3
+	 * @access public
+	 */
+	public function admin_notice_insufficient_sce() {
+		$this->show_admin_warning(
+			__( 'Higher Simple Comment Editing version required', 'simple-comment-editing-options' ),
+			/* translators: %1$s is name of the plugin. */
+			sprintf( __( 'The %1$s plugin requires %2$s version %3$s or higher - your current version is only %4$s.', 'simple-comment-editing-options' ), 'Simple Comment Editing Options', 'Simple Comment Editing', SCE_MIN_VERSION, SCE_VERSION ),
 			'notice-error'
 		);
 	}
@@ -249,8 +267,16 @@ class SCE_Options {
 		// Check to see if SCE is installed.
 		if ( ! $this->is_sce_enabled() ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_sce_not_installed' ) );
-			if ( is_multisite() ) {
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_sce_not_installed' ) );
+			}
+			return;
+		}
+		// Check to see SCE Minimum is installed.
+		if ( version_compare( SCE_VERSION, SCE_MIN_VERSION, '<' ) ) {
+			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_sce' ) );
+			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_sce' ) );
 			}
 			return;
 		}
