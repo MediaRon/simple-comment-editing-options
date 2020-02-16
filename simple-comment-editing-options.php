@@ -14,7 +14,7 @@ Domain Path: /languages
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
-define( 'SCE_OPTIONS_VERSION', '1.3.2' );
+define( 'SCE_OPTIONS_VERSION', '1.3.5' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename( __FILE__ ) );
 define( 'SCE_MIN_VERSION', '2.4.5' );
