@@ -295,7 +295,7 @@ msgstr ""
 msgid "A user has edited a comment on %s"
 msgstr ""
 
-#: includes/class-sce-options.php:167, simple-comment-editing-options.php:197
+#: includes/class-sce-options.php:167, simple-comment-editing-options.php:207
 msgid "Cancel Timer"
 msgstr ""
 
@@ -343,27 +343,27 @@ msgstr ""
 msgid "Comment cannot exceed %d characters."
 msgstr ""
 
-#: simple-comment-editing-options.php:98
+#: simple-comment-editing-options.php:108
 msgid "Higher PHP version required"
 msgstr ""
 
-#: simple-comment-editing-options.php:100, simple-comment-editing-options.php:118, simple-comment-editing-options.php:135
+#: simple-comment-editing-options.php:110, simple-comment-editing-options.php:128, simple-comment-editing-options.php:145
 msgid "The %1$s plugin requires %2$s version %3$s or higher - your current version is only %4$s."
 msgstr ""
 
-#: simple-comment-editing-options.php:116
+#: simple-comment-editing-options.php:126
 msgid "Higher WordPress version required"
 msgstr ""
 
-#: simple-comment-editing-options.php:133
+#: simple-comment-editing-options.php:143
 msgid "Higher Simple Comment Editing version required"
 msgstr ""
 
-#: simple-comment-editing-options.php:150
+#: simple-comment-editing-options.php:160
 msgid "Simple Comment Editing is required."
 msgstr ""
 
-#: simple-comment-editing-options.php:151
+#: simple-comment-editing-options.php:161
 msgid "The Simple Comment Editing plugin is required for Simple Comment Editing Options to function."
 msgstr ""
 
