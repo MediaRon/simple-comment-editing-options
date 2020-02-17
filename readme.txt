@@ -2,7 +2,7 @@
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.3
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -30,6 +30,10 @@ Simple Comment Editing Options features:
 
 
 == Changelog ==
+
+= 1.3.6 =
+* Released 2020-02-17
+* Fixing WSOD on older PHP versions.
 
 = 1.3.5 =
 * Released 2020-02-16
@@ -87,6 +91,9 @@ Simple Comment Editing Options features:
 
 
 == Upgrade Notice ==
+
+= 1.3.6 =
+Fixing WSOD on older PHP versions.
 
 = 1.3.5 =
 Better multisite support.

@@ -99,7 +99,7 @@ class EDD_SL_Plugin_Updater {
 			$_transient_data = new stdClass;
 		}
 
-		if ( 'plugins.php' == $pagenow && Simple_Comment_Editing::get_instance()::is_multisite() ) {
+		if ( 'plugins.php' == $pagenow && SCE_Options::is_multisite() ) {
 			return $_transient_data;
 		}
 
@@ -148,7 +148,7 @@ class EDD_SL_Plugin_Updater {
 			return;
 		}
 
-		if( ! Simple_Comment_Editing::get_instance()::is_multisite() ) {
+		if( ! SCE_Options::is_multisite() ) {
 			return;
 		}
 

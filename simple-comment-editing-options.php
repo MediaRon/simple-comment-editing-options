@@ -4,7 +4,7 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.3.5
+Version: 1.3.6
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
@@ -14,7 +14,7 @@ Domain Path: /languages
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
-define( 'SCE_OPTIONS_VERSION', '1.3.5' );
+define( 'SCE_OPTIONS_VERSION', '1.3.6' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename( __FILE__ ) );
 define( 'SCE_MIN_VERSION', '2.4.5' );
@@ -64,7 +64,7 @@ class SCE_Options {
 		// Check if PHP version is sufficient.
 		if ( version_compare( PHP_VERSION, self::PHP_REQUIRED, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_php' ) );
-			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			if ( self::is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_php' ) );
 			}
 			$has_errors = true;
@@ -74,7 +74,7 @@ class SCE_Options {
 		include ABSPATH . WPINC . '/version.php';
 		if ( version_compare( $wp_version, self::WP_REQUIRED, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_wp' ) );
-			if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+			if ( self::is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_wp' ) );
 			}
 			$has_errors = true;
@@ -83,6 +83,16 @@ class SCE_Options {
 		if ( ! $has_errors ) {
 			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 9 );
 		}
+	}
+
+	/**
+	 * Check whether site is multisite or not.
+	 *
+	 * @return bool True if multisite, false if not.
+	 */
+	public static function is_multisite() {
+		$sce = Simple_Comment_Editing::get_instance();
+		return $sce::is_multisite();
 	}
 
 	/**
@@ -187,7 +197,7 @@ class SCE_Options {
 	 */
 	public function add_scripts() {
 		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
-		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+		if ( self::is_multisite() ) {
 			$options = get_site_option( 'sce_options', false );
 		} else {
 			$options = get_option( 'sce_options', false );
@@ -343,7 +353,7 @@ class SCE_Options {
 	 */
 	public function sce_plugin_updater() {
 		require_once $this->get_plugin_dir( '/includes/EDD_SL_Plugin_Updater.php' );
-		if ( Simple_Comment_Editing::get_instance()::is_multisite() ) {
+		if ( self::is_multisite() ) {
 			$options = get_site_option( 'sce_options' );
 		} else {
 			$options = get_option( 'sce_options' );
