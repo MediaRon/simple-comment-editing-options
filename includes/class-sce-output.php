@@ -110,8 +110,8 @@ class SCE_Output {
 
 		if ( isset( $this->options['allow_unlimited_editing'] ) && true === $this->options['allow_unlimited_editing'] ) {
 			global $current_user;
-			$user_id = $current_user->ID;
-			if ( $comment->user_id === $user_id ) {
+			$user_id = absint( $current_user->ID );
+			if ( absint( $comment->user_id ) === $user_id ) {
 				return true;
 			}
 		}
