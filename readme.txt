@@ -1,8 +1,8 @@
 === Simple Comment Editing Options ===
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
-Tested up to: 5.3
-Stable tag: 1.3.6
+Tested up to: 5.4
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://mediaron.com/contribute/
@@ -30,6 +30,10 @@ Simple Comment Editing Options features:
 
 
 == Changelog ==
+
+= 1.4.0 =
+* Released 2020-04-26
+* Fixing unlimited editing for logged in users.
 
 = 1.3.6 =
 * Released 2020-02-17
@@ -91,6 +95,9 @@ Simple Comment Editing Options features:
 
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Fixing unlimited editing for logged in users.
 
 = 1.3.6 =
 Fixing WSOD on older PHP versions.
