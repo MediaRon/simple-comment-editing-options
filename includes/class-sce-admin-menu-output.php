@@ -177,31 +177,59 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="sce-allow-front-end-editing"><?php esc_html_e( 'Enable Front End Editing', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><label for="sce-allow-front-end-editing"><?php esc_html_e( 'Enable Front End Editing for Admins', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_front_end_editing]" />
-								<input id="sce-allow-front-end-editing" type="checkbox" value="true" name="options[allow_front_end_editing]" <?php checked( true, $options['allow_front_end_editing'] ); ?> /> <label for="sce-allow-front-end-editing"><?php esc_html_e( 'Allow front-end editing of comments if logged in.', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-allow-front-end-editing" type="checkbox" <?php checked( true, $options['allow_front_end_editing'] ); ?> name="options[allow_front_end_editing]" />
+											<label for="sce-allow-front-end-editing"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Unlimited Timer', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><label for="sce-unlimited-timer"><?php esc_html_e( 'Unlimited Timer for Logged-in Users', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_unlimited_editing]" />
-								<input id="sce-unlimited-timer" type="checkbox" value="true" name="options[allow_unlimited_editing]" <?php checked( true, $options['allow_unlimited_editing'] ); ?> /> <label for="sce-unlimited-timer"><?php esc_html_e( 'Allow unlimited editing for logged in users.', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-unlimited-timer" type="checkbox" <?php checked( true, $options['allow_unlimited_editing'] ); ?> name="options[allow_unlimited_editing]" />
+											<label for="sce-unlimited-timer"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Show Timer', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[show_timer]" />
-								<input id="sce-show-timer" type="checkbox" value="true" name="options[show_timer]" <?php checked( true, $options['show_timer'] ); ?> /> <label for="sce-show-timer"><?php esc_html_e( 'Show timer (We recommend hiding the timer if you have a high timer).', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-show-timer" type="checkbox" <?php checked( true, $options['show_timer'] ); ?> name="options[show_timer]" />
+											<label for="sce-show-timer"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="sce-show-timer"><?php esc_html_e( 'Allow Timer To Be Canceled', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><label for="sce-show-stop-timer"><?php esc_html_e( 'Allow Timer To Be Canceled by Users', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[show_stop_timer]" />
-								<input id="sce-show-stop-timer" type="checkbox" value="true" name="options[show_stop_timer]" <?php checked( true, $options['show_stop_timer'] ); ?> /> <label for="sce-show-stop-timer"><?php esc_html_e( 'Allow timer to be stopped.', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-show-stop-timer" type="checkbox" <?php checked( true, $options['show_stop_timer'] ); ?>name="options[show_stop_timer]"  />
+											<label for="sce-show-stop-timer"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -214,24 +242,45 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="sce-allow-deletion"><?php esc_html_e( 'Allow Comment Deletion', 'simple-comment-editing-options' ); ?></label></th>
+							<th scope="row"><label for="sce-allow-deletion"><?php esc_html_e( 'Allow Comment Deletion for Users', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_delete]" />
-								<input id="sce-allow-deletion" type="checkbox" value="true" name="options[allow_delete]" <?php checked( true, $options['allow_delete'] ); ?> /> <label for="sce-allow-deletion"><?php esc_html_e( 'Allow users to delete their comments.', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-allow-deletion" type="checkbox" <?php checked( true, $options['allow_delete'] ); ?> name="options[allow_delete]" />
+											<label for="sce-allow-deletion"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="sce-allow-deletion-only"><?php esc_html_e( 'Allow Comment Deletion Only', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[delete_only]" />
-								<input id="sce-allow-deletion-only" type="checkbox" value="true" name="options[delete_only]" <?php checked( true, $options['delete_only'] ); ?> /> <label for="sce-allow-deletion-only"><?php esc_html_e( 'Skip editing and allow deletion only.', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-allow-deletion-only" type="checkbox" <?php checked( true, $options['delete_only'] ); ?> name="options[delete_only]" />
+											<label for="sce-allow-deletion-only"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="sce-allow-deletion-confirmation"><?php esc_html_e( 'Allow Comment Deletion Confirmation', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_delete_confirmation]" />
-								<input id="sce-allow-deletion-confirmation" type="checkbox" value="true" name="options[allow_delete_confirmation]" <?php checked( true, $options['allow_delete_confirmation'] ); ?> /> <label for="sce-allow-deletion-confirmation"><?php esc_html_e( 'Allow the modal warning for comment deletion.', 'simple-comment-editing-options' ); ?></label>
+								<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="sce-allow-deletion-confirmation" type="checkbox" <?php checked( true, $options['allow_delete_confirmation'] ); ?> name="options[allow_delete_confirmation]" />
+											<label for="sce-allow-deletion-confirmation"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -329,10 +378,17 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php esc_html_e( 'Allow Comment Logging and Stats', 'simple-comment-editing-options' ); ?></th>
+							<th scope="row"><label for="allow-comment-logging"><?php esc_html_e( 'Allow Comment Logging and Stats', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 							<input type="hidden" value="false" name="options[allow_comment_logging]" />
-								<input id="sce-allow-comment-logging" type="checkbox" value="true" name="options[allow_comment_logging]" <?php checked( true, $options['allow_comment_logging'] ); ?> /> <label for="sce-allow-comment-logging"><?php esc_html_e( 'Store edited comments in a custom table and show a history of edited comments when viewing the comment in the WordPress admin area.', 'simple-comment-editing-options' ); ?></label>
+							<div class="toggle-checkboxes">
+									<div class="flex">
+										<div class="toggle-container">
+											<input id="allow-comment-logging" type="checkbox" <?php checked( true, $options['allow_comment_logging'] ); ?> name="options[allow_comment_logging]" />
+											<label for="allow-comment-logging"></label>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 					</tbody>

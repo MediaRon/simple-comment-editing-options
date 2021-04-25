@@ -37,6 +37,17 @@ class SCE_Admin {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+	}
+
+	/**
+	 * Output admin scripts/styles.
+	 */
+	public function admin_scripts() {
+		$screen = get_current_screen();
+		if ( isset( $screen->base ) && 'settings_page_sce' === $screen->base ) {
+			wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url( 'dist/themes.css' ), array(), SCE_OPTIONS_VERSION, 'all' );
+		}
 	}
 
 	/**

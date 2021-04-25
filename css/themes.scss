@@ -249,7 +249,7 @@ $danger_button_color: #721c24;
 .toggle-checkboxes {
 	display: inline-block;
 	position: relative;
-	color: $base_color;
+	color: $danger_button_color;
 	font-weight: 500;
 }
 .toggle-checkboxes .flex {
@@ -259,12 +259,11 @@ $danger_button_color: #721c24;
 	display: flex;
 }
 .toggle-checkboxes label {
-	border: 2px solid $base_color;
+	border: 2px solid $danger_button_color;
 	border-radius: 19px;
 	cursor: pointer;
 	display: block;
 	height: 20px;
-	margin-left: 12px;
 	position: relative;
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
@@ -276,14 +275,13 @@ $danger_button_color: #721c24;
 	cursor: pointer;
 	display: block;
 	height: 20px;
-	margin-left: 12px;
 	position: relative;
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 	width: 40px;
 }
 .toggle-checkboxes label:before {
-	background: $base_color;
+	background: $danger_button_color;
 	border-radius: 50%;
 	content: '';
 	height: 14px;
@@ -308,6 +306,6 @@ $danger_button_color: #721c24;
 	cursor: not-allowed;
 	border: 2px solid lighten( $danger_button_color, 60% );
 	&:before {
-		background: lighten( $base_color, 20% );
+		background: lighten( $danger_button_color, 20% );
 	}
 }
