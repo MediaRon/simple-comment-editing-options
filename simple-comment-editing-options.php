@@ -231,7 +231,7 @@ class SCE_Options {
 		$min_comment_option = filter_var( $options['require_comment_length'], FILTER_VALIDATE_BOOLEAN );
 		$max_comment_option = filter_var( $options['require_comment_length_max'], FILTER_VALIDATE_BOOLEAN );
 		if ( $min_comment_option && $max_comment_option ) {
-			wp_enqueue_style( 'sce-ccc', plugins_url( '/css/sce-ccc-progress-bar.css', __FILE__ ), array(), SCE_OPTIONS_VERSION, 'all' );
+			wp_enqueue_style( 'sce-ccc', plugins_url( '/dist/sce-ccc-progress-bar.css', __FILE__ ), array(), SCE_OPTIONS_VERSION, 'all' );
 			wp_enqueue_script( 'sce-ccc', plugins_url( '/js/comment-character-control.js', __FILE__ ), array(), SCE_OPTIONS_VERSION, true );
 			wp_localize_script(
 				'sce-ccc',
