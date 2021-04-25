@@ -1,5 +1,4 @@
 vendor
 node_modules
 .DS_store
-dist
 simple-comment-editing-options\.zip

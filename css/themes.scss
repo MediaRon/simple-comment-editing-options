@@ -1,3 +1,11 @@
+$base_color: #58a0db;
+$label-colour: #bbb;
+$disabled-colour: #ddd;
+$toggle-colour: #2f855a;
+$white: #fff;
+$focus-color: #ff0;
+$danger_button_color: #721c24;
+
 /* Regular Theme */
 .sce-edit-comment {
 	margin: 20px 0;
@@ -235,4 +243,71 @@
 }
 .fancybox-content {
 	height: 100vh !important;
+}
+
+/* From: https://codepen.io/itsfreshmade/pen/YzXwbpW */
+.toggle-checkboxes {
+	display: inline-block;
+	position: relative;
+	color: $base_color;
+	font-weight: 500;
+}
+.toggle-checkboxes .flex {
+	-webkit-box-align: center;
+	align-items: center;
+	display: -webkit-box;
+	display: flex;
+}
+.toggle-checkboxes label {
+	border: 2px solid $base_color;
+	border-radius: 19px;
+	cursor: pointer;
+	display: block;
+	height: 20px;
+	margin-left: 12px;
+	position: relative;
+	-webkit-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	width: 40px;
+}
+.toggle-checkboxes input:checked + label {
+	border: 2px solid $toggle_colour;
+	border-radius: 19px;
+	cursor: pointer;
+	display: block;
+	height: 20px;
+	margin-left: 12px;
+	position: relative;
+	-webkit-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	width: 40px;
+}
+.toggle-checkboxes label:before {
+	background: $base_color;
+	border-radius: 50%;
+	content: '';
+	height: 14px;
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	-webkit-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	width: 14px;
+}
+.toggle-checkboxes input {
+	display: none;
+}
+.toggle-checkboxes input:checked + label {
+	background: #fff;
+}
+.toggle-checkboxes input:checked + label:before {
+	background: green;
+	left: 24px;
+}
+.toggle-checkboxes input:disabled + label {
+	cursor: not-allowed;
+	border: 2px solid lighten( $danger_button_color, 60% );
+	&:before {
+		background: lighten( $base_color, 20% );
+	}
 }
