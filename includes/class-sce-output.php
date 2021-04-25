@@ -69,6 +69,7 @@ class SCE_Output {
 		add_filter( 'sce_button_extra_delete', array( $this, 'maybe_add_delete_icon' ) );
 		add_filter( 'sce_button_extra_stop_timer', array( $this, 'maybe_add_stop_timer_icon' ) );
 		add_filter( 'sce_unlimited_editing', array( $this, 'maybe_unlimited_editing' ), 10, 2 );
+		add_filter( 'sce_allow_delete_button', array( $this, 'allow_deletion_only' ), 10, 1 );
 	}
 
 	/**
@@ -600,6 +601,27 @@ class SCE_Output {
 	public function allow_deletion( $allow_deletion ) {
 		$allow_deletion = isset( $this->options['allow_delete'] ) ? $this->options['allow_delete'] : $allow_deletion;
 		return $allow_deletion;
+	}
+
+	/**
+	 * Check if delete only is enabled.
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param bool $allow_delete Allow deletion only.
+	 * @return bool true if allow deletion only.
+	 */
+	public function allow_deletion_only( $allow_delete ) {
+		$allow_deletion_only = isset( $this->options['delete_only'] ) ? $this->options['delete_only'] : false;
+
+		if ( ! $allow_deletion_only ) {
+			return false;
+		}
+
+		add_filter( 'sce_allow_edit_button', '__return_false' );
+
+		return true;
 	}
 
 	/**

@@ -221,6 +221,13 @@ class SCE_Admin_Menu_Output {
 							</td>
 						</tr>
 						<tr>
+							<th scope="row"><label for="sce-allow-deletion-only"><?php esc_html_e( 'Allow Comment Deletion Only', 'simple-comment-editing-options' ); ?></label></th>
+							<td>
+								<input type="hidden" value="false" name="options[delete_only]" />
+								<input id="sce-allow-deletion-only" type="checkbox" value="true" name="options[delete_only]" <?php checked( true, $options['delete_only'] ); ?> /> <label for="sce-allow-deletion-only"><?php esc_html_e( 'Skip editing and allow deletion only.', 'simple-comment-editing-options' ); ?></label>
+							</td>
+						</tr>
+						<tr>
 							<th scope="row"><label for="sce-allow-deletion-confirmation"><?php esc_html_e( 'Allow Comment Deletion Confirmation', 'simple-comment-editing-options' ); ?></label></th>
 							<td>
 								<input type="hidden" value="false" name="options[allow_delete_confirmation]" />

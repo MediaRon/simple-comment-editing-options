@@ -69,6 +69,7 @@ class SCE_Plugin_Options {
 				case 'require_comment_length_max':
 				case 'allow_delete_confirmation':
 				case 'allow_delete':
+				case 'delete_only':
 				case 'show_timer':
 				case 'allow_edit_notification':
 				case 'show_icons':
@@ -135,6 +136,7 @@ class SCE_Plugin_Options {
 			'show_timer'                      => true,
 			'loading_image'                   => Simple_Comment_Editing::get_instance()->get_plugin_url( '/images/loading.gif' ),
 			'allow_delete'                    => true,
+			'delete_only'                     => false,
 			'button_theme'                    => 'default',
 			'show_icons'                      => false,
 			'click_to_edit_text'              => __( 'Click to Edit', 'simple-comment-editing' ),
