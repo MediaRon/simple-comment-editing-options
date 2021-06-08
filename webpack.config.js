@@ -8,6 +8,7 @@ module.exports = [
 		entry: {
 			themes: ["./css/themes.scss"],
 			"sce-cc-progress-bar": ["./css/sce-ccc-progress-bar.scss"],
+			"admin": ["./css/admin.scss"],
 		},
 		module: {
 			rules: [
