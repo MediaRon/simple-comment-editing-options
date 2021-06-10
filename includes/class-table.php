@@ -5,6 +5,8 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Includes;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
@@ -12,13 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class for creating the options table.
  */
-class SCE_Table_Create {
-
-	/**
-	 * Class constructor.
-	 */
-	public function __construct() {
-	}
+class Table {
 
 	/**
 	 * Create comments table
@@ -27,7 +23,7 @@ class SCE_Table_Create {
 	 * @access public
 	 * @return void
 	 */
-	public function create_table() {
+	public static function create_table() {
 		global $wpdb;
 		$tablename = $wpdb->base_prefix . 'sce_comments';
 
@@ -63,7 +59,7 @@ class SCE_Table_Create {
 	 * @access public
 	 * @return void
 	 */
-	public function drop() {
+	public static function drop() {
 		global $wpdb;
 		$tablename = $wpdb->base_prefix . 'sce_comments';
 		$sql       = "drop table if exists $tablename";

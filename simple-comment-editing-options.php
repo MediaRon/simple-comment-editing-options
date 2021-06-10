@@ -4,19 +4,23 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.5.0
+Version: 2.0.0
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
 Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
+
+namespace SCEOptions;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
-define( 'SCE_OPTIONS_VERSION', '1.5.0' );
+define( 'SCE_OPTIONS_VERSION', '2.0.0' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename( __FILE__ ) );
+define( 'SCE_OPTIONS_FILE', __FILE__ );
 define( 'SCE_MIN_VERSION', '2.4.5' );
 
 /**
