@@ -115,7 +115,7 @@ class Admin {
 	 * @see register_sub_menu
 	 */
 	public function sce_admin_page() {
-		// Admin_Menu_Output::output_options();
+		Admin_Menu_Output::output_options();
 	}
 
 	/**
