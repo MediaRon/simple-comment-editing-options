@@ -45,7 +45,13 @@ class Admin_Settings {
 	 * Output Generic Settings Place holder for React goodness.
 	 */
 	public static function get_settings_header() {
-		echo 'blah';
+		?>
+		<div class="wrap sce-admin-wrap">
+			<h1>
+				<a href="<?php echo esc_url( Functions::get_settings_url() ); ?>" class="sce-admin-logo"><img src="<?php echo esc_url( Functions::get_plugin_logo() ); ?>" alt="Simple Comment Editing" /></a>
+			</h1>
+			<p class="sce-info-text"><?php esc_html_e( 'Supercharge your comment section by allowing your users to edit their comments.', 'simple-comment-editing' ); ?></p>
+		<?php
 	}
 
 	/**
@@ -352,6 +358,8 @@ class Admin_Settings {
 	 * Run script and enqueue stylesheets and stuff like that.
 	 */
 	public static function get_settings_footer() {
-		// Do settings footer stuff here.
+		?>
+		</div><!-- .wrap.sce-admin-wrap -->
+		<?php
 	}
 }
