@@ -16,6 +16,8 @@ class Init_Tabs {
 	 */
 	public function run() {
 		new Main();
+		new Appearance();
+		new Translations();
 		new License();
 	}
 }
