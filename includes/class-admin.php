@@ -5,14 +5,20 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Includes;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
 
+use SCEOptions\Includes\Options as Options;
+use SCEOptions\Includes\Functions as Functions;
+use SCEOptions\Includes\Admin_Menu_Output as Admin_Menu_Output;
+
 /**
  * Admin class for SCE Options.
  */
-class SCE_Admin {
+class Admin {
 
 	/**
 	 * Holds the slug to the admin panel page
@@ -46,7 +52,8 @@ class SCE_Admin {
 	public function admin_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen->base ) && 'settings_page_sce' === $screen->base ) {
-			wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url( 'dist/themes.css' ), array(), SCE_OPTIONS_VERSION, 'all' );
+			wp_enqueue_style( 'sce-styles', Functions::get_plugin_url( 'dist/themes.css' ), array(), SCE_OPTIONS_VERSION, 'all' );
+			wp_enqueue_style( 'sce-styles-admin', Functions::get_plugin_url( 'dist/admin.css' ), array( 'sce-styles' ), SCE_OPTIONS_VERSION, 'all' );
 		}
 	}
 
@@ -60,10 +67,10 @@ class SCE_Admin {
 	public function init() {
 
 		// Add settings link.
-		$prefix = SCE_Options::is_multisite() ? 'network_admin_' : '';
+		$prefix = Functions::is_multisite() ? 'network_admin_' : '';
 		add_action( $prefix . 'plugin_action_links_' . SCE_OPTIONS_SLUG, array( $this, 'plugin_settings_link' ) );
 		// Init admin menu.
-		if ( SCE_Options::is_multisite() ) {
+		if ( Functions::is_multisite() ) {
 			add_action( 'network_admin_menu', array( $this, 'register_sub_menu' ) );
 		} else {
 			add_action( 'admin_menu', array( $this, 'register_sub_menu' ) );
@@ -79,7 +86,7 @@ class SCE_Admin {
 	 */
 	public function register_sub_menu() {
 		$hook = '';
-		if ( SCE_Options::is_multisite() ) {
+		if ( Functions::is_multisite() ) {
 			$hook = add_submenu_page(
 				'settings.php',
 				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
@@ -108,8 +115,7 @@ class SCE_Admin {
 	 * @see register_sub_menu
 	 */
 	public function sce_admin_page() {
-		include SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-admin-menu-output.php' );
-		new SCE_Admin_Menu_Output();
+		// Admin_Menu_Output::output_options();
 	}
 
 	/**
@@ -141,15 +147,6 @@ class SCE_Admin {
 	 * @return string URL to the admin panel page.
 	 */
 	public static function get_url() {
-		$url = self::$url;
-		if ( empty( $url ) ) {
-			if ( SCE_Options::is_multisite() ) {
-				$url = add_query_arg( array( 'page' => self::$slug ), network_admin_url( 'settings.php' ) );
-			} else {
-				$url = add_query_arg( array( 'page' => self::$slug ), admin_url( 'options-general.php' ) );
-			}
-			self::$url = $url;
-		}
-		return $url;
+		return Functions::get_settings_url();
 	}
 }

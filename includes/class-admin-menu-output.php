@@ -5,34 +5,18 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Includes;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
+
+use SCEOptions\Includes\Options as Options;
+use SCEOptions\Includes\Functions as Functions;
 /**
  * Main class for outputting SCE options.
  */
-class SCE_Admin_Menu_Output {
-
-	/**
-	 * Get an instance of the class.
-	 *
-	 * @return SCE_Admin_Menu_Output
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	} //end get_instance
-
-	/**
-	 * Main class constructor.
-	 */
-	public function __construct() {
-		if ( is_admin() ) {
-			$this->output_options();
-		}
-	}
+class Admin_Menu_Output {
 
 	/**
 	 * Output options
@@ -41,7 +25,7 @@ class SCE_Admin_Menu_Output {
 	 * @access public
 	 * @see __construct
 	 */
-	public function output_options() {
+	public static function output_options() {
 
 		$license_message = '';
 		if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {

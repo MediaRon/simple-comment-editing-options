@@ -313,7 +313,7 @@ class SCE_Options {
 			return;
 		}
 		if ( is_admin() ) {
-			//$this->admin = new SCEOptions\Includes\Admin();
+			$this->admin = new \SCEOptions\Includes\Admin();
 		}
 		//$this->output = new SCEOptions\Includes\Output();
 		//$this->frontend_editing = new SCEOptions\Includes\Frontend_Editing();
@@ -346,7 +346,7 @@ class SCE_Options {
 	 */
 	public function sce_plugin_updater() {
 		require_once Functions::get_plugin_dir( '/includes/EDD_SL_Plugin_Updater.php' );
-		if ( self::is_multisite() ) {
+		if ( Functions::is_multisite() ) {
 			$options = get_site_option( 'sce_options' );
 		} else {
 			$options = get_option( 'sce_options' );
