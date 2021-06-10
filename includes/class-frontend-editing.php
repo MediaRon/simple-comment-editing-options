@@ -68,6 +68,7 @@ class Frontend_Editing {
 	 * Save a comment via Ajax.
 	 */
 	public function ajax_save_frontend_comment() {
+		define( 'DOING_SCE', true );
 		$nonce = sanitize_text_field( $_POST['nonce'] ); // phpcs:ignore
 		$comment_id = absint( $_POST['comment_id'] ); // phpcs:ignore
 		if ( ! current_user_can( 'moderate_comments' ) ) {
@@ -90,6 +91,18 @@ class Frontend_Editing {
 		$sce_comment['comment_approved']     = $status;
 
 		wp_update_comment( $sce_comment );
+
+		// Format the comment for returning.
+		if ( function_exists( 'mb_convert_encoding' ) ) {
+			$comment = mb_convert_encoding( $comment, '' . get_option( 'blog_charset' ) . '', mb_detect_encoding( $comment, 'UTF-8, ISO-8859-1, ISO-8859-15', true ) );
+		}
+		$comment = apply_filters( 'comment_text', apply_filters( 'get_comment_text', $comment, $sce_comment, array() ), $comment, array() );
+
+		wp_send_json_success(
+			array(
+				'comment' => $comment,
+			)
+		);
 		die( '' );
 	}
 
