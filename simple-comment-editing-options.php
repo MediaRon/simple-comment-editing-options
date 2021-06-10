@@ -315,13 +315,13 @@ class SCE_Options {
 		if ( is_admin() ) {
 			$this->admin = new \SCEOptions\Includes\Admin();
 		}
-		//$this->output = new SCEOptions\Includes\Output();
-		//$this->frontend_editing = new SCEOptions\Includes\Frontend_Editing();
+		$this->output           = new \SCEOptions\Includes\Output();
+		$this->frontend_editing = new \SCEOptions\Includes\Frontend_Editing();
 
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 
 		$functions = Functions::get_plugin_version();
-		$options     = Options::get_options();
+		$options   = Options::get_options();
 
 		if ( isset( $options['allow_front_end_character_limit'] ) && true === filter_var( $options['allow_front_end_character_limit'], FILTER_VALIDATE_BOOLEAN ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts_ccc' ) );

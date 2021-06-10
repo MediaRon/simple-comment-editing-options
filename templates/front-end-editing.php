@@ -5,6 +5,15 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Templates;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'No direct access.' );
+}
+
+use SCEOptions\Includes\Options as Options;
+use SCEOptions\Includes\Functions as Functions;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
@@ -13,7 +22,7 @@ if ( ! current_user_can( 'moderate_comments' ) ) {
 }
 wp_register_script(
 	'sce-frontend-editing',
-	SCE_Options::get_instance()->get_plugin_url( '/js/front-end-editing.js' ),
+	Functions::get_plugin_url( '/js/front-end-editing.js' ),
 	array( 'jquery' ),
 	SCE_OPTIONS_VERSION,
 	false
@@ -32,21 +41,21 @@ wp_localize_script(
 );
 wp_register_style(
 	'bootstrap-reboot',
-	SCE_Options::get_instance()->get_plugin_url( '/bootstrap/css/bootstrap-reboot.min.css' ),
+	Functions::get_plugin_url( '/bootstrap/css/bootstrap-reboot.min.css' ),
 	array(),
 	SCE_OPTIONS_VERSION,
 	'all'
 );
 wp_register_style(
 	'bootstrap-grid',
-	SCE_Options::get_instance()->get_plugin_url( '/bootstrap/css/bootstrap-grid.min.css' ),
+	Functions::get_plugin_url( '/bootstrap/css/bootstrap-grid.min.css' ),
 	array( 'bootstrap-reboot' ),
 	SCE_OPTIONS_VERSION,
 	'all'
 );
 wp_register_style(
 	'bootstrap',
-	SCE_Options::get_instance()->get_plugin_url( '/bootstrap/css/bootstrap.min.css' ),
+	Functions::get_plugin_url( '/bootstrap/css/bootstrap.min.css' ),
 	array( 'bootstrap-reboot' ),
 	SCE_OPTIONS_VERSION,
 	'all'
