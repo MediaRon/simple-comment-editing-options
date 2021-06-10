@@ -8,6 +8,7 @@ module.exports = function (grunt) {
 			  files: [
 				{src: ['simple-comment-editing-options.php'], dest: '/', filter: 'isFile'}, // includes files in path
 				{src: ['uninstall.php'], dest: '/', filter: 'isFile'}, // includes files in path
+				{src: ['autoloader.php'], dest: '/', filter: 'isFile'}, // includes files in path
 				{src: ['dist/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['includes/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['fancybox/**'], dest: '/'}, // includes files in path and its subdirs

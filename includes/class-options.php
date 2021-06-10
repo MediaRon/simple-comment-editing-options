@@ -5,6 +5,10 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Includes;
+
+use SCEOptions\Includes\Functions as Functions;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
@@ -12,34 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class that updates and stores the options.
  */
-class SCE_Plugin_Options {
-
-	/**
-	 * Holds the options variable.
-	 *
-	 * @since 1.0.0
-	 * @static
-	 * @var string $slug
-	 */
-	private static $options = array();
-
-	/**
-	 * Retrieve an instance of the class.
-	 *
-	 * @return SCE_Plugin_Options
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	} //end get_instance
-
-	/**
-	 * Class constructor.
-	 */
-	public function __construct() {
-	}
+class Options {
 
 	/**
 	 * Update options via sanitization
@@ -49,7 +26,7 @@ class SCE_Plugin_Options {
 	 * @param array $options array of options to save.
 	 * @return void
 	 */
-	public function update_options( $options ) {
+	public static function update_options( $options ) {
 		foreach ( $options as $key => &$option ) {
 			switch ( $key ) {
 				case 'timer':
@@ -82,13 +59,9 @@ class SCE_Plugin_Options {
 				case 'allow_comment_logging':
 					$option = filter_var( $options[ $key ], FILTER_VALIDATE_BOOLEAN );
 					if ( true === $option ) {
-						require_once SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-table-create.php' );
-						$table_create = new SCE_Table_Create();
-						$table_create->create_table();
+						Table::create_table();
 					} else {
-						require_once SCE_Options::get_instance()->get_plugin_dir( '/includes/class-sce-table-create.php' );
-						$table_create = new SCE_Table_Create();
-						$table_create->drop();
+						Table::drop();
 					}
 					break;
 				default:
@@ -96,7 +69,7 @@ class SCE_Plugin_Options {
 					break;
 			}
 		}
-		if ( SCE_Options::is_multisite() ) {
+		if ( Functions::is_multisite() ) {
 			update_site_option( 'sce_options', $options );
 		} else {
 			update_option( 'sce_options', $options );
@@ -108,14 +81,14 @@ class SCE_Plugin_Options {
 	 *
 	 * @return array Array of options.
 	 */
-	public function get_options() {
-		if ( SCE_Options::is_multisite() ) {
+	public static function get_options() {
+		if ( Functions::is_multisite() ) {
 			$options = get_site_option( 'sce_options', array() );
 		} else {
 			$options = get_option( 'sce_options', array() );
 		}
 
-		$defaults = $this->get_defaults();
+		$defaults = self::get_defaults();
 		if ( count( $options ) < count( $defaults ) ) {
 			$options = wp_parse_args( $options, $defaults );
 		}
@@ -130,11 +103,11 @@ class SCE_Plugin_Options {
 	 *
 	 * @return array default options
 	 */
-	private function get_defaults() {
+	private static function get_defaults() {
 		$defaults = array(
 			'timer'                           => 5,
 			'show_timer'                      => true,
-			'loading_image'                   => Simple_Comment_Editing::get_instance()->get_plugin_url( '/images/loading.gif' ),
+			'loading_image'                   => \Simple_Comment_Editing::get_instance()->get_plugin_url( '/images/loading.gif' ),
 			'allow_delete'                    => true,
 			'delete_only'                     => false,
 			'button_theme'                    => 'default',
@@ -147,19 +120,19 @@ class SCE_Plugin_Options {
 			'custom_class'                    => '',
 			'allow_delete_confirmation'       => true,
 			'allow_edit_notification'         => false,
-			'edit_notification_to'            => SCE_Options::is_multisite() ? get_site_option( 'admin_email' ) : get_option(
+			'edit_notification_to'            => Functions::is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email'
 			),
-			'edit_notification_from'          => SCE_Options::is_multisite() ? get_site_option( 'admin_email' ) : get_option(
+			'edit_notification_from'          => Functions::is_multisite() ? get_site_option( 'admin_email' ) : get_option(
 				'admin_email'
 			),
 			/* Translators: %s is the site name a user has left a comment on */
-			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), SCE_Options::is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
+			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), Functions::is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
 			'edit_text'                       => __( 'Click to Edit', 'simple-comment-editing' ),
 			'confirm_delete'                  => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
 			'comment_deleted'                 => __( 'Your comment has been removed.', 'simple-comment-editing' ),
 			'comment_deleted_error'           => __( 'Your comment could not be deleted', 'simple-comment-editing' ),
-			'comment_empty_error'             => Simple_Comment_Editing::get_instance()->errors->get_error_message( 'comment_empty' ),
+			'comment_empty_error'             => \Simple_Comment_Editing::get_instance()->errors->get_error_message( 'comment_empty' ),
 			'require_comment_length'          => false,
 			'min_comment_length'              => 50,
 			'require_comment_length_max'      => false,

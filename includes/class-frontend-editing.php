@@ -5,14 +5,19 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Includes;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
 
+use SCEOptions\Includes\Options as Options;
+use SCEOptions\Includes\Functions as Functions;
+
 /**
  * Main class for front-end editing.
  */
-class SCE_Frontend_Editing {
+class Frontend_Editing {
 
 	/**
 	 * Class Constructor.
@@ -26,9 +31,7 @@ class SCE_Frontend_Editing {
 	 * Set up front-end editing filters.
 	 */
 	public function setup_comment_filters() {
-		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
-		$sce_options = new SCE_Plugin_Options();
-		$options     = $sce_options->get_options();
+		$options = Options::get_options();
 		/* Begin Filters */
 		if ( ! is_feed() && ! defined( 'DOING_SCE' ) && true === filter_var( $options['allow_front_end_editing'], FILTER_VALIDATE_BOOLEAN ) ) {
 			if ( current_user_can( 'moderate_comments' ) ) {
@@ -57,7 +60,7 @@ class SCE_Frontend_Editing {
 		if ( ! wp_verify_nonce( $nonce, 'edit-comment-' . $comment_id ) ) {
 			wp_die( 'Could not validate nonce.' );
 		}
-		include_once SCE_Options::get_instance()->get_plugin_dir( '/templates/front-end-editing.php' );
+		include_once Functions::get_plugin_dir( '/templates/front-end-editing.php' );
 		die( '' );
 	}
 
@@ -65,6 +68,7 @@ class SCE_Frontend_Editing {
 	 * Save a comment via Ajax.
 	 */
 	public function ajax_save_frontend_comment() {
+		define( 'DOING_SCE', true );
 		$nonce = sanitize_text_field( $_POST['nonce'] ); // phpcs:ignore
 		$comment_id = absint( $_POST['comment_id'] ); // phpcs:ignore
 		if ( ! current_user_can( 'moderate_comments' ) ) {
@@ -87,6 +91,18 @@ class SCE_Frontend_Editing {
 		$sce_comment['comment_approved']     = $status;
 
 		wp_update_comment( $sce_comment );
+
+		// Format the comment for returning.
+		if ( function_exists( 'mb_convert_encoding' ) ) {
+			$comment = mb_convert_encoding( $comment, '' . get_option( 'blog_charset' ) . '', mb_detect_encoding( $comment, 'UTF-8, ISO-8859-1, ISO-8859-15', true ) );
+		}
+		$comment = apply_filters( 'comment_text', apply_filters( 'get_comment_text', $comment, $sce_comment, array() ), $comment, array() );
+
+		wp_send_json_success(
+			array(
+				'comment' => $comment,
+			)
+		);
 		die( '' );
 	}
 

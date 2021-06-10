@@ -1,18 +1,23 @@
 <?php
 /**
- * Register SCE Options and defaults.
+ * Register SCE Options and defaults, and filters/actions.
  *
  * @package SCEOptions
  */
+
+namespace SCEOptions\Includes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
 
+use SCEOptions\Includes\Options as Options;
+use SCEOptions\Includes\Functions as Functions;
+
 /**
  * Output SCE's interface and hooks.
  */
-class SCE_Output {
+class Output {
 
 	/**
 	 * Holds options for SCE Options
@@ -28,9 +33,7 @@ class SCE_Output {
 	 */
 	public function __construct() {
 
-		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
-		$sce_options = new SCE_Plugin_Options();
-		$options     = $sce_options->get_options();
+		$options = Options::get_options();
 		if ( is_array( $options ) ) {
 			$this->options = $options;
 		}
@@ -295,7 +298,7 @@ class SCE_Output {
 
 			// Get site name.
 			$sitename = '';
-			if ( SCE_Options::is_multisite() ) {
+			if ( Functions::is_multisite() ) {
 				$sitename = get_site_option( 'site_name' );
 			} else {
 				$sitename = get_option( 'blogname' );
@@ -393,7 +396,7 @@ class SCE_Output {
 
 			// Get site name.
 			$sitename = '';
-			if ( SCE_Options::is_multisite() ) {
+			if ( Functions::is_multisite() ) {
 				$sitename = get_site_option( 'site_name' );
 			} else {
 				$sitename = get_option( 'blogname' );
@@ -430,7 +433,7 @@ class SCE_Output {
 	/**
 	 * Output styles for SCE.
 	 *
-	 * Output styles for SCE.
+	 * Output styles for SCE (front-end).
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -438,7 +441,7 @@ class SCE_Output {
 	 * @param string $message The message to display.
 	 */
 	public function output_styles( $message ) {
-		wp_enqueue_style( 'sce-styles', Simple_Comment_Editing_Options()->get_plugin_url( 'dist/themes.css' ), array(), SCE_OPTIONS_VERSION, 'all' );
+		wp_enqueue_style( 'sce-styles', Functions::get_plugin_url( 'dist/themes.css' ), array(), SCE_OPTIONS_VERSION, 'all' );
 	}
 
 	/**

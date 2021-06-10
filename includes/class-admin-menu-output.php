@@ -5,34 +5,18 @@
  * @package SCEOptions
  */
 
+namespace SCEOptions\Includes;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
+
+use SCEOptions\Includes\Options as Options;
+use SCEOptions\Includes\Functions as Functions;
 /**
  * Main class for outputting SCE options.
  */
-class SCE_Admin_Menu_Output {
-
-	/**
-	 * Get an instance of the class.
-	 *
-	 * @return SCE_Admin_Menu_Output
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	} //end get_instance
-
-	/**
-	 * Main class constructor.
-	 */
-	public function __construct() {
-		if ( is_admin() ) {
-			$this->output_options();
-		}
-	}
+class Admin_Menu_Output {
 
 	/**
 	 * Output options
@@ -41,14 +25,12 @@ class SCE_Admin_Menu_Output {
 	 * @access public
 	 * @see __construct
 	 */
-	public function output_options() {
+	public static function output_options() {
 
 		$license_message = '';
 		if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
 			check_admin_referer( 'save_sce_options' );
-			include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
-			$sce_options = new SCE_Plugin_Options();
-			$sce_options->update_options( $_POST['options'] ); // phpcs:ignore
+			Options::update_options( $_POST['options'] ); // phpcs:ignore
 			printf( '<div class="updated"><p><strong>%s</strong></p></div>', esc_html__( 'Your options have been saved.', 'simple-comment-editing-options' ) );
 
 			// Check for valid license.
@@ -127,9 +109,7 @@ class SCE_Admin_Menu_Output {
 			}
 		}
 		// Get options and defaults.
-		include_once SCE_Options::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
-		$sce_options = new SCE_Plugin_Options();
-		$options     = $sce_options->get_options();
+		$options = Options::get_options();
 		?>
 		<div class="wrap">
 			<form action="" method="POST">

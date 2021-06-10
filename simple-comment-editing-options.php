@@ -4,19 +4,28 @@ Plugin Name: Simple Comment Editing Options
 Plugin URI: https://mediaron.com/simple-comment-editing-options
 Description: Options for Simple Comment Editing.
 Author: Ronald Huereca
-Version: 1.5.0
+Version: 2.0.0
 Requires at least: 5.0
 Author URI: https://mediaron.com
 Contributors: ronalfy
 Text Domain: simple-comment-editing-options
 Domain Path: /languages
 */
+
+namespace SCEOptions;
+
+require_once 'autoloader.php';
+
+use SCEOptions\Includes\Functions as Functions;
+use SCEOptions\Includes\Options as Options;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
 }
-define( 'SCE_OPTIONS_VERSION', '1.5.0' );
+define( 'SCE_OPTIONS_VERSION', '2.0.0' );
 define( 'SCE_OPTIONS_TABLE_VERSION', '1.0.0' );
 define( 'SCE_OPTIONS_SLUG', plugin_basename( __FILE__ ) );
+define( 'SCE_OPTIONS_FILE', __FILE__ );
 define( 'SCE_MIN_VERSION', '2.4.5' );
 
 /**
@@ -74,7 +83,7 @@ class SCE_Options {
 		include ABSPATH . WPINC . '/version.php';
 		if ( version_compare( $wp_version, self::WP_REQUIRED, '<' ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice_insufficient_wp' ) );
-			if ( self::is_multisite() ) {
+			if ( Functions::is_multisite() ) {
 				add_action( 'network_admin_notices', array( $this, 'admin_notice_insufficient_wp' ) );
 			}
 			$has_errors = true;
@@ -83,16 +92,6 @@ class SCE_Options {
 		if ( ! $has_errors ) {
 			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 9 );
 		}
-	}
-
-	/**
-	 * Check whether site is multisite or not.
-	 *
-	 * @return bool True if multisite, false if not.
-	 */
-	public static function is_multisite() {
-		$sce = Simple_Comment_Editing::get_instance();
-		return $sce::is_multisite();
 	}
 
 	/**
@@ -197,7 +196,7 @@ class SCE_Options {
 	 */
 	public function add_scripts() {
 		wp_enqueue_script( 'sce-options', plugins_url( '/js/simple-comment-editing-options.js', __FILE__ ), array( 'wp-hooks', 'simple-comment-editing' ), SCE_OPTIONS_VERSION, true );
-		if ( self::is_multisite() ) {
+		if ( Functions::is_multisite() ) {
 			$options = get_site_option( 'sce_options', false );
 		} else {
 			$options = get_option( 'sce_options', false );
@@ -225,9 +224,8 @@ class SCE_Options {
 		if ( ! is_singular() || ! comments_open() ) {
 			return;
 		}
-		include_once self::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
-		$sce_options        = new SCE_Plugin_Options();
-		$options            = $sce_options->get_options();
+		Functions::get_plugin_dir( 'includes/class-sce-options.php' );
+		$options            = Options::get_options();
 		$min_comment_option = filter_var( $options['require_comment_length'], FILTER_VALIDATE_BOOLEAN );
 		$max_comment_option = filter_var( $options['require_comment_length_max'], FILTER_VALIDATE_BOOLEAN );
 		if ( $min_comment_option && $max_comment_option ) {
@@ -315,20 +313,15 @@ class SCE_Options {
 			return;
 		}
 		if ( is_admin() ) {
-			include $this->get_plugin_dir( '/includes/class-sce-admin.php' );
-			$this->admin = new SCE_Admin();
+			$this->admin = new \SCEOptions\Includes\Admin();
 		}
-		include_once $this->get_plugin_dir( '/includes/class-sce-output.php' );
-		$this->output = new SCE_Output();
-
-		include $this->get_plugin_dir( '/includes/class-sce-frontend-editing.php' );
-		$this->output = new SCE_Frontend_Editing();
+		$this->output           = new \SCEOptions\Includes\Output();
+		$this->frontend_editing = new \SCEOptions\Includes\Frontend_Editing();
 
 		add_action( 'sce_scripts_loaded', array( $this, 'add_scripts' ) );
 
-		include_once self::get_instance()->get_plugin_dir( 'includes/class-sce-options.php' );
-		$sce_options = new SCE_Plugin_Options();
-		$options     = $sce_options->get_options();
+		$functions = Functions::get_plugin_version();
+		$options   = Options::get_options();
 
 		if ( isset( $options['allow_front_end_character_limit'] ) && true === filter_var( $options['allow_front_end_character_limit'], FILTER_VALIDATE_BOOLEAN ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts_ccc' ) );
@@ -352,8 +345,8 @@ class SCE_Options {
 	 * @access public
 	 */
 	public function sce_plugin_updater() {
-		require_once $this->get_plugin_dir( '/includes/EDD_SL_Plugin_Updater.php' );
-		if ( self::is_multisite() ) {
+		require_once Functions::get_plugin_dir( '/includes/EDD_SL_Plugin_Updater.php' );
+		if ( Functions::is_multisite() ) {
 			$options = get_site_option( 'sce_options' );
 		} else {
 			$options = get_option( 'sce_options' );
@@ -433,46 +426,6 @@ class SCE_Options {
 		$comment_to_save['comment_content'] = $comment_text;
 		wp_update_comment( $comment_to_save );
 		die( wp_kses_post( $comment_text ) );
-	}
-
-	/**
-	 * Return absolute path to asset.
-	 *
-	 * Return absolute path to asset.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $path Relative path to asset.
-	 *
-	 * @return string Absolute path to asset
-	 */
-	public function get_plugin_dir( $path = '' ) {
-		$dir = rtrim( plugin_dir_path( __FILE__ ), '/' );
-		if ( ! empty( $path ) && is_string( $path ) ) {
-			$dir .= '/' . ltrim( $path, '/' );
-		}
-		return $dir;
-	}
-
-	/**
-	 * Return url path to asset.
-	 *
-	 * Return url path to asset.
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 *
-	 * @param string $path Relative path to asset.
-	 *
-	 * @return string URL path to asset
-	 */
-	public function get_plugin_url( $path = '' ) {
-		$dir = rtrim( plugin_dir_url( __FILE__ ), '/' );
-		if ( ! empty( $path ) && is_string( $path ) ) {
-			$dir .= '/' . ltrim( $path, '/' );
-		}
-		return $dir;
 	}
 }
 /**
