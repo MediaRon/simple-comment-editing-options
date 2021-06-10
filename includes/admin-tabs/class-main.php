@@ -1,11 +1,11 @@
 <?php
 /**
- * Output SCE Options.
+ * Output main SCE tab.
  *
  * @package SCEOptions
  */
 
-namespace SCEOptions\Includes;
+namespace SCEOptions\Includes\Admin_Tabs;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'No direct access.' );
@@ -16,7 +16,7 @@ use SCEOptions\Includes\Functions as Functions;
 /**
  * Main class for outputting SCE options.
  */
-class Admin_Menu_Output {
+class Main {
 
 	/**
 	 * Output options

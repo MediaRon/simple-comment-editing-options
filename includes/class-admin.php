@@ -93,7 +93,7 @@ class Admin {
 				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
 				'manage_network',
 				'sce',
-				array( $this, 'sce_admin_page' )
+				array( '\SCEOptions\Includes\Admin_Settings', 'settings_page' )
 			);
 		} else {
 			$hook = add_submenu_page(
@@ -102,20 +102,10 @@ class Admin {
 				__( 'Simple Comment Editing', 'simple-comment-editing-options' ),
 				'manage_options',
 				'sce',
-				array( $this, 'sce_admin_page' )
+				array( '\SCEOptions\Includes\Admin_Settings', 'settings_page' )
 			);
 		}
-	}
-
-	/**
-	 * Output admin menu
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 * @see register_sub_menu
-	 */
-	public function sce_admin_page() {
-		Admin_Menu_Output::output_options();
+		add_action( 'in_admin_header', array( '\SCEOptions\Includes\Admin_Settings', 'get_admin_header' ) );
 	}
 
 	/**
