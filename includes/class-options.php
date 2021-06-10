@@ -127,7 +127,7 @@ class Options {
 				'admin_email'
 			),
 			/* Translators: %s is the site name a user has left a comment on */
-			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), SCE_Options::is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
+			'edit_notification_subject'       => sprintf( __( 'A user has edited a comment on %s', 'simple-comment-editing-options' ), Functions::is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ) ),
 			'edit_text'                       => __( 'Click to Edit', 'simple-comment-editing' ),
 			'confirm_delete'                  => __( 'Do you want to delete this comment?', 'simple-comment-editing' ),
 			'comment_deleted'                 => __( 'Your comment has been removed.', 'simple-comment-editing' ),

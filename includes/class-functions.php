@@ -5,7 +5,7 @@
  * @package SCE
  */
 
-namespace SCE\Includes;
+namespace SCEOptions\Includes;
 
 /**
  * Class functions
