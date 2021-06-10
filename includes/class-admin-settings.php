@@ -175,6 +175,10 @@ class Admin_Settings {
 	 * Output the top-level admin tabs.
 	 */
 	public static function get_settings_tabs() {
+		// Initialize tab actions/filters.
+		$tabs = new Admin_Tabs\Init_Tabs();
+		$tabs->run();
+
 		$settings_url_base = Functions::get_settings_url( 'main' )
 		?>
 			<?php
