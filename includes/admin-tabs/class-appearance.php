@@ -121,6 +121,23 @@ class Appearance {
 											<br /><br />
 											<input type="hidden" value="false" name="options[show_icons]" />
 											<input id="sce-allow-icons" type="checkbox" value="true" name="options[show_icons]" <?php checked( true, $options['show_icons'] ); ?> /> <label for="sce-allow-icons"><?php esc_html_e( 'Allow icons for the buttons. Recommended if you have selected a button theme.', 'simple-comment-editing-options' ); ?></label>
+											<p class="sce-theme-preview">
+												<strong>
+												<?php
+													esc_html_e( 'Button Theme Preview:', 'simple-comment-editing-options' );
+												?>
+												</strong>
+												<a data-animation-effect="zoom" data-animation-duration="1000" data-fancybox data-src="#sce-screenshot-default" data-caption="SCE Default Theme" href="javascript:;"><?php esc_html_e( 'Default Theme', 'simple-comment-editing-options' ); ?></a> | <a data-animation-effect="zoom" data-animation-duration="1000" data-fancybox data-src="#sce-screenshot-dark" data-caption="SCE Dark Theme" href="javascript:;"><?php esc_html_e( 'Dark Theme', 'simple-comment-editing-options' ); ?></a> | <a data-animation-effect="zoom" data-animation-duration="1000" data-fancybox data-src="#sce-screenshot-light" data-caption="SCE Light Theme" href="javascript:;"><?php esc_html_e( 'Light Theme', 'simple-comment-editing-options' ); ?></a>
+											</p>
+											<div id="sce-screenshot-default" style="display: none;">
+												<img src="<?php echo esc_url( Functions::get_plugin_url( '/images/screenshot-theme-default.png' ) ); ?>" alt="SCE Default Theme Screenshot" />
+											</div>
+											<div id="sce-screenshot-dark" style="display: none;">
+												<img src="<?php echo esc_url( Functions::get_plugin_url( '/images/screenshot-theme-dark.png' ) ); ?>" alt="SCE Dark Theme Screenshot" />
+											</div>
+											<div id="sce-screenshot-light" style="display: none;">
+												<img src="<?php echo esc_url( Functions::get_plugin_url( '/images/screenshot-theme-light.png' ) ); ?>" alt="SCE Light Theme Screenshot" />
+											</div>
 										</td>
 									</tr>
 									<tr>
