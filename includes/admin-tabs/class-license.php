@@ -40,7 +40,7 @@ class License {
 			'action' => 'sceo_output_license',
 			'url'    => Functions::get_settings_url( 'license' ),
 			'label'  => _x( 'License', 'Tab label as License', 'ultimate-auto-updates' ),
-			'icon'   => 'shield-check',
+			'icon'   => 'file-certificate',
 		);
 		return $tabs;
 	}

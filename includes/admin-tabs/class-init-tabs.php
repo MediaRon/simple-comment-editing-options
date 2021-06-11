@@ -19,5 +19,6 @@ class Init_Tabs {
 		new Appearance();
 		new Translations();
 		new License();
+		new Support();
 	}
 }

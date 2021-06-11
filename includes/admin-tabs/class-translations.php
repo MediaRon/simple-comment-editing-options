@@ -102,7 +102,6 @@ class Translations {
 										<input id="sce-comment-stop-timer" class="regular-text" type="text" value="<?php echo esc_attr( $options['stop_timer_text'] ); ?>" name="options[stop_timer_text]" />
 										</td>
 									</tr>
-									
 									<tr>
 										<th scope="row"><?php esc_html_e( 'Messages', 'simple-comment-editing-options' ); ?></th>
 										<td>
