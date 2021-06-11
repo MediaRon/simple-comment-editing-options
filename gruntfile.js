@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 				{src: ['autoloader.php'], dest: '/', filter: 'isFile'}, // includes files in path
 				{src: ['dist/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['includes/**'], dest: '/'}, // includes files in path and its subdirs
+				{src: ['images/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['fancybox/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['bootstrap/**'], dest: '/'}, // includes files in path and its subdirs
 				{src: ['js/**'], dest: '/'}, // includes files in path and its subdirs

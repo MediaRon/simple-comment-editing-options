@@ -36,13 +36,44 @@ $danger_button_color: #721c24;
 			clear: right;
 		}
 	}
+	&.default {
+		.sce-comment-edit-buttons,
+		.sce-timer-cancel-wrapper {
+			margin: 10px 0;
+			.sce-timer {
+				font-size: 12px;
+				font-style: italic;
+			}
+			button {
+				margin-right: 10px;
+			}
+			button:last-of-type {
+				margin-right: 0;
+			}
+			svg {
+				fill: currentColor;
+				margin-right: 10px;
+			}
+			.sce-comment-delete {
+				float: right;
+			}
+			.sce-timer {
+				margin-top: 10px;
+			}
+		}
+	}
 	&.regular {
 		.sce-comment-edit-buttons,
 		.sce-timer-cancel-wrapper {
 			margin: 10px 0;
+			.sce-timer {
+				font-size: 12px;
+				font-style: italic;
+			}
 			button {
 				display: inline-block;
-				border-radius: 2px;
+				border-radius: 5px;
+				border: 1px solid #EEE;
 				padding: 10px 20px;
 				margin-right: 10px;
 				font-weight: 700;
@@ -119,12 +150,17 @@ $danger_button_color: #721c24;
 		.sce-comment-edit-buttons,
 		.sce-timer-cancel-wrapper {
 			margin: 10px 0;
+			.sce-timer {
+				font-size: 12px;
+				font-style: italic;
+			}
 			button {
 				display: inline-block;
-				background-color: #333;
+				background-color: lighten( #333, 15%);
 				color: #FFF;
 				margin-right: 10px;
-				border-radius: 2px;
+				border-radius: 5px;
+				border: 1px solid #EEE;
 				padding: 10px 20px;
 				text-decoration: none;
 				font-weight: 700;
@@ -148,6 +184,7 @@ $danger_button_color: #721c24;
 				float: right;
 			}
 			.sce-timer-cancel {
+				background-color: #333;
 				svg {
 					position: relative;
 					top: 3px;
@@ -166,17 +203,22 @@ $danger_button_color: #721c24;
 		.sce-comment-edit-buttons,
 		.sce-timer-cancel-wrapper {
 			margin: 10px 0;
+			.sce-timer {
+				font-size: 12px;
+				font-style: italic;
+			}
 			button {
 				display: inline-block;
 				background-color: #EEE;
 				color: #000;
 				margin-right: 10px;
-				border-radius: 2px;
+				border-radius: 5px;
 				padding: 10px 20px;
+				border: 1px solid rgba( 0, 0, 0, 0.3 );
 				text-decoration: none;
 				font-weight: 700;
 				&:hover {
-					background-color: darken( #EEE, 10% );
+					background-color: lighten( #EEE, 10% );
 					text-decoration: none;
 				}
 				&:focus {
