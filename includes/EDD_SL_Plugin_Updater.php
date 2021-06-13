@@ -1,5 +1,7 @@
 <?php // phpcs:ignorefile
 
+use SCEOptions\Includes\Functions as Functions;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -99,7 +101,7 @@ class EDD_SL_Plugin_Updater {
 			$_transient_data = new stdClass;
 		}
 
-		if ( 'plugins.php' == $pagenow && SCE_Options::is_multisite() ) {
+		if ( 'plugins.php' == $pagenow && Functions::is_multisite() ) {
 			return $_transient_data;
 		}
 
@@ -148,7 +150,7 @@ class EDD_SL_Plugin_Updater {
 			return;
 		}
 
-		if( ! SCE_Options::is_multisite() ) {
+		if( ! Functions::is_multisite() ) {
 			return;
 		}
 

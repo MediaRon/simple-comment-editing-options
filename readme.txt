@@ -2,7 +2,7 @@
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 2.0.0
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,10 @@ Simple Comment Editing Options features:
 
 
 == Changelog ==
+
+= 2.0.2 =
+* Released 2021-06-11
+* Fixing fatal error. (So Sorry!)
 
 = 2.0.0 =
 * Released 2021-06-11
