@@ -1,5 +1,5 @@
 jQuery( document ).ready( function( $ ) {
-	var textarea = $( '#respond textarea' );
+	var textarea = $( '#respond textarea:first' );
 	var comment_submit_button = $('#respond input[type=submit]').prop( 'disabled', 'disabled' );
 	var html = '<div class="sce-ccc-meter">';
 	html += '<span></span>';
