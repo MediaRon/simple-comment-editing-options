@@ -72,7 +72,9 @@ class Main {
 			if ( empty( $sub_tab ) || 'main' === $sub_tab ) {
 				if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
 					check_admin_referer( 'save_sce_options' );
-					Options::update_options( $_POST['options'] ); // phpcs:ignore
+					$options = Options::get_options();
+					$options = wp_parse_args( $_POST['options'], $options ); // phpcs:ignore
+					Options::update_options( $options );
 					printf( '<div class="updated"><p><strong>%s</strong></p></div>', esc_html__( 'Your options have been saved.', 'simple-comment-editing-options' ) );
 				}
 				// Get options and defaults.

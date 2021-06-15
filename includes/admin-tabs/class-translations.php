@@ -73,7 +73,9 @@ class Translations {
 				$license_message = '';
 				if ( isset( $_POST['submit'] ) && isset( $_POST['options'] ) ) {
 					check_admin_referer( 'save_sce_options' );
-					Options::update_options( $_POST['options'] ); // phpcs:ignore
+					$options = Options::get_options();
+					$options = wp_parse_args( $_POST['options'], $options ); // phpcs:ignore
+					Options::update_options( $options );
 				}
 				// Get options and defaults.
 				$options = Options::get_options();
