@@ -2,7 +2,7 @@
 Tags: ajax, comments,edit comments, edit, comment, admin
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,10 @@ Simple Comment Editing Options features:
 
 
 == Changelog ==
+
+= 2.0.4 =
+* Released 2021-06-16
+* Fixing saving bug with Comment Character Control.
 
 = 2.0.3 =
 * Released 2021-06-15
@@ -107,47 +111,5 @@ Simple Comment Editing Options features:
 
 == Upgrade Notice ==
 
-= 1.4.0 =
-Fixing unlimited editing for logged in users.
-
-= 1.3.6 =
-Fixing WSOD on older PHP versions.
-
-= 1.3.5 =
-Better multisite support.
-
-= 1.3.2 =
-Fixing Fancybox undefined error.
-
-= 1.3.1 =
-Released front-end editing.
-
-= 1.2.0 =
-Add comment character control.
-
-= 1.1.0 =
-Added maximum content length.
-
-= 1.0.8 =
-Fixing compatibility issue with Simple Comment Editing.
-
-= 1.0.7 =
-Added ability to restore an edited comment.
-
-= 1.0.6 =
-Added option for unlimited editing for logged in users.
-
-= 1.0.5 =
-Added option for timer to be compact or with words.
-
-= 1.0.4 =
-Added option to stop timer. Added option to change stop timer text.
-
-= 1.0.2 =
-Fix invalid constants and statically called method.
-
-= 1.0.1 =
-Fixing problem with class conflict.
-
-= 1.0.0 =
-Initial release
+= 2.0.4 =
+Fixing bug with Comment Character Control saving.
